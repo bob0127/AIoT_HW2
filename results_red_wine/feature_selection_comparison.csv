@@ -1,0 +1,7 @@
+Method,N_Features,Selected_Features,CV_RMSE,MAE,MSE,RMSE,R2,Adjusted_R2
+Forward SFS,6,"volatile acidity, chlorides, total sulfur dioxide, pH, sulphates, alcohol",0.658213344991636,0.50441418749263,0.39009142544994574,0.6245729944929942,0.4030789168087623,0.3916363401341699
+Exhaustive,6,"volatile acidity, chlorides, total sulfur dioxide, pH, sulphates, alcohol",0.658213344991636,0.50441418749263,0.39009142544994574,0.6245729944929942,0.4030789168087623,0.3916363401341699
+RFECV,7,"volatile acidity, chlorides, free sulfur dioxide, total sulfur dioxide, pH, sulphates, alcohol",0.6586531211915245,0.5042888908468803,0.3912782138290928,0.6255223527813317,0.4012628835442984,0.38782967900843324
+LassoCV,8,"fixed acidity, volatile acidity, chlorides, free sulfur dioxide, total sulfur dioxide, pH, sulphates, alcohol",0.6595769300848573,0.504342018406435,0.39174408226863183,0.6258946255310328,0.400550007855648,0.3851300723664042
+ElasticNetCV,8,"fixed acidity, volatile acidity, chlorides, free sulfur dioxide, total sulfur dioxide, pH, sulphates, alcohol",0.6595769300848573,0.504342018406435,0.39174408226863183,0.6258946255310328,0.400550007855648,0.3851300723664042
+Baseline OLS,11,"fixed acidity, volatile acidity, citric acid, residual sugar, chlorides, free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, alcohol",0.6617862488269394,0.5035304415524376,0.3900251439639544,0.6245199307980126,0.40318034127962277,0.38186535346818073

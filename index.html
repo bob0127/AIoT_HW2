@@ -1,0 +1,2888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WINE_QUALITY.EXE | ML Feature Selection Lab (CRISP-DM)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       Y2K / RETRO 90S OS CYBER-STUDIO DESIGN SYSTEM
+       ============================================================ */
+    :root {
+      --bg-dark: #0a0c13;
+      --bg-surface: #10131f;
+      --bg-surface-alt: #171b2d;
+      --win-bg: #c0c4ce;
+      --win-border-light: #ffffff;
+      --win-border-dark: #404040;
+      --win-border-shadow: #101010;
+      --win-title-blue: linear-gradient(90deg, #000080, #1084d0);
+      --win-title-pink: linear-gradient(90deg, #800040, #ff007f);
+      --win-title-green: linear-gradient(90deg, #005020, #00c853);
+      --win-title-yellow: linear-gradient(90deg, #665200, #ffcc00);
+      --win-title-wine: linear-gradient(90deg, #4a0e17, #9b111e);
+      
+      --neon-cyan: #00f0ff;
+      --hot-pink: #ff007f;
+      --acid-yellow: #ccff00;
+      --matrix-green: #00ff66;
+      --wine-red: #ff2a55;
+      --paper-beige: #f4e8d1;
+      --led-off: #202b36;
+      --crt-scanline: rgba(18, 16, 16, 0.35);
+
+      --font-pixel: 'Press Start 2P', monospace;
+      --font-terminal: 'VT323', monospace;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-sans: 'Space Grotesk', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(#1e2438 1px, transparent 1px),
+        linear-gradient(to bottom, #07090e, #0e121d 60%, #15091e);
+      background-size: 24px 24px, 100% 100%;
+      color: #e2e8f0;
+      font-family: var(--font-mono);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* CRT Scanline & Glass curvature overlay */
+    .crt-overlay {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.3) 50%
+      ), linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.03),
+        rgba(0, 255, 0, 0.01),
+        rgba(0, 0, 255, 0.03)
+      );
+      background-size: 100% 3px, 6px 100%;
+      opacity: 0.75;
+      transition: opacity 0.3s ease;
+    }
+
+    .crt-overlay.disabled {
+      opacity: 0;
+    }
+
+    .crt-glow {
+      position: fixed;
+      inset: 0;
+      box-shadow: inset 0 0 100px rgba(0, 240, 255, 0.08), inset 0 0 40px rgba(255, 0, 127, 0.06);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* Windows 95 / Retro Frame Utility */
+    .retro-window {
+      background: var(--win-bg);
+      border-top: 2px solid var(--win-border-light);
+      border-left: 2px solid var(--win-border-light);
+      border-right: 2px solid var(--win-border-dark);
+      border-bottom: 2px solid var(--win-border-dark);
+      box-shadow: 4px 4px 0px var(--win-border-shadow), 0 0 15px rgba(0, 240, 255, 0.15);
+      color: #111;
+      margin-bottom: 20px;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .retro-titlebar {
+      background: var(--win-title-blue);
+      color: #fff;
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px #000;
+    }
+
+    .retro-titlebar.pink {
+      background: var(--win-title-pink);
+    }
+    .retro-titlebar.green {
+      background: var(--win-title-green);
+    }
+    .retro-titlebar.yellow {
+      background: var(--win-title-yellow);
+      color: #111;
+      text-shadow: none;
+    }
+    .retro-titlebar.wine {
+      background: var(--win-title-wine);
+    }
+
+    .retro-title-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .retro-btn-box {
+      display: flex;
+      gap: 3px;
+    }
+
+    .retro-win-btn {
+      width: 16px;
+      height: 14px;
+      background: #c0c4ce;
+      border-top: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-right: 1px solid #404040;
+      border-bottom: 1px solid #404040;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      line-height: 12px;
+      text-align: center;
+      cursor: pointer;
+      color: #000;
+      padding: 0;
+    }
+    .retro-win-btn:active {
+      border-top: 1px solid #404040;
+      border-left: 1px solid #404040;
+      border-right: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+    }
+
+    .retro-inset {
+      background: #111522;
+      border-top: 2px solid #080a11;
+      border-left: 2px solid #080a11;
+      border-right: 2px solid #ffffff33;
+      border-bottom: 2px solid #ffffff33;
+      color: #d8e2ec;
+      padding: 12px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    /* Container & Layout */
+    .app-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 16px 20px 40px 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Header & Ticker */
+    .sys-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 2px dashed #00f0ff44;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-badge {
+      background: var(--hot-pink);
+      color: #fff;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      padding: 6px 10px;
+      box-shadow: 3px 3px 0 var(--neon-cyan);
+      letter-spacing: 1px;
+      animation: pulse-glow 2s infinite alternate;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: 3px 3px 0 var(--neon-cyan); }
+      100% { box-shadow: 3px 3px 12px var(--hot-pink), 0 0 8px var(--neon-cyan); }
+    }
+
+    .brand-h1 {
+      font-family: var(--font-pixel);
+      font-size: 18px;
+      color: var(--neon-cyan);
+      text-shadow: 2px 2px #ff007f, 4px 4px #000;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* WINE SWITCHER DROPDOWN */
+    .dataset-switcher-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #141a2e;
+      border: 2px solid #3b82f6;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+      padding: 4px 8px;
+    }
+
+    .switcher-label {
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      color: var(--acid-yellow);
+      letter-spacing: 0.5px;
+    }
+
+    .retro-dropdown-wine {
+      background: #c0c4ce;
+      color: #000;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #404040;
+      border-bottom: 2px solid #404040;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: bold;
+      padding: 4px 10px;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.15s;
+    }
+
+    .retro-dropdown-wine:hover {
+      background: #e2e8f0;
+      box-shadow: 0 0 8px var(--neon-cyan);
+    }
+
+    .system-badge {
+      background: #000;
+      border: 1px solid var(--acid-yellow);
+      color: var(--acid-yellow);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--acid-yellow);
+      border-radius: 50%;
+      animation: blink 1s infinite steps(1);
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .arcade-toggle-btn {
+      background: #252d42;
+      border: 2px solid #576585;
+      color: #fff;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .arcade-toggle-btn:hover {
+      background: #3a4768;
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+    .arcade-toggle-btn.active {
+      background: var(--neon-cyan);
+      color: #000;
+      border-color: #fff;
+      box-shadow: 0 0 12px var(--neon-cyan);
+    }
+
+    /* Marquee Banner */
+    .retro-ticker-bar {
+      background: #07090f;
+      border: 1px solid #1e293b;
+      border-left: 4px solid var(--neon-cyan);
+      border-right: 4px solid var(--hot-pink);
+      padding: 6px 12px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      font-family: var(--font-pixel);
+      font-size: 10px;
+    }
+
+    .ticker-label {
+      background: var(--hot-pink);
+      color: #fff;
+      padding: 3px 8px;
+      margin-right: 12px;
+      white-space: nowrap;
+      font-size: 9px;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 26s linear infinite;
+      color: var(--acid-yellow);
+      letter-spacing: 0.5px;
+    }
+
+    .ticker-content span {
+      margin-right: 28px;
+    }
+    .ticker-content .val-glow {
+      color: var(--neon-cyan);
+      font-weight: bold;
+    }
+
+    @keyframes marquee {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-50%, 0, 0); }
+    }
+
+    /* Main Grid Layout */
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1100px) {
+      .studio-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    aside {
+      width: 100%;
+      max-width: 360px;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    main {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* Model Selection Window & Controls */
+    .model-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .model-radio-card {
+      background: #171d2e;
+      border: 1px solid #2e3b58;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.15s;
+    }
+    .model-radio-card:hover {
+      background: #20283f;
+      border-color: var(--neon-cyan);
+    }
+    .model-radio-card.selected {
+      background: #13243a;
+      border-color: var(--neon-cyan);
+      box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.25), 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+
+    .model-card-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pixel-radio {
+      width: 14px;
+      height: 14px;
+      border: 2px solid #576585;
+      background: #090c14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .model-radio-card.selected .pixel-radio {
+      border-color: var(--neon-cyan);
+      background: var(--neon-cyan);
+      box-shadow: 0 0 6px var(--neon-cyan);
+    }
+    .pixel-radio-dot {
+      width: 6px;
+      height: 6px;
+      background: #000;
+    }
+
+    .model-name {
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      color: #fff;
+    }
+    .model-radio-card.selected .model-name {
+      color: var(--neon-cyan);
+    }
+
+    .model-badge {
+      font-size: 11px;
+      font-family: var(--font-terminal);
+      padding: 2px 6px;
+      background: #252f47;
+      color: #a0aec0;
+      border-radius: 2px;
+    }
+    .model-badge.best {
+      background: var(--acid-yellow);
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* Slider / Param Control Group */
+    .param-group {
+      background: #151a2b;
+      border: 1px dashed #303e61;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+
+    .param-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 6px;
+      color: #cbd5e1;
+    }
+
+    .param-slider {
+      width: 100%;
+      accent-color: var(--hot-pink);
+      cursor: pointer;
+    }
+
+    /* Feature Flags (LED style) */
+    .feature-flags-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .feat-flag-pill {
+      background: #0f1422;
+      border: 1px solid #2a3754;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .feat-led {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--led-off);
+      border: 1px solid #111;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .feat-led.on {
+      background: var(--matrix-green);
+      box-shadow: 0 0 8px var(--matrix-green);
+    }
+    .feat-led.off {
+      background: #451a20;
+    }
+
+    /* Charts & Analytics Area */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-canvas-container {
+      background: #07090e;
+      border: 1px solid #1e263d;
+      position: relative;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .radar-grid-bg {
+      position: absolute;
+      inset: 10px;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.07) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+
+    /* Arcade Leaderboard Table */
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+    }
+
+    .leaderboard-table th {
+      background: #1e2538;
+      color: var(--neon-cyan);
+      padding: 8px 6px;
+      text-align: left;
+      border-bottom: 2px solid var(--neon-cyan);
+    }
+
+    .leaderboard-table td {
+      padding: 7px 6px;
+      border-bottom: 1px solid #1e273f;
+    }
+
+    .leaderboard-table tr:hover td {
+      background: #172138;
+      color: #fff;
+    }
+
+    .rank-num {
+      color: var(--hot-pink);
+    }
+    .rank-num.first {
+      color: var(--acid-yellow);
+    }
+
+    /* K-VALUE SELECTOR TABS & MODEL PERFORMANCE WINDOW */
+    .k-tabs-toolbar {
+      background: #141926;
+      border: 1px solid #2a354f;
+      padding: 8px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #00f0ff44;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .k-tabs-label {
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 4px;
+      white-space: nowrap;
+    }
+
+    .k-tabs-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      flex: 1;
+    }
+
+    /* Vintage Media Player / Windows 95 Tab Button */
+    .k-tab-btn {
+      position: relative;
+      background: #c0c4ce;
+      color: #111;
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-right: 2px solid #404040;
+      border-bottom: 2px solid #404040;
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      padding: 6px 9px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.12s ease;
+      letter-spacing: 0.5px;
+      box-shadow: 2px 2px 0px #000;
+      outline: none;
+    }
+
+    .k-tab-btn:hover {
+      background: #d5d9e4;
+      color: #000;
+    }
+
+    .k-tab-btn:active, .k-tab-btn.active {
+      background: #a2a6b2;
+      border-top: 2px solid #404040;
+      border-left: 2px solid #404040;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: translate(1px, 1px);
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+    }
+
+    .k-tab-btn.sweet-spot {
+      background: linear-gradient(180deg, #093b1d 0%, #041c0e 100%);
+      color: #00ff88;
+      border-top: 2px solid #00ff88;
+      border-left: 2px solid #00ff88;
+      border-right: 2px solid #004d22;
+      border-bottom: 2px solid #004d22;
+      box-shadow: 0 0 12px rgba(0, 255, 102, 0.5), 2px 2px 0px #000;
+    }
+
+    .k-tab-btn.overfit-cliff {
+      background: linear-gradient(180deg, #442207 0%, #291202 100%);
+      color: #fbbf24;
+      border-top: 2px solid #f59e0b;
+      border-left: 2px solid #f59e0b;
+      border-right: 2px solid #78350f;
+      border-bottom: 2px solid #78350f;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4), 2px 2px 0px #000;
+    }
+
+    /* Dual Performance Charts - Always in same row */
+    .perf-dual-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .perf-chart-card {
+      background: #080b13;
+      border: 1px solid #1f283d;
+      padding: 10px 12px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .perf-canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    canvas#rmseChartCanvas, canvas#r2ChartCanvas {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      height: 230px !important;
+      display: block;
+      box-sizing: border-box;
+    }
+
+    .perf-chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      z-index: 5;
+    }
+
+    .perf-chart-title {
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      letter-spacing: 0.5px;
+    }
+
+    .perf-chart-badge {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+
+    /* OLS Equation Card */
+    .ols-card {
+      background: #020704;
+      border: 2px solid #005522;
+      box-shadow: inset 0 0 25px rgba(0, 255, 102, 0.15), 0 0 18px rgba(0, 255, 102, 0.12);
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .ols-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 255, 102, 0.035) 0px,
+        rgba(0, 255, 102, 0.035) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+    }
+
+    .ols-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed #008033;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      font-family: var(--font-terminal);
+      font-size: 16px;
+      color: #6ee7b7;
+    }
+
+    .ols-formula-display {
+      font-family: var(--font-terminal);
+      font-size: 24px;
+      line-height: 1.35;
+      color: #00ff66;
+      text-shadow: 0 0 10px rgba(0, 255, 102, 0.75);
+      word-break: break-word;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      background: rgba(0, 20, 10, 0.6);
+      border: 1px solid #00441a;
+      padding: 10px 14px;
+      max-width: 100%;
+      overflow-x: auto;
+      box-sizing: border-box;
+    }
+
+    .ols-telemetry-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      border-top: 1px solid #00441a;
+      padding-top: 10px;
+      align-items: center;
+      font-size: 11px;
+      max-width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* Predictor Arcade Machine Widget */
+    .arcade-machine {
+      background: #131726;
+      border: 3px solid #ff007f;
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.25), inset 0 0 15px rgba(0, 0, 0, 0.8);
+      padding: 16px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+
+    .arcade-screen {
+      background: #02120b;
+      border: 3px solid #005a28;
+      box-shadow: inset 0 0 25px rgba(0, 255, 102, 0.3);
+      padding: 14px;
+      margin-bottom: 16px;
+      font-family: var(--font-terminal);
+      color: var(--matrix-green);
+      text-shadow: 0 0 6px var(--matrix-green);
+    }
+
+    .screen-header-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #005a28;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .screen-readout-main {
+      font-size: 38px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-align: right;
+      color: #fff;
+      text-shadow: 0 0 12px var(--matrix-green), 0 0 20px var(--neon-cyan);
+    }
+
+    .screen-formula-row {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #6ee7b7;
+      text-shadow: none;
+      margin-top: 6px;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+
+    /* 11 Chemical Cassette Cards Grid */
+    .input-grid-arcade {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .cassette-card {
+      background: #0c0f1a;
+      border: 2px solid #2a3754;
+      padding: 8px 10px;
+      position: relative;
+    }
+    .cassette-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--neon-cyan);
+    }
+    .cassette-card.pink-accent::before {
+      background: var(--hot-pink);
+    }
+    .cassette-card.yellow-accent::before {
+      background: var(--acid-yellow);
+    }
+
+    .cassette-title {
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .arcade-number-input {
+      width: 100%;
+      background: #192033;
+      border: 1px solid #3d4f7c;
+      color: #fff;
+      font-family: var(--font-terminal);
+      font-size: 20px;
+      padding: 3px 6px;
+      outline: none;
+      transition: all 0.15s;
+    }
+    .arcade-number-input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+
+    .preset-btns-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .preset-chip {
+      background: #1b2438;
+      border: 1px solid #3e4f75;
+      color: #93c5fd;
+      font-size: 11px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      transition: all 0.15s;
+    }
+    .preset-chip:hover {
+      background: var(--hot-pink);
+      color: #fff;
+      border-color: #fff;
+      box-shadow: 0 0 8px var(--hot-pink);
+    }
+
+    .action-btn-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .arcade-big-btn {
+      flex: 1;
+      background: linear-gradient(180deg, #ff007f 0%, #b30059 100%);
+      border: 3px solid #ff80bf;
+      color: #fff;
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      padding: 14px 20px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      box-shadow: 0 6px 0 #59002c, 0 8px 15px rgba(255, 0, 127, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.1s;
+    }
+    .arcade-big-btn:hover {
+      background: linear-gradient(180deg, #ff1a8c 0%, #cc0066 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #59002c, 0 12px 20px rgba(255, 0, 127, 0.6);
+    }
+    .arcade-big-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #59002c;
+    }
+
+    /* Outliers & Residual Inspector */
+    .terminal-window {
+      background: #05070c;
+      border: 2px solid #232b40;
+      color: #00ff66;
+      font-family: var(--font-terminal);
+      font-size: 17px;
+      padding: 12px;
+      height: 290px;
+      overflow-y: auto;
+    }
+
+    .terminal-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .terminal-table th {
+      text-align: left;
+      border-bottom: 1px dashed #008f3a;
+      padding: 4px 6px;
+      color: #9effa0;
+      font-size: 15px;
+    }
+
+    .terminal-table td {
+      padding: 4px 6px;
+      border-bottom: 1px dotted #14351e;
+    }
+
+    .badge-state {
+      padding: 1px 4px;
+      background: #11281a;
+      border: 1px solid #00ff66;
+      font-size: 14px;
+    }
+
+    .res-negative {
+      color: #ff5277;
+    }
+    .res-positive {
+      color: #00ffc2;
+    }
+
+    /* CRT Footer Status Bar */
+    .status-bar-bottom {
+      background: #c0c4ce;
+      border-top: 2px solid #fff;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding: 3px 8px;
+      color: #111;
+      font-family: var(--font-pixel);
+      margin-top: 24px;
+    }
+
+    .status-segment {
+      border: 1px solid #808080;
+      border-top-color: #404040;
+      border-left-color: #404040;
+      border-bottom-color: #fff;
+      border-right-color: #fff;
+      padding: 2px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Custom Tooltip */
+    #chart-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(10, 14, 26, 0.95);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #e2e8f0;
+      z-index: 10000;
+      display: none;
+      max-width: 280px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CRT Visual Filters -->
+  <div class="crt-overlay" id="crtOverlay"></div>
+  <div class="crt-glow"></div>
+  <div id="chart-tooltip"></div>
+
+  <div class="app-container">
+
+    <!-- OS TOP BAR & CONTROLS -->
+    <header class="sys-header">
+      <div class="brand-title-wrap">
+        <div class="brand-logo-badge">AIoT HW2 // WINE-QUALITY</div>
+        <div>
+          <h1 class="brand-h1">WINE_QUALITY.EXE</h1>
+          <div class="brand-sub">CRISP-DM MULTIPLE LINEAR REGRESSION &amp; 5-METHOD FEATURE SELECTION (UCI ENOLOGY LAB)</div>
+        </div>
+      </div>
+
+      <!-- DATASET SWITCHER (RED WINE / WHITE WINE) -->
+      <div class="dataset-switcher-wrap">
+        <span class="switcher-label">DATASET:</span>
+        <select id="wineTypeSelect" class="retro-dropdown-wine" title="Toggle Red Wine vs White Wine Dataset">
+          <option value="red">🍷 RED WINE (1,599 Bottles)</option>
+          <option value="white">🥂 WHITE WINE (4,898 Bottles)</option>
+        </select>
+      </div>
+
+      <div class="header-controls">
+        <button class="arcade-toggle-btn active" id="btnCrtToggle" title="Toggle CRT scanline raster">
+          <span>📺 CRT: ON</span>
+        </button>
+        <button class="arcade-toggle-btn active" id="btnAudioToggle" title="Toggle 8-bit Audio SFX">
+          <span>🔊 SFX: ON</span>
+        </button>
+        <div class="system-badge" id="clockDisplay">13:50:42</div>
+      </div>
+    </header>
+
+    <!-- REAL-TIME METRIC TICKER (Marquee) -->
+    <div class="retro-ticker-bar">
+      <div class="ticker-label">LIVE TELEMETRY</div>
+      <div class="ticker-content" id="tickerStream">
+        <!-- Injected via JS based on active wine dataset -->
+      </div>
+    </div>
+
+    <!-- MAIN TWO-COLUMN WORKSPACE -->
+    <div class="studio-grid">
+      
+      <!-- LEFT COLUMN: FEATURE SELECTION CONSOLE -->
+      <aside>
+        
+        <!-- WINDOW: MODEL SELECTOR -->
+        <div class="retro-window">
+          <div class="retro-titlebar">
+            <div class="retro-title-left">
+              <span>&#9881;</span>
+              <span>METHOD_SELECTOR.SYS</span>
+            </div>
+            <div class="retro-btn-box">
+              <button class="retro-win-btn">_</button>
+              <button class="retro-win-btn">&#9633;</button>
+              <button class="retro-win-btn">&times;</button>
+            </div>
+          </div>
+          <div class="retro-inset">
+            <div style="font-size: 11px; margin-bottom: 8px; color: #94a3b8;">
+              SELECT CRISP-DM FEATURE SELECTION ALGORITHM:
+            </div>
+
+            <!-- Radio Card List -->
+            <div class="model-nav-list" id="modelListContainer">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- HYPERPARAMETERS -->
+            <div class="param-group">
+              <div class="param-header">
+                <span>TRAIN/TEST SPLIT:</span>
+                <span id="splitValLabel" style="color: var(--neon-cyan); font-weight: bold;">80% / 20%</span>
+              </div>
+              <input type="range" min="60" max="90" value="80" step="5" class="param-slider" id="splitSlider">
+              <div style="display: flex; justify-content: space-between; font-size: 9px; color: #64748b; margin-top: 2px;">
+                <span>60/40</span>
+                <span>80/20 (Default)</span>
+                <span>90/10</span>
+              </div>
+            </div>
+
+            <div class="param-group">
+              <div class="param-header">
+                <span>CROSS-VALIDATION FOLDS (K):</span>
+                <span id="kValLabel" style="color: var(--hot-pink); font-weight: bold;">5 FOLDS</span>
+              </div>
+              <input type="range" min="3" max="10" value="5" step="1" class="param-slider" id="kSlider">
+              <div style="display: flex; justify-content: space-between; font-size: 9px; color: #64748b; margin-top: 2px;">
+                <span>k=3</span>
+                <span>k=5 (Default)</span>
+                <span>k=10</span>
+              </div>
+            </div>
+
+            <!-- ACTIVE FEATURE FLAGS (LED) -->
+            <div style="margin-top: 10px;">
+              <div style="font-size: 10px; font-family: var(--font-pixel); color: var(--neon-cyan); margin-bottom: 6px;">
+                ACTIVE FEATURE FLAGS (11 LAB ATTRIBUTES):
+              </div>
+              <div class="feature-flags-grid" id="featureFlagsGrid">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- WINDOW: MODEL DIAGNOSTICS & SUMMARY -->
+        <div class="retro-window">
+          <div class="retro-titlebar green">
+            <div class="retro-title-left">
+              <span>&#128202;</span>
+              <span>METRICS_REPORT.TXT</span>
+            </div>
+            <div class="retro-btn-box">
+              <button class="retro-win-btn">_</button>
+              <button class="retro-win-btn">&times;</button>
+            </div>
+          </div>
+          <div class="retro-inset">
+            <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+              <tr style="border-bottom: 1px solid #252e47;">
+                <td style="padding: 5px 0; color: #94a3b8;">ACTIVE METHOD:</td>
+                <td style="text-align: right; color: var(--neon-cyan); font-family: var(--font-pixel); font-size: 9px;" id="statMethodName">Forward SFS</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #252e47;">
+                <td style="padding: 5px 0; color: #94a3b8;">SELECTED FEATURES:</td>
+                <td style="text-align: right; color: #fff; font-weight: bold;" id="statFeatureCount">6 of 11</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #252e47;">
+                <td style="padding: 5px 0; color: #94a3b8;">TEST R² SCORE:</td>
+                <td style="text-align: right; color: var(--acid-yellow); font-weight: bold;" id="statR2">0.4031</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #252e47;">
+                <td style="padding: 5px 0; color: #94a3b8;">ADJUSTED R²:</td>
+                <td style="text-align: right; color: #e2e8f0;" id="statAdjR2">0.3916</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #252e47;">
+                <td style="padding: 5px 0; color: #94a3b8;">TEST RMSE:</td>
+                <td style="text-align: right; color: var(--hot-pink); font-weight: bold;" id="statRMSE">0.6246</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #252e47;">
+                <td style="padding: 5px 0; color: #94a3b8;">TRAIN CV RMSE:</td>
+                <td style="text-align: right; color: #a5f3fc;" id="statCvRmse">0.6582</td>
+              </tr>
+              <tr>
+                <td style="padding: 5px 0; color: #94a3b8;">MULTICOLLINEARITY (VIF):</td>
+                <td style="text-align: right; color: var(--matrix-green); font-weight: bold;" id="statVif">Safe (< 5.0)</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- RIGHT COLUMN: CHARTS, PREDICTOR & OUTLIERS -->
+      <main>
+        
+        <!-- WINDOW: RETRO CHARTS & ANALYTICS -->
+        <div class="retro-window">
+          <div class="retro-titlebar">
+            <div class="retro-title-left">
+              <span>&#9733;</span>
+              <span>RETRO_VISUALIZER.EXE - Actual vs Predicted &amp; Model Benchmark</span>
+            </div>
+            <div class="retro-btn-box">
+              <button class="retro-win-btn">_</button>
+              <button class="retro-win-btn">&#9633;</button>
+              <button class="retro-win-btn">&times;</button>
+            </div>
+          </div>
+          <div class="retro-inset">
+            
+            <div class="charts-grid">
+              
+              <!-- LEFT CHART: ACTUAL VS PREDICTED SCATTER -->
+              <div class="chart-canvas-container">
+                <div class="radar-grid-bg"></div>
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; z-index: 10;">
+                  <span style="font-family: var(--font-pixel); font-size: 9px; color: var(--neon-cyan);">
+                    ACTUAL vs PREDICTED (0-10)
+                  </span>
+                  <span style="font-size: 10px; color: #64748b;">45° IDEAL LINE</span>
+                </div>
+                
+                <canvas id="scatterCanvas" width="460" height="260" style="width: 100%; max-width: 460px; height: 260px;"></canvas>
+                
+                <div style="width: 100%; display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8; margin-top: 6px; z-index: 10;">
+                  <span>&bull; Cyan = Test Set Wine Samples</span>
+                  <span>Hover to inspect residuals</span>
+                </div>
+              </div>
+
+              <!-- RIGHT CHART: ALGORITHM CV RMSE LEADERBOARD -->
+              <div class="chart-canvas-container">
+                <div class="radar-grid-bg"></div>
+                <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; z-index: 10;">
+                  <span style="font-family: var(--font-pixel); font-size: 9px; color: var(--acid-yellow);">
+                    HIGH SCORE LEADERBOARD (CV RMSE)
+                  </span>
+                  <span style="font-size: 10px; color: #64748b;">LOWER IS BETTER</span>
+                </div>
+
+                <div style="width: 100%; z-index: 10; overflow-x: auto;">
+                  <table class="leaderboard-table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>METHOD</th>
+                        <th>FEAT</th>
+                        <th>CV RMSE</th>
+                        <th>TEST R²</th>
+                      </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <div style="width: 100%; margin-top: 10px; z-index: 10; font-size: 10px; color: #94a3b8;" id="leaderboardFootnote">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- WINDOW: MODEL PERFORMANCE & K-OPTIMIZER (Progression k = 1...11) -->
+        <div class="retro-window" id="perfWindow">
+          <div class="retro-titlebar" style="background: linear-gradient(90deg, #0f2c42 0%, #086972 50%, #00a896 100%);">
+            <div class="retro-title-left">
+              <span>&#128200;</span>
+              <span id="perfWindowTitle">MODEL_PERFORMANCE_MONITOR.EXE - Feature Progression (k = 1...11)</span>
+            </div>
+            <div class="retro-btn-box">
+              <button class="retro-win-btn">_</button>
+              <button class="retro-win-btn">&#9633;</button>
+              <button class="retro-win-btn">&times;</button>
+            </div>
+          </div>
+          <div class="retro-inset">
+            
+            <!-- K-VALUE SELECTOR TABS -->
+            <div class="k-tabs-toolbar">
+              <div class="k-tabs-label">
+                <span>&#9205; K-VALUE (1..11):</span>
+              </div>
+              <div class="k-tabs-group" id="kTabsContainer">
+                <!-- Injected dynamically via JS: k=1..11 buttons with sweet spot highlights -->
+              </div>
+            </div>
+
+            <!-- 5-METHOD COMPARISON LEGEND -->
+            <div id="perfComparisonLegend" style="display: none; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; background: #070a14; border: 1px solid #1e293b; padding: 6px 12px; margin-bottom: 12px; font-family: var(--font-pixel); font-size: 8px;">
+              <span style="color: #64748b; font-family: var(--font-mono); font-size: 10px; font-weight: bold;">5 ALGORITHMS:</span>
+              <span style="color: #00f0ff; display: inline-flex; align-items: center; gap: 5px;">&#9679; LassoCV (L1)</span>
+              <span style="color: #ff8c00; display: inline-flex; align-items: center; gap: 5px;">&#9632; Forward SFS</span>
+              <span style="color: #00ff66; display: inline-flex; align-items: center; gap: 5px;">&#9650; RFECV</span>
+              <span style="color: #ff007f; display: inline-flex; align-items: center; gap: 5px;">&#9670; ElasticNetCV</span>
+              <span style="color: #b388ff; display: inline-flex; align-items: center; gap: 5px;">&#9660; Exhaustive Search</span>
+            </div>
+
+            <!-- DUAL LINE CHARTS (RMSE & R-squared) -->
+            <div class="perf-dual-grid">
+              
+              <!-- LEFT: RMSE TREND -->
+              <div class="perf-chart-card">
+                <div class="radar-grid-bg"></div>
+                <div class="perf-chart-header">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span class="perf-chart-title" id="rmseChartTitle" style="color: var(--neon-cyan);">
+                      RMSE TREND BY K-FEATURES
+                    </span>
+                    <span class="perf-chart-badge" style="background: #10263d; color: var(--neon-cyan); border: 1px solid #00f0ff88;">
+                      LOWER IS BETTER
+                    </span>
+                  </div>
+                  <span id="rmseChartSub" style="font-size: 10px; color: #00ff88; font-family: var(--font-pixel);">
+                    OPTIMAL K
+                  </span>
+                </div>
+
+                <div class="perf-canvas-wrap">
+                  <canvas id="rmseChartCanvas" width="460" height="230"></canvas>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8; margin-top: 6px; z-index: 5;">
+                  <span id="rmseChartFootL" style="color: #00ff88;">★ Optimal Sweet Spot</span>
+                  <span id="rmseChartFootR" style="color: #fbbf24;">k=11: Full Parameter Set</span>
+                </div>
+              </div>
+
+              <!-- RIGHT: R-SQUARED TREND -->
+              <div class="perf-chart-card">
+                <div class="radar-grid-bg"></div>
+                <div class="perf-chart-header">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span class="perf-chart-title" id="r2ChartTitle" style="color: var(--acid-yellow);">
+                      R-SQUARED TREND BY K-FEATURES
+                    </span>
+                    <span class="perf-chart-badge" style="background: #2b2b10; color: var(--acid-yellow); border: 1px solid #ccff0088;">
+                      HIGHER IS BETTER
+                    </span>
+                  </div>
+                  <span id="r2ChartSub" style="font-size: 10px; color: #00ff88; font-family: var(--font-pixel);">
+                    PEAK R²
+                  </span>
+                </div>
+
+                <div class="perf-canvas-wrap">
+                  <canvas id="r2ChartCanvas" width="460" height="230"></canvas>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8; margin-top: 6px; z-index: 5;">
+                  <span id="r2ChartFootL" style="color: #00ff88;">★ Peak R² Explained</span>
+                  <span id="r2ChartFootR" style="color: #fbbf24;">k=11 Model</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- OLS EQUATION CARD -->
+            <div class="ols-card">
+              <div class="ols-header-bar">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="live-dot" style="background: #00ff66;"></span>
+                  <span>TERMINAL: C:\CRISP-DM\WINE\FITTED_OLS_EQUATION.BAT</span>
+                </div>
+                <div id="olsCardStatusBadge" style="font-family: var(--font-pixel); font-size: 9px; color: #00ff88;">
+                  [★ SWEET SPOT ACTIVE]
+                </div>
+              </div>
+
+              <!-- Formula Box in CRT Terminal Font -->
+              <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px; font-family: var(--font-mono); display: flex; justify-content: space-between;">
+                <span>FITTED ORDINARY LEAST SQUARES (OLS) REGRESSION FORMULA:</span>
+                <span id="olsFormulaKTag" style="color: #a7f3d0; font-family: var(--font-pixel); font-size: 9px;">MODEL: k = 6</span>
+              </div>
+              
+              <div class="ols-formula-display" id="olsFormulaOutput">
+                <!-- Injected by JS in CRT Terminal Font -->
+              </div>
+
+              <!-- Telemetry & Diagnostic Footer -->
+              <div class="ols-telemetry-row">
+                <div style="max-width: 100%; word-break: break-word;">
+                  <span style="color: #94a3b8;">ACTIVE FEATURES:</span>
+                  <span id="olsFeatSubset" style="color: var(--neon-cyan); font-weight: bold; margin-left: 4px; word-break: break-word;">[]</span>
+                </div>
+                <div>
+                  <span style="color: #94a3b8;">TEST RMSE:</span>
+                  <span id="olsMetricRmse" style="color: #00ff88; font-weight: bold; margin-left: 4px;">0.6246</span>
+                </div>
+                <div>
+                  <span style="color: #94a3b8;">TEST R²:</span>
+                  <span id="olsMetricR2" style="color: var(--acid-yellow); font-weight: bold; margin-left: 4px;">0.4031</span>
+                </div>
+                <div style="flex: 1; min-width: 220px; text-align: right;">
+                  <button class="preset-chip" id="btnSyncWithCalc" style="background: #0d2e1c; border-color: #00ff66; color: #00ff88;" title="Load this k-model into Wine Quality Predictor">
+                    &#9889; SYNC TO PREDICTOR
+                  </button>
+                </div>
+              </div>
+
+              <!-- Interpretive Insight Banner -->
+              <div id="olsInterpretationText" style="margin-top: 10px; font-size: 11px; color: #a7f3d0; background: #06190f; border-left: 3px solid #00ff66; padding: 7px 10px; line-height: 1.5;">
+                ★ ENOLOGICAL INSIGHT: Higher alcohol content and lower volatile acidity are the primary chemical determinants of superior wine sensory scores.
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ARCADE MACHINE WIDGET: WINE QUALITY CALCULATOR & PREDICTOR -->
+        <div class="arcade-machine">
+          
+          <!-- Screen Ledgers -->
+          <div class="arcade-screen">
+            <div class="screen-header-row">
+              <span>WINE_QUALITY_PREDICTOR // ACTIVE MODEL: <span id="calcModelBadge">Forward SFS</span></span>
+              <span>SENSORY SCALE: 0 - 10</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-size: 18px; color: #00ff66;">PREDICTED QUALITY SCORE:</span>
+              <span class="screen-readout-main" id="screenProfitOutput">5.87 / 10</span>
+            </div>
+
+            <div class="screen-formula-row" id="screenFormulaBreakdown">
+              Equation: Quality = β₀ + β₁·Alcohol - β₂·VolatileAcidity + ...
+            </div>
+          </div>
+
+          <!-- Quick Presets -->
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
+            <span style="font-family: var(--font-pixel); font-size: 8px; color: var(--acid-yellow);">QUICK PRESETS:</span>
+            <div class="preset-btns-row" id="presetBtnsContainer" style="margin-bottom: 0;">
+              <!-- Injected by JS based on Red vs White wine -->
+            </div>
+          </div>
+
+          <!-- 11 Input Fields / Cassettes -->
+          <div class="input-grid-arcade" id="cassettesContainer">
+            <!-- 11 chemical cassettes rendered dynamically by JS -->
+          </div>
+
+          <!-- Big Action Button -->
+          <div class="action-btn-row">
+            <button class="arcade-big-btn" id="btnRunPrediction">
+              <span>&#9654;</span>
+              <span>RUN_PREDICTION.BAT</span>
+              <span style="font-size: 9px; opacity: 0.8;">[COMPUTE QUALITY SCORE]</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- WINDOW: OUTLIERS & RESIDUAL INSPECTOR -->
+        <div class="retro-window">
+          <div class="retro-titlebar yellow">
+            <div class="retro-title-left">
+              <span>&#9888;</span>
+              <span>OUTLIERS_RESIDUAL_TERMINAL.EXE - Top 10 Influential Points</span>
+            </div>
+            <div class="retro-btn-box">
+              <button class="retro-win-btn">_</button>
+              <button class="retro-win-btn">&#9633;</button>
+              <button class="retro-win-btn">&times;</button>
+            </div>
+          </div>
+          <div class="retro-inset" style="padding: 8px;">
+            <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; color: #cbd5e1;">
+              <span>CRISP-DM RESIDUAL ANALYSIS: Top 10 Largest Absolute Prediction Errors</span>
+              <span style="color: var(--acid-yellow);" id="outliersDatasetCount">DATASET SIZE: N=1,599</span>
+            </div>
+
+            <div class="terminal-window">
+              <table class="terminal-table">
+                <thead>
+                  <tr>
+                    <th>RANK</th>
+                    <th>ID</th>
+                    <th>ACTUAL</th>
+                    <th>PREDICTED</th>
+                    <th>RESIDUAL</th>
+                    <th>ALCOHOL</th>
+                    <th>VOLATILE ACID</th>
+                    <th>DENSITY</th>
+                  </tr>
+                </thead>
+                <tbody id="outliersTableBody">
+                  <!-- Populated from top10_outliers.csv -->
+                </tbody>
+              </table>
+            </div>
+
+            <div style="font-size: 11px; color: #8899ac; margin-top: 6px; display: flex; justify-content: space-between;">
+              <span id="outliersSummaryFootnote">Outliers represent atypical human sensory perception or unmeasured enological compounds (e.g. tannins/esters).</span>
+              <span style="color: var(--neon-cyan);">[STATUS: VALIDATED]</span>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <!-- WINDOWS 95 STATUS BAR -->
+    <footer class="status-bar-bottom">
+      <div class="status-segment">
+        <span style="color: #000;" id="sbWineBadge">&#127863; WINE_QUALITY_CRISP_DM</span>
+      </div>
+      <div class="status-segment">
+        <span>MODEL: OLS + FEATURE SELECTION</span>
+      </div>
+      <div class="status-segment">
+        <span id="sbSampleBadge">SAMPLE N=1,599 | 11 VARIABLES</span>
+      </div>
+      <div class="status-segment" style="flex: 1;">
+        <span id="systemMsgStatus">READY. AWAITING USER TELEMETRY.</span>
+      </div>
+      <div class="status-segment">
+        <span style="color: #008000;">&#9679; ONLINE</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- JAVASCRIPT LOGIC & SOUND SYNTHESIZER -->
+  <script>
+    // ============================================================
+    // DATA EMBEDDED FROM EXPERIMENT RUNS (RED & WHITE WINE)
+    // ============================================================
+    const WINE_DATA = {"red": {"name": "Red Wine", "sample_count": 1599, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "models": [{"id": "Forward_SFS", "name": "Forward SFS", "features": ["volatile acidity", "chlorides", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "nFeat": 6, "cvRmse": 0.658213344991636, "mae": 0.50441418749263, "rmse": 0.6245729944929942, "r2": 0.4030789168087623, "adjR2": 0.3916363401341699, "intercept": 4.264604140895025, "coefs": {"volatile acidity": -0.9750333800157531, "chlorides": -1.9281425505175656, "total sulfur dioxide": -0.002584034981357508, "pH": -0.4235674170446934, "sulphates": 0.8373715275536037, "alcohol": 0.2896650729443442}, "isBest": true, "tag": "BEST CV RMSE"}, {"id": "Exhaustive", "name": "Exhaustive", "features": ["volatile acidity", "chlorides", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "nFeat": 6, "cvRmse": 0.658213344991636, "mae": 0.50441418749263, "rmse": 0.6245729944929942, "r2": 0.4030789168087623, "adjR2": 0.3916363401341699, "intercept": 4.264604140895025, "coefs": {"volatile acidity": -0.9750333800157531, "chlorides": -1.9281425505175656, "total sulfur dioxide": -0.002584034981357508, "pH": -0.4235674170446934, "sulphates": 0.8373715275536037, "alcohol": 0.2896650729443442}, "isBest": false, "tag": "6 FEAT"}, {"id": "RFECV", "name": "RFECV", "features": ["volatile acidity", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "nFeat": 7, "cvRmse": 0.6586531211915245, "mae": 0.5042888908468803, "rmse": 0.6255223527813317, "r2": 0.4012628835442984, "adjR2": 0.3878296790084332, "intercept": 4.425266849694866, "coefs": {"volatile acidity": -0.9476664518150136, "chlorides": -1.9520135529218496, "free sulfur dioxide": 0.006114794100102176, "total sulfur dioxide": -0.003901984991496521, "pH": -0.47945971945770327, "sulphates": 0.8280506914178013, "alcohol": 0.28799388798707365}, "isBest": false, "tag": "7 FEAT"}, {"id": "LassoCV", "name": "LassoCV", "features": ["fixed acidity", "volatile acidity", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "nFeat": 8, "cvRmse": 0.6595769300848573, "mae": 0.504342018406435, "rmse": 0.6258946255310328, "r2": 0.400550007855648, "adjR2": 0.3851300723664042, "intercept": 4.24912818995389, "coefs": {"fixed acidity": 0.00513420012335233, "volatile acidity": -0.9450367135780529, "chlorides": -1.9328619969340826, "free sulfur dioxide": 0.006129827941716459, "total sulfur dioxide": -0.0038649376198220953, "pH": -0.43959617404142026, "sulphates": 0.8250591657301962, "alcohol": 0.2878314009479524}, "isBest": false, "tag": "8 FEAT"}, {"id": "ElasticNetCV", "name": "ElasticNetCV", "features": ["fixed acidity", "volatile acidity", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "nFeat": 8, "cvRmse": 0.6595769300848573, "mae": 0.504342018406435, "rmse": 0.6258946255310328, "r2": 0.400550007855648, "adjR2": 0.3851300723664042, "intercept": 4.24912818995389, "coefs": {"fixed acidity": 0.00513420012335233, "volatile acidity": -0.9450367135780529, "chlorides": -1.9328619969340826, "free sulfur dioxide": 0.006129827941716459, "total sulfur dioxide": -0.0038649376198220953, "pH": -0.43959617404142026, "sulphates": 0.8250591657301962, "alcohol": 0.2878314009479524}, "isBest": false, "tag": "8 FEAT"}, {"id": "Baseline_OLS", "name": "Baseline OLS", "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 11, "cvRmse": 0.6617862488269394, "mae": 0.5035304415524376, "rmse": 0.6245199307980126, "r2": 0.4031803412796227, "adjR2": 0.3818653534681807, "intercept": 14.355105195761599, "coefs": {"fixed acidity": 0.02308533390927699, "volatile acidity": -1.001304434067819, "citric acid": -0.14082146122413172, "residual sugar": 0.006564311041477068, "chlorides": -1.8065031490473689, "free sulfur dioxide": 0.005627334387083072, "total sulfur dioxide": -0.003644448933868838, "density": -10.351593588830037, "pH": -0.39368773233986604, "sulphates": 0.8411716226093193, "alcohol": 0.2818895674091905}, "isBest": false, "tag": "11 FEAT"}], "outliers": [{"rank": 1, "id": 832, "actual": 3.0, "pred": 5.605749639153122, "res": -2.605749639153122, "abs_res": 2.605749639153122, "alcohol": 9.9, "volatile_acidity": 0.44, "density": 0.99832}, {"rank": 2, "id": 652, "actual": 5.0, "pred": 7.342026769564805, "res": -2.3420267695648054, "abs_res": 2.3420267695648054, "alcohol": 14.9, "volatile_acidity": 0.36, "density": 0.9976}, {"rank": 3, "id": 1276, "actual": 4.0, "pred": 6.314964529615369, "res": -2.314964529615369, "abs_res": 2.314964529615369, "alcohol": 12.0, "volatile_acidity": 0.4, "density": 0.99566}, {"rank": 4, "id": 1505, "actual": 3.0, "pred": 5.229233194660752, "res": -2.229233194660752, "abs_res": 2.229233194660752, "alcohol": 9.95, "volatile_acidity": 0.76, "density": 0.996}, {"rank": 5, "id": 899, "actual": 3.0, "pred": 5.160916129414251, "res": -2.160916129414251, "abs_res": 2.160916129414251, "alcohol": 11.0, "volatile_acidity": 1.02, "density": 0.99892}, {"rank": 6, "id": 459, "actual": 3.0, "pred": 5.142186811692978, "res": -2.1421868116929783, "abs_res": 2.1421868116929783, "alcohol": 9.0, "volatile_acidity": 0.58, "density": 1.0008}, {"rank": 7, "id": 1478, "actual": 3.0, "pred": 5.1372785178341305, "res": -2.1372785178341305, "abs_res": 2.1372785178341305, "alcohol": 10.2, "volatile_acidity": 0.875, "density": 0.99808}, {"rank": 8, "id": 45, "actual": 4.0, "pred": 6.101832676682605, "res": -2.101832676682605, "abs_res": 2.101832676682605, "alcohol": 13.1, "volatile_acidity": 0.52, "density": 0.9934}, {"rank": 9, "id": 813, "actual": 4.0, "pred": 6.002084139173711, "res": -2.0020841391737108, "abs_res": 2.0020841391737108, "alcohol": 11.4, "volatile_acidity": 0.39, "density": 0.99462}, {"rank": 10, "id": 1235, "actual": 4.0, "pred": 5.981259168221998, "res": -1.9812591682219975, "abs_res": 1.9812591682219975, "alcohol": 11.5, "volatile_acidity": 0.33, "density": 0.99572}], "progressions": {"LassoCV": [{"k": 1, "features": ["alcohol"], "rmse": 0.6606511770470889, "r2": 0.2375724715126017, "intercept": 1.846049105828241, "coefs": {"alcohol": 0.36494637138373665}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["alcohol", "volatile acidity"], "rmse": 0.6433994337100989, "r2": 0.2768714785915397, "intercept": 3.073618514805075, "coefs": {"alcohol": 0.3207394044491698, "volatile acidity": -1.4475438918913774}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["alcohol", "volatile acidity", "sulphates"], "rmse": 0.6333283464592145, "r2": 0.2993324641844879, "intercept": 2.6207699434751492, "coefs": {"alcohol": 0.31489888510560515, "volatile acidity": -1.2931742858914639, "sulphates": 0.6552429478366983}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides"], "rmse": 0.6316064514370808, "r2": 0.3031372389545067, "intercept": 2.793907001642298, "coefs": {"alcohol": 0.2974349590168255, "volatile acidity": -1.2395032967402906, "sulphates": 0.8516799251451405, "chlorides": -1.7142420907075526}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide"], "rmse": 0.6259157889490532, "r2": 0.3156378903919262, "intercept": 3.0105263238850326, "coefs": {"alcohol": 0.2826893509453827, "volatile acidity": -1.2104641589159708, "sulphates": 0.894918407846776, "chlorides": -1.765529501107151, "total sulfur dioxide": -0.002175219705751852}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH"], "rmse": 0.6206983401233143, "r2": 0.3269996183244599, "intercept": 4.1834061990517135, "coefs": {"alcohol": 0.2946736093547016, "volatile acidity": -1.1137405975543926, "sulphates": 0.8708241573137835, "chlorides": -2.0201320804258387, "total sulfur dioxide": -0.002241151800218555, "pH": -0.39512762327067097}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar"], "rmse": 0.6219766245348741, "r2": 0.3242247704144952, "intercept": 4.127509369225173, "coefs": {"alcohol": 0.29219084298217496, "volatile acidity": -1.1160128705981087, "sulphates": 0.8777273739627106, "chlorides": -2.059211674052232, "total sulfur dioxide": -0.002401777006473038, "pH": -0.38061500431405265, "residual sugar": 0.016192135112839186}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity"], "rmse": 0.621987251755179, "r2": 0.3242016773485781, "intercept": 4.118969244871213, "coefs": {"alcohol": 0.2921915159374737, "volatile acidity": -1.115863591285682, "sulphates": 0.877542937820949, "chlorides": -2.058210793816897, "total sulfur dioxide": -0.0023993993263027313, "pH": -0.37869322036098835, "residual sugar": 0.016161853897720242, "fixed acidity": 0.00025103486594871445}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity", "free sulfur dioxide"], "rmse": 0.6190117305858833, "r2": 0.3306521065414525, "intercept": 4.195451199119158, "coefs": {"alcohol": 0.29208778910694727, "volatile acidity": -1.0982376691239628, "sulphates": 0.875067723529539, "chlorides": -2.074573694044807, "total sulfur dioxide": -0.0031059473603389787, "pH": -0.40968869817324494, "residual sugar": 0.013805579450741963, "fixed acidity": 0.0008746503049339039, "free sulfur dioxide": 0.003430871178222744}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 10, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity", "free sulfur dioxide", "density"], "rmse": 0.6204468942188227, "r2": 0.3275447749729072, "intercept": 35.15776902706608, "coefs": {"alcohol": 0.2631049208568707, "volatile acidity": -1.074792374171522, "sulphates": 0.9189545187927598, "chlorides": -2.0126541222371617, "total sulfur dioxide": -0.003006322803128514, "pH": -0.2502327003383272, "residual sugar": 0.026855720436176213, "fixed acidity": 0.030462735090668797, "free sulfur dioxide": 0.0031177044450469427, "density": -31.617200530227393}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity", "free sulfur dioxide", "density", "citric acid"], "rmse": 0.620057414938428, "r2": 0.3283887639580194, "intercept": 34.99871062872098, "coefs": {"alcohol": 0.26779741669968204, "volatile acidity": -1.1495280168528628, "sulphates": 0.9240401058970932, "chlorides": -1.873407393710632, "total sulfur dioxide": -0.0027774837020353438, "pH": -0.25448605130405716, "residual sugar": 0.027870003574608296, "fixed acidity": 0.041283507494032895, "free sulfur dioxide": 0.0026836261633733094, "density": -31.51666572502725, "citric acid": -0.17792706333256283}, "isSweetSpot": false, "isOverfitCliff": true}], "Forward_SFS": [{"k": 1, "features": ["alcohol"], "rmse": 0.6606511770470889, "r2": 0.2375724715126017, "intercept": 1.846049105828241, "coefs": {"alcohol": 0.36494637138373665}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["volatile acidity", "alcohol"], "rmse": 0.6433994337100989, "r2": 0.2768714785915397, "intercept": 3.0736185148050748, "coefs": {"volatile acidity": -1.447543891891378, "alcohol": 0.3207394044491699}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["volatile acidity", "sulphates", "alcohol"], "rmse": 0.6333283464592145, "r2": 0.2993324641844879, "intercept": 2.6207699434751452, "coefs": {"volatile acidity": -1.2931742858914645, "sulphates": 0.6552429478366979, "alcohol": 0.3148988851056056}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["volatile acidity", "chlorides", "sulphates", "alcohol"], "rmse": 0.6316064514370809, "r2": 0.3031372389545065, "intercept": 2.7939070016422973, "coefs": {"volatile acidity": -1.2395032967402941, "chlorides": -1.7142420907075542, "sulphates": 0.8516799251451416, "alcohol": 0.2974349590168257}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["volatile acidity", "chlorides", "total sulfur dioxide", "sulphates", "alcohol"], "rmse": 0.625915788949053, "r2": 0.3156378903919266, "intercept": 3.01052632388509, "coefs": {"volatile acidity": -1.2104641589159773, "chlorides": -1.7655295011071723, "total sulfur dioxide": -0.002175219705752074, "sulphates": 0.8949184078467785, "alcohol": 0.2826893509453786}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["volatile acidity", "chlorides", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.6206983401233142, "r2": 0.3269996183244601, "intercept": 4.1834061990516975, "coefs": {"volatile acidity": -1.1137405975543853, "chlorides": -2.0201320804258276, "total sulfur dioxide": -0.0022411518002178887, "pH": -0.395127623270669, "sulphates": 0.8708241573137839, "alcohol": 0.294673609354699}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["volatile acidity", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.617792764301597, "r2": 0.3332856888188835, "intercept": 4.28117566689855, "coefs": {"volatile acidity": -1.095307357339715, "chlorides": -2.0466413219588997, "free sulfur dioxide": 0.0037344045758301303, "total sulfur dioxide": -0.0030412679847233726, "pH": -0.43183640478308777, "sulphates": 0.8696871855673348, "alcohol": 0.29417818541579455}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 8, "features": ["volatile acidity", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.6189769588944662, "r2": 0.3307273028699156, "intercept": 4.225093685826158, "coefs": {"volatile acidity": -1.0987777130316396, "residual sugar": 0.013913719027076738, "chlorides": -2.0780391702678824, "free sulfur dioxide": 0.003426908820341214, "total sulfur dioxide": -0.0031134087995466665, "pH": -0.4163432259749099, "sulphates": 0.8757126614936778, "alcohol": 0.2920855661366974}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.6184045265145922, "r2": 0.3319646226276582, "intercept": 4.432593178495868, "coefs": {"volatile acidity": -1.153385586543607, "citric acid": -0.11936333887005554, "residual sugar": 0.015527303956445495, "chlorides": -2.0135045087263572, "free sulfur dioxide": 0.0031018654290213394, "total sulfur dioxide": -0.0030221430887351908, "pH": -0.4745660239313743, "sulphates": 0.8846171849410998, "alcohol": 0.2951531176363716}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6185575419413595, "r2": 0.3316339899741426, "intercept": 9.126848229263956, "coefs": {"volatile acidity": -1.1425284208414779, "citric acid": -0.0973066716933866, "residual sugar": 0.017702893501732743, "chlorides": -2.0336188692887722, "free sulfur dioxide": 0.0030957174910336963, "total sulfur dioxide": -0.0030616282649190765, "density": -4.681092963327166, "pH": -0.4735280627443261, "sulphates": 0.8926995864312033, "alcohol": 0.29028407732585887}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6200574149384274, "r2": 0.3283887639580209, "intercept": 34.998710628720914, "coefs": {"fixed acidity": 0.04128350749403165, "volatile acidity": -1.1495280168528441, "citric acid": -0.17792706333253744, "residual sugar": 0.027870003574605166, "chlorides": -1.8734073937107887, "free sulfur dioxide": 0.00268362616337392, "total sulfur dioxide": -0.002777483702035566, "density": -31.51666572502717, "pH": -0.254486051304075, "sulphates": 0.9240401058971084, "alcohol": 0.2677974166996867}, "isSweetSpot": false, "isOverfitCliff": true}], "RFECV": [{"k": 1, "features": ["alcohol"], "rmse": 0.6606511770470889, "r2": 0.2375724715126017, "intercept": 1.846049105828241, "coefs": {"alcohol": 0.36494637138373665}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["volatile acidity", "alcohol"], "rmse": 0.6433994337100989, "r2": 0.2768714785915397, "intercept": 3.0736185148050748, "coefs": {"volatile acidity": -1.447543891891378, "alcohol": 0.3207394044491699}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["volatile acidity", "sulphates", "alcohol"], "rmse": 0.6333283464592145, "r2": 0.2993324641844879, "intercept": 2.6207699434751452, "coefs": {"volatile acidity": -1.2931742858914645, "sulphates": 0.6552429478366979, "alcohol": 0.3148988851056056}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["volatile acidity", "chlorides", "sulphates", "alcohol"], "rmse": 0.6316064514370809, "r2": 0.3031372389545065, "intercept": 2.7939070016422973, "coefs": {"volatile acidity": -1.2395032967402941, "chlorides": -1.7142420907075542, "sulphates": 0.8516799251451416, "alcohol": 0.2974349590168257}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["volatile acidity", "chlorides", "total sulfur dioxide", "sulphates", "alcohol"], "rmse": 0.625915788949053, "r2": 0.3156378903919266, "intercept": 3.01052632388509, "coefs": {"volatile acidity": -1.2104641589159773, "chlorides": -1.7655295011071723, "total sulfur dioxide": -0.002175219705752074, "sulphates": 0.8949184078467785, "alcohol": 0.2826893509453786}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["fixed acidity", "volatile acidity", "chlorides", "total sulfur dioxide", "sulphates", "alcohol"], "rmse": 0.6246346560991285, "r2": 0.3184365464236124, "intercept": 2.7373454630331153, "coefs": {"fixed acidity": 0.02398202619940002, "volatile acidity": -1.1510324944437658, "chlorides": -1.7968644909674556, "total sulfur dioxide": -0.002007837995501971, "sulphates": 0.867178726504378, "alcohol": 0.2879571116927365}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["fixed acidity", "volatile acidity", "chlorides", "total sulfur dioxide", "density", "sulphates", "alcohol"], "rmse": 0.6235625739248083, "r2": 0.3207741207674419, "intercept": 26.412316483374653, "coefs": {"fixed acidity": 0.04093323922809892, "volatile acidity": -1.1173494762447842, "chlorides": -1.79150659470426, "total sulfur dioxide": -0.0019410960806511834, "density": -23.74424630492745, "sulphates": 0.8953566802769483, "alcohol": 0.2698008521743053}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["fixed acidity", "volatile acidity", "residual sugar", "chlorides", "total sulfur dioxide", "density", "sulphates", "alcohol"], "rmse": 0.6251893921615393, "r2": 0.3172254201688389, "intercept": 50.5727588267887, "coefs": {"fixed acidity": 0.0532458491475923, "volatile acidity": -1.0925272132679669, "residual sugar": 0.035351533638268186, "chlorides": -1.885293927445641, "total sulfur dioxide": -0.002263696853216146, "density": -47.94672117643343, "sulphates": 0.9429616129344767, "alcohol": 0.24574395007180896}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "total sulfur dioxide", "density", "sulphates", "alcohol"], "rmse": 0.6244676388818332, "r2": 0.3188009758121676, "intercept": 50.622149836608976, "coefs": {"fixed acidity": 0.06621107463558737, "volatile acidity": -1.1748155890547747, "citric acid": -0.20039462091437432, "residual sugar": 0.03624478469171439, "chlorides": -1.7257311831395685, "total sulfur dioxide": -0.002101715058158149, "density": -48.085065152977606, "sulphates": 0.9486394083036273, "alcohol": 0.2506435873909968}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6224085478571894, "r2": 0.3232858784435485, "intercept": 37.48862019696949, "coefs": {"fixed acidity": 0.045090887550902174, "volatile acidity": -1.173408320490134, "citric acid": -0.20780753537229718, "residual sugar": 0.030900471502069045, "chlorides": -1.8325475038632772, "total sulfur dioxide": -0.002198483175166688, "density": -34.128469868376214, "pH": -0.21859215673844218, "sulphates": 0.9304076919643669, "alcohol": 0.2662539361764328}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6200574149384274, "r2": 0.3283887639580209, "intercept": 34.998710628720914, "coefs": {"fixed acidity": 0.04128350749403165, "volatile acidity": -1.1495280168528441, "citric acid": -0.17792706333253744, "residual sugar": 0.027870003574605166, "chlorides": -1.8734073937107887, "free sulfur dioxide": 0.00268362616337392, "total sulfur dioxide": -0.002777483702035566, "density": -31.51666572502717, "pH": -0.254486051304075, "sulphates": 0.9240401058971084, "alcohol": 0.2677974166996867}, "isSweetSpot": true, "isOverfitCliff": false}], "ElasticNetCV": [{"k": 1, "features": ["alcohol"], "rmse": 0.6606511770470889, "r2": 0.2375724715126017, "intercept": 1.846049105828241, "coefs": {"alcohol": 0.36494637138373665}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["alcohol", "volatile acidity"], "rmse": 0.6433994337100989, "r2": 0.2768714785915397, "intercept": 3.073618514805075, "coefs": {"alcohol": 0.3207394044491698, "volatile acidity": -1.4475438918913774}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["alcohol", "volatile acidity", "sulphates"], "rmse": 0.6333283464592145, "r2": 0.2993324641844879, "intercept": 2.6207699434751492, "coefs": {"alcohol": 0.31489888510560515, "volatile acidity": -1.2931742858914639, "sulphates": 0.6552429478366983}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides"], "rmse": 0.6316064514370808, "r2": 0.3031372389545067, "intercept": 2.793907001642298, "coefs": {"alcohol": 0.2974349590168255, "volatile acidity": -1.2395032967402906, "sulphates": 0.8516799251451405, "chlorides": -1.7142420907075526}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide"], "rmse": 0.6259157889490532, "r2": 0.3156378903919262, "intercept": 3.0105263238850326, "coefs": {"alcohol": 0.2826893509453827, "volatile acidity": -1.2104641589159708, "sulphates": 0.894918407846776, "chlorides": -1.765529501107151, "total sulfur dioxide": -0.002175219705751852}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH"], "rmse": 0.6206983401233143, "r2": 0.3269996183244599, "intercept": 4.1834061990517135, "coefs": {"alcohol": 0.2946736093547016, "volatile acidity": -1.1137405975543926, "sulphates": 0.8708241573137835, "chlorides": -2.0201320804258387, "total sulfur dioxide": -0.002241151800218555, "pH": -0.39512762327067097}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar"], "rmse": 0.6219766245348741, "r2": 0.3242247704144952, "intercept": 4.127509369225173, "coefs": {"alcohol": 0.29219084298217496, "volatile acidity": -1.1160128705981087, "sulphates": 0.8777273739627106, "chlorides": -2.059211674052232, "total sulfur dioxide": -0.002401777006473038, "pH": -0.38061500431405265, "residual sugar": 0.016192135112839186}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity"], "rmse": 0.621987251755179, "r2": 0.3242016773485781, "intercept": 4.118969244871213, "coefs": {"alcohol": 0.2921915159374737, "volatile acidity": -1.115863591285682, "sulphates": 0.877542937820949, "chlorides": -2.058210793816897, "total sulfur dioxide": -0.0023993993263027313, "pH": -0.37869322036098835, "residual sugar": 0.016161853897720242, "fixed acidity": 0.00025103486594871445}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity", "free sulfur dioxide"], "rmse": 0.6190117305858833, "r2": 0.3306521065414525, "intercept": 4.195451199119158, "coefs": {"alcohol": 0.29208778910694727, "volatile acidity": -1.0982376691239628, "sulphates": 0.875067723529539, "chlorides": -2.074573694044807, "total sulfur dioxide": -0.0031059473603389787, "pH": -0.40968869817324494, "residual sugar": 0.013805579450741963, "fixed acidity": 0.0008746503049339039, "free sulfur dioxide": 0.003430871178222744}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 10, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity", "free sulfur dioxide", "density"], "rmse": 0.6204468942188227, "r2": 0.3275447749729072, "intercept": 35.15776902706608, "coefs": {"alcohol": 0.2631049208568707, "volatile acidity": -1.074792374171522, "sulphates": 0.9189545187927598, "chlorides": -2.0126541222371617, "total sulfur dioxide": -0.003006322803128514, "pH": -0.2502327003383272, "residual sugar": 0.026855720436176213, "fixed acidity": 0.030462735090668797, "free sulfur dioxide": 0.0031177044450469427, "density": -31.617200530227393}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["alcohol", "volatile acidity", "sulphates", "chlorides", "total sulfur dioxide", "pH", "residual sugar", "fixed acidity", "free sulfur dioxide", "density", "citric acid"], "rmse": 0.620057414938428, "r2": 0.3283887639580194, "intercept": 34.99871062872098, "coefs": {"alcohol": 0.26779741669968204, "volatile acidity": -1.1495280168528628, "sulphates": 0.9240401058970932, "chlorides": -1.873407393710632, "total sulfur dioxide": -0.0027774837020353438, "pH": -0.25448605130405716, "residual sugar": 0.027870003574608296, "fixed acidity": 0.041283507494032895, "free sulfur dioxide": 0.0026836261633733094, "density": -31.51666572502725, "citric acid": -0.17792706333256283}, "isSweetSpot": false, "isOverfitCliff": true}], "Exhaustive": [{"k": 1, "features": ["alcohol"], "rmse": 0.6606511770470889, "r2": 0.2375724715126017, "intercept": 1.846049105828241, "coefs": {"alcohol": 0.36494637138373665}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["sulphates", "alcohol"], "rmse": 0.6417753689241018, "r2": 0.2805175040302782, "intercept": 1.3645712115126267, "coefs": {"sulphates": 0.9799570303999767, "alcohol": 0.34916091761172613}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["volatile acidity", "sulphates", "alcohol"], "rmse": 0.6333283464592145, "r2": 0.2993324641844879, "intercept": 2.6207699434751452, "coefs": {"volatile acidity": -1.2931742858914645, "sulphates": 0.6552429478366979, "alcohol": 0.3148988851056056}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["volatile acidity", "total sulfur dioxide", "sulphates", "alcohol"], "rmse": 0.6280204361938125, "r2": 0.3110278056709038, "intercept": 2.825336595201262, "coefs": {"volatile acidity": -1.2666326016570997, "total sulfur dioxide": -0.002104515751471421, "sulphates": 0.6913899416093172, "alcohol": 0.3011380822036721}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["chlorides", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.6241084519780653, "r2": 0.3195843867854178, "intercept": 4.442585564224241, "coefs": {"chlorides": -2.7997220918284436, "total sulfur dioxide": -0.002684657039081743, "pH": -0.7786285026416288, "sulphates": 1.1656728699853647, "alcohol": 0.32485132013055745}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.6191381953814623, "r2": 0.3303785815425812, "intercept": 4.5975123733768255, "coefs": {"chlorides": -2.8222724356599596, "free sulfur dioxide": 0.00618913435799371, "total sulfur dioxide": -0.003998546869668693, "pH": -0.8289475667628274, "sulphates": 1.1557008274884009, "alcohol": 0.3232024647107275}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["volatile acidity", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.617792764301597, "r2": 0.3332856888188835, "intercept": 4.28117566689855, "coefs": {"volatile acidity": -1.095307357339715, "chlorides": -2.0466413219588997, "free sulfur dioxide": 0.0037344045758301303, "total sulfur dioxide": -0.0030412679847233726, "pH": -0.43183640478308777, "sulphates": 0.8696871855673348, "alcohol": 0.29417818541579455}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["volatile acidity", "citric acid", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "pH", "sulphates", "alcohol"], "rmse": 0.6172063261135179, "r2": 0.3345508417427238, "intercept": 4.4549107902645915, "coefs": {"volatile acidity": -1.139313133909062, "citric acid": -0.09690317015623737, "chlorides": -1.9912938393433575, "free sulfur dioxide": 0.003499473838648804, "total sulfur dioxide": -0.00296038342910767, "pH": -0.4805622959701306, "sulphates": 0.8763488845505318, "alcohol": 0.29686554479399463}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 9, "features": ["volatile acidity", "citric acid", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6172288688782487, "r2": 0.3345022312955243, "intercept": 0.6955606875024856, "coefs": {"volatile acidity": -1.149580207235592, "citric acid": -0.1170738377394113, "chlorides": -1.9776867396396762, "free sulfur dioxide": 0.0034598086086136326, "total sulfur dioxide": -0.002935708511726018, "density": 3.7463138195733734, "pH": -0.48072059737996947, "sulphates": 0.8708076366237635, "alcohol": 0.30057025276544475}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["fixed acidity", "volatile acidity", "citric acid", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6175965023435612, "r2": 0.3337092284886243, "intercept": 11.04712176395639, "coefs": {"fixed acidity": 0.020321284694773768, "volatile acidity": -1.1550192192310795, "citric acid": -0.1623464103816177, "chlorides": -1.8830125789991081, "free sulfur dioxide": 0.0033598909024133983, "total sulfur dioxide": -0.002760244261757583, "density": -7.080718595993975, "pH": -0.3749332752372146, "sulphates": 0.8800457279833865, "alcohol": 0.2924093937315159}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.6200574149384274, "r2": 0.3283887639580209, "intercept": 34.998710628720914, "coefs": {"fixed acidity": 0.04128350749403165, "volatile acidity": -1.1495280168528441, "citric acid": -0.17792706333253744, "residual sugar": 0.027870003574605166, "chlorides": -1.8734073937107887, "free sulfur dioxide": 0.00268362616337392, "total sulfur dioxide": -0.002777483702035566, "density": -31.51666572502717, "pH": -0.254486051304075, "sulphates": 0.9240401058971084, "alcohol": 0.2677974166996867}, "isSweetSpot": false, "isOverfitCliff": true}]}, "test_samples": [{"id": 803, "actual": 6.0, "pred": 5.341003065411032, "res": 0.6589969345889681, "features": {"fixed acidity": 7.7, "volatile acidity": 0.56, "citric acid": 0.08, "residual sugar": 2.5, "chlorides": 0.114, "free sulfur dioxide": 14.0, "total sulfur dioxide": 46.0, "density": 0.9971, "pH": 3.24, "sulphates": 0.66, "alcohol": 9.6}}, {"id": 613, "actual": 5.0, "pred": 5.775114705978034, "res": -0.7751147059780337, "features": {"fixed acidity": 8.2, "volatile acidity": 0.39, "citric acid": 0.38, "residual sugar": 1.5, "chlorides": 0.058, "free sulfur dioxide": 10.0, "total sulfur dioxide": 29.0, "density": 0.9962, "pH": 3.26, "sulphates": 0.74, "alcohol": 9.8}}, {"id": 30, "actual": 5.0, "pred": 5.181808068434112, "res": -0.1818080684341119, "features": {"fixed acidity": 6.7, "volatile acidity": 0.675, "citric acid": 0.07, "residual sugar": 2.4, "chlorides": 0.089, "free sulfur dioxide": 17.0, "total sulfur dioxide": 82.0, "density": 0.9958, "pH": 3.35, "sulphates": 0.54, "alcohol": 10.1}}, {"id": 29, "actual": 6.0, "pred": 5.337364408440839, "res": 0.6626355915591606, "features": {"fixed acidity": 7.8, "volatile acidity": 0.645, "citric acid": 0.0, "residual sugar": 2.0, "chlorides": 0.082, "free sulfur dioxide": 8.0, "total sulfur dioxide": 16.0, "density": 0.9964, "pH": 3.38, "sulphates": 0.59, "alcohol": 9.8}}, {"id": 1425, "actual": 6.0, "pred": 5.791238813667897, "res": 0.2087611863321026, "features": {"fixed acidity": 8.3, "volatile acidity": 0.26, "citric acid": 0.37, "residual sugar": 1.4, "chlorides": 0.076, "free sulfur dioxide": 8.0, "total sulfur dioxide": 23.0, "density": 0.9974, "pH": 3.26, "sulphates": 0.7, "alcohol": 9.6}}, {"id": 394, "actual": 5.0, "pred": 5.555086976878169, "res": -0.5550869768781688, "features": {"fixed acidity": 12.7, "volatile acidity": 0.6, "citric acid": 0.65, "residual sugar": 2.3, "chlorides": 0.063, "free sulfur dioxide": 6.0, "total sulfur dioxide": 25.0, "density": 0.9997, "pH": 3.03, "sulphates": 0.57, "alcohol": 9.9}}, {"id": 422, "actual": 5.0, "pred": 5.185513543270893, "res": -0.18551354327089342, "features": {"fixed acidity": 7.7, "volatile acidity": 0.96, "citric acid": 0.2, "residual sugar": 2.0, "chlorides": 0.047, "free sulfur dioxide": 15.0, "total sulfur dioxide": 60.0, "density": 0.9955, "pH": 3.36, "sulphates": 0.44, "alcohol": 10.9}}, {"id": 859, "actual": 6.0, "pred": 6.004650311413975, "res": -0.0046503114139753166, "features": {"fixed acidity": 6.8, "volatile acidity": 0.56, "citric acid": 0.22, "residual sugar": 1.8, "chlorides": 0.074, "free sulfur dioxide": 15.0, "total sulfur dioxide": 24.0, "density": 0.99438, "pH": 3.4, "sulphates": 0.82, "alcohol": 11.2}}, {"id": 817, "actual": 6.0, "pred": 6.41910599719556, "res": -0.41910599719555997, "features": {"fixed acidity": 10.8, "volatile acidity": 0.29, "citric acid": 0.42, "residual sugar": 1.6, "chlorides": 0.084, "free sulfur dioxide": 19.0, "total sulfur dioxide": 27.0, "density": 0.99545, "pH": 3.28, "sulphates": 0.73, "alcohol": 11.9}}, {"id": 383, "actual": 6.0, "pred": 5.820172612559123, "res": 0.17982738744087712, "features": {"fixed acidity": 8.3, "volatile acidity": 0.26, "citric acid": 0.42, "residual sugar": 2.0, "chlorides": 0.08, "free sulfur dioxide": 11.0, "total sulfur dioxide": 27.0, "density": 0.9974, "pH": 3.21, "sulphates": 0.8, "alcohol": 9.4}}, {"id": 781, "actual": 5.0, "pred": 5.333423702399386, "res": -0.33342370239938557, "features": {"fixed acidity": 6.5, "volatile acidity": 0.46, "citric acid": 0.14, "residual sugar": 2.4, "chlorides": 0.114, "free sulfur dioxide": 9.0, "total sulfur dioxide": 37.0, "density": 0.99732, "pH": 3.66, "sulphates": 0.65, "alcohol": 9.8}}, {"id": 838, "actual": 7.0, "pred": 6.3122888759446525, "res": 0.6877111240553475, "features": {"fixed acidity": 10.1, "volatile acidity": 0.31, "citric acid": 0.35, "residual sugar": 1.6, "chlorides": 0.075, "free sulfur dioxide": 9.0, "total sulfur dioxide": 28.0, "density": 0.99672, "pH": 3.24, "sulphates": 0.83, "alcohol": 11.2}}, {"id": 1310, "actual": 5.0, "pred": 5.186436442748667, "res": -0.18643644274866666, "features": {"fixed acidity": 7.5, "volatile acidity": 0.61, "citric acid": 0.26, "residual sugar": 1.9, "chlorides": 0.073, "free sulfur dioxide": 24.0, "total sulfur dioxide": 88.0, "density": 0.99612, "pH": 3.3, "sulphates": 0.53, "alcohol": 9.8}}, {"id": 1542, "actual": 6.0, "pred": 5.394411261791076, "res": 0.6055887382089242, "features": {"fixed acidity": 6.7, "volatile acidity": 0.855, "citric acid": 0.02, "residual sugar": 1.9, "chlorides": 0.064, "free sulfur dioxide": 29.0, "total sulfur dioxide": 38.0, "density": 0.99472, "pH": 3.3, "sulphates": 0.56, "alcohol": 10.75}}, {"id": 926, "actual": 6.0, "pred": 5.962784062156042, "res": 0.037215937843957825, "features": {"fixed acidity": 9.4, "volatile acidity": 0.24, "citric acid": 0.33, "residual sugar": 2.3, "chlorides": 0.061, "free sulfur dioxide": 52.0, "total sulfur dioxide": 73.0, "density": 0.99786, "pH": 3.47, "sulphates": 0.9, "alcohol": 10.2}}, {"id": 1168, "actual": 6.0, "pred": 6.275467223673944, "res": -0.27546722367394416, "features": {"fixed acidity": 6.5, "volatile acidity": 0.34, "citric acid": 0.27, "residual sugar": 2.8, "chlorides": 0.067, "free sulfur dioxide": 8.0, "total sulfur dioxide": 44.0, "density": 0.99384, "pH": 3.21, "sulphates": 0.56, "alcohol": 12.0}}, {"id": 76, "actual": 5.0, "pred": 5.6717135464361945, "res": -0.6717135464361945, "features": {"fixed acidity": 8.8, "volatile acidity": 0.41, "citric acid": 0.64, "residual sugar": 2.2, "chlorides": 0.093, "free sulfur dioxide": 9.0, "total sulfur dioxide": 42.0, "density": 0.9986, "pH": 3.54, "sulphates": 0.66, "alcohol": 10.5}}, {"id": 818, "actual": 5.0, "pred": 5.0152395799721265, "res": -0.015239579972126549, "features": {"fixed acidity": 7.1, "volatile acidity": 0.715, "citric acid": 0.0, "residual sugar": 2.35, "chlorides": 0.071, "free sulfur dioxide": 21.0, "total sulfur dioxide": 47.0, "density": 0.99632, "pH": 3.29, "sulphates": 0.45, "alcohol": 9.4}}, {"id": 482, "actual": 5.0, "pred": 5.8884486685385, "res": -0.8884486685384996, "features": {"fixed acidity": 10.6, "volatile acidity": 0.36, "citric acid": 0.59, "residual sugar": 2.2, "chlorides": 0.152, "free sulfur dioxide": 6.0, "total sulfur dioxide": 18.0, "density": 0.9986, "pH": 3.04, "sulphates": 1.05, "alcohol": 9.4}}, {"id": 764, "actual": 6.0, "pred": 5.1189310288142655, "res": 0.8810689711857345, "features": {"fixed acidity": 9.1, "volatile acidity": 0.68, "citric acid": 0.11, "residual sugar": 2.8, "chlorides": 0.093, "free sulfur dioxide": 11.0, "total sulfur dioxide": 44.0, "density": 0.99888, "pH": 3.31, "sulphates": 0.55, "alcohol": 9.5}}, {"id": 1125, "actual": 7.0, "pred": 6.292042180923503, "res": 0.7079578190764968, "features": {"fixed acidity": 8.8, "volatile acidity": 0.24, "citric acid": 0.35, "residual sugar": 1.7, "chlorides": 0.055, "free sulfur dioxide": 13.0, "total sulfur dioxide": 27.0, "density": 0.99394, "pH": 3.14, "sulphates": 0.59, "alcohol": 11.3}}, {"id": 1436, "actual": 5.0, "pred": 5.007879466375378, "res": -0.007879466375378286, "features": {"fixed acidity": 10.0, "volatile acidity": 0.38, "citric acid": 0.38, "residual sugar": 1.6, "chlorides": 0.169, "free sulfur dioxide": 27.0, "total sulfur dioxide": 90.0, "density": 0.99914, "pH": 3.15, "sulphates": 0.65, "alcohol": 8.5}}, {"id": 575, "actual": 6.0, "pred": 5.999221489189613, "res": 0.0007785108103872673, "features": {"fixed acidity": 12.3, "volatile acidity": 0.27, "citric acid": 0.49, "residual sugar": 3.1, "chlorides": 0.079, "free sulfur dioxide": 28.0, "total sulfur dioxide": 46.0, "density": 0.9993, "pH": 3.2, "sulphates": 0.8, "alcohol": 10.2}}, {"id": 44, "actual": 5.0, "pred": 5.19973703994727, "res": -0.1997370399472702, "features": {"fixed acidity": 6.8, "volatile acidity": 0.67, "citric acid": 0.02, "residual sugar": 1.8, "chlorides": 0.05, "free sulfur dioxide": 5.0, "total sulfur dioxide": 11.0, "density": 0.9962, "pH": 3.48, "sulphates": 0.52, "alcohol": 9.5}}, {"id": 607, "actual": 6.0, "pred": 5.568111209910345, "res": 0.43188879008965486, "features": {"fixed acidity": 8.8, "volatile acidity": 0.48, "citric acid": 0.41, "residual sugar": 3.3, "chlorides": 0.092, "free sulfur dioxide": 26.0, "total sulfur dioxide": 52.0, "density": 0.9982, "pH": 3.31, "sulphates": 0.53, "alcohol": 10.5}}, {"id": 727, "actual": 5.0, "pred": 5.4069127473395175, "res": -0.40691274733951754, "features": {"fixed acidity": 6.4, "volatile acidity": 0.57, "citric acid": 0.02, "residual sugar": 1.8, "chlorides": 0.067, "free sulfur dioxide": 4.0, "total sulfur dioxide": 11.0, "density": 0.997, "pH": 3.46, "sulphates": 0.68, "alcohol": 9.5}}, {"id": 371, "actual": 6.0, "pred": 5.70037481132737, "res": 0.2996251886726302, "features": {"fixed acidity": 7.9, "volatile acidity": 0.24, "citric acid": 0.4, "residual sugar": 1.6, "chlorides": 0.056, "free sulfur dioxide": 11.0, "total sulfur dioxide": 25.0, "density": 0.9967, "pH": 3.32, "sulphates": 0.87, "alcohol": 8.7}}, {"id": 324, "actual": 6.0, "pred": 5.424969901771405, "res": 0.575030098228595, "features": {"fixed acidity": 10.0, "volatile acidity": 0.49, "citric acid": 0.2, "residual sugar": 11.0, "chlorides": 0.071, "free sulfur dioxide": 13.0, "total sulfur dioxide": 50.0, "density": 1.0015, "pH": 3.16, "sulphates": 0.69, "alcohol": 9.2}}, {"id": 199, "actual": 4.0, "pred": 5.179625931260899, "res": -1.1796259312608992, "features": {"fixed acidity": 6.9, "volatile acidity": 1.09, "citric acid": 0.06, "residual sugar": 2.1, "chlorides": 0.061, "free sulfur dioxide": 12.0, "total sulfur dioxide": 31.0, "density": 0.9948, "pH": 3.51, "sulphates": 0.43, "alcohol": 11.4}}, {"id": 1023, "actual": 6.0, "pred": 6.378748458140813, "res": -0.37874845814081315, "features": {"fixed acidity": 8.2, "volatile acidity": 0.32, "citric acid": 0.42, "residual sugar": 2.3, "chlorides": 0.098, "free sulfur dioxide": 3.0, "total sulfur dioxide": 9.0, "density": 0.99506, "pH": 3.27, "sulphates": 0.55, "alcohol": 12.3}}, {"id": 56, "actual": 5.0, "pred": 5.71496360774721, "res": -0.7149636077472099, "features": {"fixed acidity": 10.2, "volatile acidity": 0.42, "citric acid": 0.57, "residual sugar": 3.4, "chlorides": 0.07, "free sulfur dioxide": 4.0, "total sulfur dioxide": 10.0, "density": 0.9971, "pH": 3.04, "sulphates": 0.63, "alcohol": 9.6}}, {"id": 432, "actual": 6.0, "pred": 6.672732007259614, "res": -0.6727320072596141, "features": {"fixed acidity": 11.9, "volatile acidity": 0.37, "citric acid": 0.69, "residual sugar": 2.3, "chlorides": 0.078, "free sulfur dioxide": 12.0, "total sulfur dioxide": 24.0, "density": 0.9958, "pH": 3.0, "sulphates": 0.65, "alcohol": 12.8}}, {"id": 1529, "actual": 6.0, "pred": 5.34439440324258, "res": 0.6556055967574199, "features": {"fixed acidity": 7.1, "volatile acidity": 0.69, "citric acid": 0.08, "residual sugar": 2.1, "chlorides": 0.063, "free sulfur dioxide": 42.0, "total sulfur dioxide": 52.0, "density": 0.99608, "pH": 3.42, "sulphates": 0.6, "alcohol": 10.2}}, {"id": 128, "actual": 7.0, "pred": 5.885925126172446, "res": 1.1140748738275539, "features": {"fixed acidity": 8.0, "volatile acidity": 0.59, "citric acid": 0.16, "residual sugar": 1.8, "chlorides": 0.065, "free sulfur dioxide": 3.0, "total sulfur dioxide": 16.0, "density": 0.9962, "pH": 3.42, "sulphates": 0.92, "alcohol": 10.5}}, {"id": 1421, "actual": 5.0, "pred": 5.3662054972077495, "res": -0.36620549720774953, "features": {"fixed acidity": 7.5, "volatile acidity": 0.4, "citric acid": 0.18, "residual sugar": 1.6, "chlorides": 0.079, "free sulfur dioxide": 24.0, "total sulfur dioxide": 58.0, "density": 0.9965, "pH": 3.34, "sulphates": 0.58, "alcohol": 9.4}}, {"id": 1107, "actual": 7.0, "pred": 6.494745292035766, "res": 0.5052547079642338, "features": {"fixed acidity": 9.1, "volatile acidity": 0.3, "citric acid": 0.41, "residual sugar": 2.0, "chlorides": 0.068, "free sulfur dioxide": 10.0, "total sulfur dioxide": 24.0, "density": 0.99523, "pH": 3.27, "sulphates": 0.85, "alcohol": 11.7}}, {"id": 266, "actual": 4.0, "pred": 4.990379794901097, "res": -0.9903797949010968, "features": {"fixed acidity": 8.1, "volatile acidity": 0.87, "citric acid": 0.0, "residual sugar": 3.3, "chlorides": 0.096, "free sulfur dioxide": 26.0, "total sulfur dioxide": 61.0, "density": 1.00025, "pH": 3.6, "sulphates": 0.72, "alcohol": 9.8}}, {"id": 63, "actual": 5.0, "pred": 5.132363112776835, "res": -0.13236311277683477, "features": {"fixed acidity": 7.0, "volatile acidity": 0.735, "citric acid": 0.05, "residual sugar": 2.0, "chlorides": 0.081, "free sulfur dioxide": 13.0, "total sulfur dioxide": 54.0, "density": 0.9966, "pH": 3.39, "sulphates": 0.57, "alcohol": 9.8}}, {"id": 628, "actual": 6.0, "pred": 5.282193845042647, "res": 0.7178061549573531, "features": {"fixed acidity": 8.7, "volatile acidity": 0.54, "citric acid": 0.26, "residual sugar": 2.5, "chlorides": 0.097, "free sulfur dioxide": 7.0, "total sulfur dioxide": 31.0, "density": 0.9976, "pH": 3.27, "sulphates": 0.6, "alcohol": 9.3}}, {"id": 1314, "actual": 6.0, "pred": 5.498768379420504, "res": 0.501231620579496, "features": {"fixed acidity": 7.0, "volatile acidity": 0.36, "citric acid": 0.21, "residual sugar": 2.4, "chlorides": 0.086, "free sulfur dioxide": 24.0, "total sulfur dioxide": 69.0, "density": 0.99556, "pH": 3.4, "sulphates": 0.53, "alcohol": 10.1}}], "feature_stats": {"fixed acidity": {"min": 4.6, "max": 15.9, "mean": 8.32, "median": 7.9}, "volatile acidity": {"min": 0.12, "max": 1.58, "mean": 0.528, "median": 0.52}, "citric acid": {"min": 0.0, "max": 1.0, "mean": 0.271, "median": 0.26}, "residual sugar": {"min": 0.9, "max": 15.5, "mean": 2.539, "median": 2.2}, "chlorides": {"min": 0.012, "max": 0.611, "mean": 0.087, "median": 0.079}, "free sulfur dioxide": {"min": 1.0, "max": 72.0, "mean": 15.875, "median": 14.0}, "total sulfur dioxide": {"min": 6.0, "max": 289.0, "mean": 46.468, "median": 38.0}, "density": {"min": 0.99, "max": 1.004, "mean": 0.997, "median": 0.997}, "pH": {"min": 2.74, "max": 4.01, "mean": 3.311, "median": 3.31}, "sulphates": {"min": 0.33, "max": 2.0, "mean": 0.658, "median": 0.62}, "alcohol": {"min": 8.4, "max": 14.9, "mean": 10.423, "median": 10.2}}}, "white": {"name": "White Wine", "sample_count": 4898, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "models": [{"id": "RFECV", "name": "RFECV", "features": ["volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 7, "cvRmse": 0.7542011032057269, "mae": 0.5884737314444423, "rmse": 0.7562605413036244, "r2": 0.2615237642146719, "adjR2": 0.2562055197182755, "intercept": 100.51857966435279, "coefs": {"volatile acidity": -1.954720770718598, "residual sugar": 0.06161080051845439, "free sulfur dioxide": 0.004716730942726725, "density": -99.72878114365217, "pH": 0.4560303922471599, "sulphates": 0.6037136866356825, "alcohol": 0.2591340186373745}, "isBest": true, "tag": "BEST CV RMSE"}, {"id": "Exhaustive", "name": "Exhaustive", "features": ["volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 7, "cvRmse": 0.7542011032057269, "mae": 0.5884737314444423, "rmse": 0.7562605413036244, "r2": 0.2615237642146719, "adjR2": 0.2562055197182755, "intercept": 100.51857966435279, "coefs": {"volatile acidity": -1.954720770718598, "residual sugar": 0.06161080051845439, "free sulfur dioxide": 0.004716730942726725, "density": -99.72878114365217, "pH": 0.4560303922471599, "sulphates": 0.6037136866356825, "alcohol": 0.2591340186373745}, "isBest": false, "tag": "7 FEAT"}, {"id": "LassoCV", "name": "LassoCV", "features": ["volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 10, "cvRmse": 0.7547663407743639, "mae": 0.5881974831136414, "rmse": 0.7561762036201706, "r2": 0.261688463809114, "adjR2": 0.2540691497101368, "intercept": 96.87700336737261, "coefs": {"volatile acidity": -1.939827611325501, "citric acid": -0.032054215178204136, "residual sugar": 0.06039867853188349, "chlorides": -0.23216037487796243, "free sulfur dioxide": 0.005108217445465638, "total sulfur dioxide": -0.00026771918010503465, "density": -95.9948060141812, "pH": 0.4466868091573798, "sulphates": 0.610246929425593, "alcohol": 0.2595612004952985}, "isBest": false, "tag": "10 FEAT"}, {"id": "Forward_SFS", "name": "Forward SFS", "features": ["fixed acidity", "volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 8, "cvRmse": 0.7552927031783773, "mae": 0.5862544230928097, "rmse": 0.754066452770406, "r2": 0.2658025325595577, "adjR2": 0.2597535317979476, "intercept": 127.74258545785823, "coefs": {"fixed acidity": 0.04487229798566601, "volatile acidity": -1.919546303773969, "residual sugar": 0.07221541750065774, "free sulfur dioxide": 0.004754418507930902, "density": -127.6786784082931, "pH": 0.6095352969136223, "sulphates": 0.6418510166627233, "alcohol": 0.2271904177637934}, "isBest": false, "tag": "8 FEAT"}, {"id": "Baseline_OLS", "name": "Baseline OLS", "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 11, "cvRmse": 0.7559826217906419, "mae": 0.586266538325047, "rmse": 0.7543373063311434, "r2": 0.2652750042179158, "adjR2": 0.256925856538574, "intercept": 124.39391498452146, "coefs": {"fixed acidity": 0.04590723697723874, "volatile acidity": -1.9148843151194292, "citric acid": -0.0613034698386939, "residual sugar": 0.07123955067229368, "chlorides": -0.026475132919644935, "free sulfur dioxide": 0.0051194537152481345, "total sulfur dioxide": -0.00024215396202831307, "density": -124.26412496100279, "pH": 0.6006998541735339, "sulphates": 0.6490727804551876, "alcohol": 0.22900868360007703}, "isBest": false, "tag": "11 FEAT"}, {"id": "ElasticNetCV", "name": "ElasticNetCV", "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "nFeat": 11, "cvRmse": 0.7559826217906419, "mae": 0.586266538325047, "rmse": 0.7543373063311434, "r2": 0.2652750042179158, "adjR2": 0.256925856538574, "intercept": 124.39391498452146, "coefs": {"fixed acidity": 0.04590723697723874, "volatile acidity": -1.9148843151194292, "citric acid": -0.0613034698386939, "residual sugar": 0.07123955067229368, "chlorides": -0.026475132919644935, "free sulfur dioxide": 0.0051194537152481345, "total sulfur dioxide": -0.00024215396202831307, "density": -124.26412496100279, "pH": 0.6006998541735339, "sulphates": 0.6490727804551876, "alcohol": 0.22900868360007703}, "isBest": false, "tag": "11 FEAT"}], "outliers": [{"rank": 1, "id": 4745, "actual": 3.0, "pred": 6.810749990702675, "res": -3.810749990702675, "abs_res": 3.810749990702675, "alcohol": 10.5, "volatile_acidity": 0.26, "density": 0.99314}, {"rank": 2, "id": 253, "actual": 3.0, "pred": 6.3741872949699285, "res": -3.3741872949699285, "abs_res": 3.3741872949699285, "alcohol": 11.7, "volatile_acidity": 0.24, "density": 0.9913}, {"rank": 3, "id": 3307, "actual": 3.0, "pred": 6.3143036200398655, "res": -3.314303620039865, "abs_res": 3.314303620039865, "alcohol": 11.0, "volatile_acidity": 0.24, "density": 0.99395}, {"rank": 4, "id": 445, "actual": 3.0, "pred": 6.28842337279869, "res": -3.2884233727986896, "abs_res": 3.2884233727986896, "alcohol": 11.5, "volatile_acidity": 0.32, "density": 0.9937}, {"rank": 5, "id": 774, "actual": 9.0, "pred": 5.781964172388271, "res": 3.218035827611729, "abs_res": 3.218035827611729, "alcohol": 10.4, "volatile_acidity": 0.27, "density": 0.997}, {"rank": 6, "id": 740, "actual": 3.0, "pred": 6.217774201410322, "res": -3.2177742014103217, "abs_res": 3.2177742014103217, "alcohol": 12.6, "volatile_acidity": 0.39, "density": 0.9915}, {"rank": 7, "id": 3810, "actual": 3.0, "pred": 6.217559810655871, "res": -3.217559810655871, "abs_res": 3.217559810655871, "alcohol": 10.5, "volatile_acidity": 0.26, "density": 0.99705}, {"rank": 8, "id": 1229, "actual": 3.0, "pred": 6.063860584083628, "res": -3.063860584083628, "abs_res": 3.063860584083628, "alcohol": 12.4, "volatile_acidity": 0.33, "density": 0.9911}, {"rank": 9, "id": 3409, "actual": 3.0, "pred": 5.992486440792362, "res": -2.992486440792362, "abs_res": 2.992486440792362, "alcohol": 11.0, "volatile_acidity": 0.23, "density": 0.9916}, {"rank": 10, "id": 3087, "actual": 3.0, "pred": 5.985814368658254, "res": -2.9858143686582537, "abs_res": 2.9858143686582537, "alcohol": 10.1, "volatile_acidity": 0.2, "density": 0.995}], "progressions": {"LassoCV": [{"k": 1, "features": ["density"], "rmse": 0.9030059554746898, "r2": 0.0748348937652069, "intercept": 98.59561419075833, "coefs": {"density": -93.26266892774849}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["density", "residual sugar"], "rmse": 0.8589805748381828, "r2": 0.1628472643816516, "intercept": 230.4361102158021, "coefs": {"density": -226.49714257181202, "residual sugar": 0.09349473916195115}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["density", "residual sugar", "volatile acidity"], "rmse": 0.8437138457782711, "r2": 0.1923403849646294, "intercept": 237.50830659375035, "coefs": {"density": -233.10980441264556, "residual sugar": 0.09846970522001743, "volatile acidity": -1.9067850333948853}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["density", "residual sugar", "volatile acidity", "alcohol"], "rmse": 0.8136294023860527, "r2": 0.2489112030812807, "intercept": 71.27995570482311, "coefs": {"density": -68.54439305982689, "residual sugar": 0.05036957390169158, "volatile acidity": -2.032340977246037, "alcohol": 0.284323209238738}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH"], "rmse": 0.8096668488998391, "r2": 0.2562093220454446, "intercept": 97.8460214724155, "coefs": {"density": -96.63482590318756, "residual sugar": 0.06295888185563923, "volatile acidity": -2.0011391098243543, "alcohol": 0.24652180680647212, "pH": 0.522194792754121}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 6, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH", "fixed acidity"], "rmse": 0.8117625485791681, "r2": 0.2523539605554483, "intercept": 146.8072499496431, "coefs": {"density": -146.65172811360478, "residual sugar": 0.08104485769872692, "volatile acidity": -1.9628311152941624, "alcohol": 0.18679539966175646, "pH": 0.7675562802201734, "fixed acidity": 0.06945817279968867}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH", "fixed acidity", "free sulfur dioxide"], "rmse": 0.8134298768405296, "r2": 0.2492795354604188, "intercept": 149.44740214377615, "coefs": {"density": -149.56522894050804, "residual sugar": 0.07824842414878154, "volatile acidity": -1.8778384004137916, "alcohol": 0.19141946780066096, "pH": 0.7632783950109071, "fixed acidity": 0.07862707836217103, "free sulfur dioxide": 0.004304755073519219}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH", "fixed acidity", "free sulfur dioxide", "sulphates"], "rmse": 0.8122284848666076, "r2": 0.2514954449827716, "intercept": 197.5865219832855, "coefs": {"density": -198.3365499812712, "residual sugar": 0.09627475740664831, "volatile acidity": -1.8364322625865646, "alcohol": 0.1331354508248751, "pH": 0.8539166439559036, "fixed acidity": 0.11283901646040535, "free sulfur dioxide": 0.004018499592704006, "sulphates": 0.6387786462404272}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH", "fixed acidity", "free sulfur dioxide", "sulphates", "chlorides"], "rmse": 0.8124817638138223, "r2": 0.2510285566432191, "intercept": 193.2528048519846, "coefs": {"density": -193.85164218410594, "residual sugar": 0.0943331884022274, "volatile acidity": -1.8244939251856003, "alcohol": 0.13441890586846308, "pH": 0.8313362172922962, "fixed acidity": 0.10843692137208762, "free sulfur dioxide": 0.00405043145830844, "sulphates": 0.6351975766229273, "chlorides": -0.5665426723027475}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH", "fixed acidity", "free sulfur dioxide", "sulphates", "chlorides", "total sulfur dioxide"], "rmse": 0.8122666916531249, "r2": 0.2514250248315708, "intercept": 188.6220895931247, "coefs": {"density": -189.15840313192894, "residual sugar": 0.09295308169447147, "volatile acidity": -1.8074835008997117, "alcohol": 0.13752533620098467, "pH": 0.8234798032968373, "fixed acidity": 0.10655655046410394, "free sulfur dioxide": 0.004431356636564656, "sulphates": 0.638216456988553, "chlorides": -0.5659338591293945, "total sulfur dioxide": -0.0002893078467563759}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["density", "residual sugar", "volatile acidity", "alcohol", "pH", "fixed acidity", "free sulfur dioxide", "sulphates", "chlorides", "total sulfur dioxide", "citric acid"], "rmse": 0.8123086554972679, "r2": 0.2513476761101432, "intercept": 188.45929532075917, "coefs": {"density": -188.9925561549984, "residual sugar": 0.09291407692568206, "volatile acidity": -1.8103251557519637, "alcohol": 0.13784318193682674, "pH": 0.8223686268786561, "fixed acidity": 0.10698151724062213, "free sulfur dioxide": 0.004435521286309134, "sulphates": 0.6389755969341661, "chlorides": -0.5567236275663635, "total sulfur dioxide": -0.00028663040890068714, "citric acid": -0.01516302857445936}, "isSweetSpot": false, "isOverfitCliff": true}], "Forward_SFS": [{"k": 1, "features": ["alcohol"], "rmse": 0.8547773008329457, "r2": 0.1710201454832173, "intercept": 2.6206968685646794, "coefs": {"alcohol": 0.3110058707053819}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["volatile acidity", "alcohol"], "rmse": 0.8286564365045869, "r2": 0.2209110738462854, "intercept": 3.0708899869264448, "coefs": {"volatile acidity": -1.9587939640007743, "alcohol": 0.3200505353072511}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["volatile acidity", "residual sugar", "alcohol"], "rmse": 0.8186193261200481, "r2": 0.2396702181472685, "intercept": 2.397069740813591, "coefs": {"volatile acidity": -2.0537806804190923, "residual sugar": 0.026611883262133096, "alcohol": 0.37051665851846177}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["volatile acidity", "residual sugar", "free sulfur dioxide", "alcohol"], "rmse": 0.8183221512436127, "r2": 0.2402221472050305, "intercept": 2.1510174049698034, "coefs": {"volatile acidity": -1.9663185400369336, "residual sugar": 0.022691892493030275, "free sulfur dioxide": 0.004554638328892038, "alcohol": 0.37865877110323715}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["volatile acidity", "residual sugar", "free sulfur dioxide", "density", "alcohol"], "rmse": 0.8140824444068785, "r2": 0.2480745334116941, "intercept": 69.24264845788747, "coefs": {"volatile acidity": -1.946871758287309, "residual sugar": 0.045894665355401, "free sulfur dioxide": 0.004479954709299995, "density": -66.75792567815695, "alcohol": 0.29457826684345445}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "alcohol"], "rmse": 0.8105403881955132, "r2": 0.2546035236142276, "intercept": 94.1590440286149, "coefs": {"volatile acidity": -1.9240480274957188, "residual sugar": 0.05795947185373717, "free sulfur dioxide": 0.004151558214918166, "density": -93.07707314660205, "pH": 0.48683258625315967, "alcohol": 0.25858498374975575}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8069088576742508, "r2": 0.2612678824876397, "intercept": 113.97756951286527, "coefs": {"volatile acidity": -1.9065195105774848, "residual sugar": 0.06552920920789924, "free sulfur dioxide": 0.003861127041170462, "density": -112.98624631796308, "pH": 0.4624338103231146, "sulphates": 0.5256840283291087, "alcohol": 0.23467066841323836}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 8, "features": ["fixed acidity", "volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8122284848666123, "r2": 0.251495444982763, "intercept": 197.58652198328627, "coefs": {"fixed acidity": 0.11283901646040514, "volatile acidity": -1.8364322625865426, "residual sugar": 0.09627475740664748, "free sulfur dioxide": 0.004018499592704172, "density": -198.3365499812718, "pH": 0.8539166439558978, "sulphates": 0.6387786462404005, "alcohol": 0.1331354508248655}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["fixed acidity", "volatile acidity", "residual sugar", "chlorides", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8124817638138233, "r2": 0.2510285566432172, "intercept": 193.25280485198542, "coefs": {"fixed acidity": 0.10843692137208846, "volatile acidity": -1.8244939251855794, "residual sugar": 0.09433318840222782, "chlorides": -0.5665426723028807, "free sulfur dioxide": 0.004050431458308745, "density": -193.85164218410677, "pH": 0.8313362172922953, "sulphates": 0.6351975766229055, "alcohol": 0.1344189058684626}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["fixed acidity", "volatile acidity", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8122666916531244, "r2": 0.251425024831572, "intercept": 188.62208959312753, "coefs": {"fixed acidity": 0.1065565504640966, "volatile acidity": -1.8074835008997512, "residual sugar": 0.09295308169447596, "chlorides": -0.5659338591293934, "free sulfur dioxide": 0.004431356636564188, "total sulfur dioxide": -0.00028930784675651466, "density": -189.15840313193164, "pH": 0.8234798032968418, "sulphates": 0.6382164569885089, "alcohol": 0.1375253362009818}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8123086554972686, "r2": 0.2513476761101421, "intercept": 188.45929532076138, "coefs": {"fixed acidity": 0.10698151724061847, "volatile acidity": -1.810325155751974, "citric acid": -0.015163028574455088, "residual sugar": 0.09291407692568253, "chlorides": -0.5567236275662689, "free sulfur dioxide": 0.00443552128630903, "total sulfur dioxide": -0.0002866304089006455, "density": -188.99255615500059, "pH": 0.8223686268786521, "sulphates": 0.6389755969341748, "alcohol": 0.13784318193682632}, "isSweetSpot": false, "isOverfitCliff": true}], "RFECV": [{"k": 1, "features": ["alcohol"], "rmse": 0.8547773008329457, "r2": 0.1710201454832173, "intercept": 2.6206968685646794, "coefs": {"alcohol": 0.3110058707053819}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["volatile acidity", "alcohol"], "rmse": 0.8286564365045869, "r2": 0.2209110738462854, "intercept": 3.0708899869264448, "coefs": {"volatile acidity": -1.9587939640007743, "alcohol": 0.3200505353072511}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["volatile acidity", "residual sugar", "alcohol"], "rmse": 0.8186193261200481, "r2": 0.2396702181472685, "intercept": 2.397069740813591, "coefs": {"volatile acidity": -2.0537806804190923, "residual sugar": 0.026611883262133096, "alcohol": 0.37051665851846177}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["volatile acidity", "residual sugar", "density", "alcohol"], "rmse": 0.8136294023860519, "r2": 0.2489112030812823, "intercept": 71.27995570481511, "coefs": {"volatile acidity": -2.032340977246047, "residual sugar": 0.050369573901686976, "density": -68.54439305981894, "alcohol": 0.28432320923874993}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["volatile acidity", "residual sugar", "density", "pH", "alcohol"], "rmse": 0.8096668488998401, "r2": 0.2562093220454429, "intercept": 97.84602147241519, "coefs": {"volatile acidity": -2.001139109824407, "residual sugar": 0.06295888185565117, "density": -96.63482590318733, "pH": 0.5221947927541064, "alcohol": 0.24652180680648025}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 6, "features": ["fixed acidity", "volatile acidity", "residual sugar", "density", "pH", "alcohol"], "rmse": 0.8117625485791665, "r2": 0.2523539605554513, "intercept": 146.80724994964518, "coefs": {"fixed acidity": 0.06945817279968405, "volatile acidity": -1.962831115294821, "residual sugar": 0.08104485769872372, "density": -146.65172811360628, "pH": 0.7675562802201733, "alcohol": 0.18679539966171926}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["fixed acidity", "volatile acidity", "residual sugar", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8104367125620141, "r2": 0.2547941976648818, "intercept": 198.05365892995096, "coefs": {"fixed acidity": 0.10639279106349042, "volatile acidity": -1.9129177070630723, "residual sugar": 0.09996778573172205, "density": -198.5879801208671, "pH": 0.8633927102961421, "sulphates": 0.6775396104034849, "alcohol": 0.1253008672349546}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["fixed acidity", "volatile acidity", "residual sugar", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8122284848666123, "r2": 0.251495444982763, "intercept": 197.58652198328627, "coefs": {"fixed acidity": 0.11283901646040514, "volatile acidity": -1.8364322625865426, "residual sugar": 0.09627475740664748, "free sulfur dioxide": 0.004018499592704172, "density": -198.3365499812718, "pH": 0.8539166439558978, "sulphates": 0.6387786462404005, "alcohol": 0.1331354508248655}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["fixed acidity", "volatile acidity", "residual sugar", "chlorides", "free sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8124817638138233, "r2": 0.2510285566432172, "intercept": 193.25280485198542, "coefs": {"fixed acidity": 0.10843692137208846, "volatile acidity": -1.8244939251855794, "residual sugar": 0.09433318840222782, "chlorides": -0.5665426723028807, "free sulfur dioxide": 0.004050431458308745, "density": -193.85164218410677, "pH": 0.8313362172922953, "sulphates": 0.6351975766229055, "alcohol": 0.1344189058684626}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["fixed acidity", "volatile acidity", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8122666916531244, "r2": 0.251425024831572, "intercept": 188.62208959312753, "coefs": {"fixed acidity": 0.1065565504640966, "volatile acidity": -1.8074835008997512, "residual sugar": 0.09295308169447596, "chlorides": -0.5659338591293934, "free sulfur dioxide": 0.004431356636564188, "total sulfur dioxide": -0.00028930784675651466, "density": -189.15840313193164, "pH": 0.8234798032968418, "sulphates": 0.6382164569885089, "alcohol": 0.1375253362009818}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8123086554972686, "r2": 0.2513476761101421, "intercept": 188.45929532076138, "coefs": {"fixed acidity": 0.10698151724061847, "volatile acidity": -1.810325155751974, "citric acid": -0.015163028574455088, "residual sugar": 0.09291407692568253, "chlorides": -0.5567236275662689, "free sulfur dioxide": 0.00443552128630903, "total sulfur dioxide": -0.0002866304089006455, "density": -188.99255615500059, "pH": 0.8223686268786521, "sulphates": 0.6389755969341748, "alcohol": 0.13784318193682632}, "isSweetSpot": false, "isOverfitCliff": true}], "ElasticNetCV": [{"k": 1, "features": ["density"], "rmse": 0.9030059554746898, "r2": 0.0748348937652069, "intercept": 98.59561419075833, "coefs": {"density": -93.26266892774849}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["density", "residual sugar"], "rmse": 0.8589805748381828, "r2": 0.1628472643816516, "intercept": 230.4361102158021, "coefs": {"density": -226.49714257181202, "residual sugar": 0.09349473916195115}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["density", "residual sugar", "alcohol"], "rmse": 0.8418061200696634, "r2": 0.1959886623316864, "intercept": 79.99083463060921, "coefs": {"density": -77.58001833178234, "residual sugar": 0.049787587979515685, "alcohol": 0.2566083663407356}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["density", "residual sugar", "alcohol", "volatile acidity"], "rmse": 0.813629402386051, "r2": 0.2489112030812839, "intercept": 71.27995570482288, "coefs": {"density": -68.54439305982669, "residual sugar": 0.050369573901691486, "alcohol": 0.28432320923873844, "volatile acidity": -2.0323409772460344}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH"], "rmse": 0.8096668488998404, "r2": 0.2562093220454423, "intercept": 97.84602147241533, "coefs": {"density": -96.63482590318738, "residual sugar": 0.0629588818556392, "alcohol": 0.24652180680647215, "volatile acidity": -2.0011391098243525, "pH": 0.5221947927541196}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 6, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH", "fixed acidity"], "rmse": 0.8117625485791681, "r2": 0.2523539605554484, "intercept": 146.8072499496435, "coefs": {"density": -146.65172811360517, "residual sugar": 0.08104485769872696, "alcohol": 0.186795399661755, "volatile acidity": -1.9628311152941624, "pH": 0.7675562802201722, "fixed acidity": 0.06945817279968823}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH", "fixed acidity", "free sulfur dioxide"], "rmse": 0.8134298768405304, "r2": 0.2492795354604173, "intercept": 149.44740214377654, "coefs": {"density": -149.56522894050843, "residual sugar": 0.07824842414878172, "alcohol": 0.19141946780066102, "volatile acidity": -1.8778384004137934, "pH": 0.7632783950109073, "fixed acidity": 0.0786270783621706, "free sulfur dioxide": 0.004304755073519247}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH", "fixed acidity", "free sulfur dioxide", "sulphates"], "rmse": 0.8122284848666075, "r2": 0.2514954449827717, "intercept": 197.58652198328656, "coefs": {"density": -198.33654998127227, "residual sugar": 0.09627475740664876, "alcohol": 0.13313545082487444, "volatile acidity": -1.8364322625865641, "pH": 0.8539166439559048, "fixed acidity": 0.11283901646040582, "free sulfur dioxide": 0.004018499592704214, "sulphates": 0.638778646240427}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 9, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH", "fixed acidity", "free sulfur dioxide", "sulphates", "chlorides"], "rmse": 0.8124817638138252, "r2": 0.2510285566432136, "intercept": 193.25280485198616, "coefs": {"density": -193.85164218410753, "residual sugar": 0.09433318840222811, "alcohol": 0.13441890586846314, "volatile acidity": -1.824493925185601, "pH": 0.8313362172922959, "fixed acidity": 0.10843692137209009, "free sulfur dioxide": 0.00405043145830869, "sulphates": 0.635197576622927, "chlorides": -0.566542672302745}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH", "fixed acidity", "free sulfur dioxide", "sulphates", "chlorides", "total sulfur dioxide"], "rmse": 0.8122666916531218, "r2": 0.2514250248315764, "intercept": 188.62208959312713, "coefs": {"density": -189.1584031319314, "residual sugar": 0.09295308169447282, "alcohol": 0.13752533620098412, "volatile acidity": -1.8074835008996972, "pH": 0.82347980329684, "fixed acidity": 0.10655655046410509, "free sulfur dioxide": 0.004431356636564122, "sulphates": 0.6382164569885531, "chlorides": -0.5659338591293919, "total sulfur dioxide": -0.0002893078467561955}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["density", "residual sugar", "alcohol", "volatile acidity", "pH", "fixed acidity", "free sulfur dioxide", "sulphates", "chlorides", "total sulfur dioxide", "citric acid"], "rmse": 0.8123086554972718, "r2": 0.2513476761101362, "intercept": 188.45929532075996, "coefs": {"density": -188.99255615499916, "residual sugar": 0.09291407692568199, "alcohol": 0.13784318193682668, "volatile acidity": -1.8103251557519524, "pH": 0.8223686268786574, "fixed acidity": 0.10698151724062284, "free sulfur dioxide": 0.004435521286309727, "sulphates": 0.6389755969341642, "chlorides": -0.5567236275663656, "total sulfur dioxide": -0.0002866304089007704, "citric acid": -0.015163028574459609}, "isSweetSpot": false, "isOverfitCliff": true}], "Exhaustive": [{"k": 1, "features": ["alcohol"], "rmse": 0.8547773008329457, "r2": 0.1710201454832173, "intercept": 2.6206968685646794, "coefs": {"alcohol": 0.3110058707053819}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 2, "features": ["volatile acidity", "alcohol"], "rmse": 0.8286564365045869, "r2": 0.2209110738462854, "intercept": 3.0708899869264448, "coefs": {"volatile acidity": -1.9587939640007743, "alcohol": 0.3200505353072511}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 3, "features": ["volatile acidity", "residual sugar", "alcohol"], "rmse": 0.8186193261200481, "r2": 0.2396702181472685, "intercept": 2.397069740813591, "coefs": {"volatile acidity": -2.0537806804190923, "residual sugar": 0.026611883262133096, "alcohol": 0.37051665851846177}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 4, "features": ["volatile acidity", "residual sugar", "density", "alcohol"], "rmse": 0.8136294023860519, "r2": 0.2489112030812823, "intercept": 71.27995570481511, "coefs": {"volatile acidity": -2.032340977246047, "residual sugar": 0.050369573901686976, "density": -68.54439305981894, "alcohol": 0.28432320923874993}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 5, "features": ["volatile acidity", "residual sugar", "density", "sulphates", "alcohol"], "rmse": 0.8088536736261613, "r2": 0.2577025990949162, "intercept": 95.56615177551747, "coefs": {"volatile acidity": -2.0038775661638337, "residual sugar": 0.05950005973965043, "density": -93.03730919929669, "sulphates": 0.6100460173438865, "alcohol": 0.25529297460782197}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 6, "features": ["volatile acidity", "residual sugar", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8059298405553713, "r2": 0.2630593924866521, "intercept": 119.02703771345132, "coefs": {"volatile acidity": -1.9763186709946607, "residual sugar": 0.07077698688584137, "density": -117.92378827525432, "pH": 0.4930960207447258, "sulphates": 0.569232270776428, "alcohol": 0.22154021882794497}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 7, "features": ["volatile acidity", "citric acid", "residual sugar", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8057894680791772, "r2": 0.2633160827438761, "intercept": 120.76248225427787, "coefs": {"volatile acidity": -1.9667521569659465, "citric acid": 0.051101060134108575, "residual sugar": 0.07133096024256874, "density": -119.69798793980492, "pH": 0.5020446362245217, "sulphates": 0.5676165908299172, "alcohol": 0.21937172301098823}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 8, "features": ["volatile acidity", "citric acid", "residual sugar", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8057743883269282, "r2": 0.2633436554721128, "intercept": 127.0559572658471, "coefs": {"volatile acidity": -1.997631836288638, "citric acid": 0.03584311323837355, "residual sugar": 0.07202967485370368, "total sulfur dioxide": 0.0007200230111750923, "density": -126.09117578631094, "pH": 0.4951277310400079, "sulphates": 0.5451256960072498, "alcohol": 0.21975267882011149}, "isSweetSpot": true, "isOverfitCliff": false}, {"k": 9, "features": ["volatile acidity", "citric acid", "residual sugar", "chlorides", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8066658455429712, "r2": 0.2617127749484855, "intercept": 126.08223041106902, "coefs": {"volatile acidity": -1.972562711571494, "citric acid": 0.05071203346065102, "residual sugar": 0.07107430197531041, "chlorides": -0.9386512830526698, "total sulfur dioxide": 0.0007427318615973039, "density": -124.99246656379681, "pH": 0.485990885156018, "sulphates": 0.5460192443021356, "alcohol": 0.21446244640804052}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 10, "features": ["volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8080343282455806, "r2": 0.2592056890178627, "intercept": 107.86090489566361, "coefs": {"volatile acidity": -1.8442768325125571, "citric acid": 0.03328000351739875, "residual sugar": 0.0631498999051884, "chlorides": -1.013978104721458, "free sulfur dioxide": 0.004546013380335643, "total sulfur dioxide": -0.00047797355713201026, "density": -106.68981544607156, "pH": 0.45310257971796347, "sulphates": 0.5344134150569644, "alcohol": 0.23074033120992593}, "isSweetSpot": false, "isOverfitCliff": false}, {"k": 11, "features": ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates", "alcohol"], "rmse": 0.8123086554972686, "r2": 0.2513476761101421, "intercept": 188.45929532076138, "coefs": {"fixed acidity": 0.10698151724061847, "volatile acidity": -1.810325155751974, "citric acid": -0.015163028574455088, "residual sugar": 0.09291407692568253, "chlorides": -0.5567236275662689, "free sulfur dioxide": 0.00443552128630903, "total sulfur dioxide": -0.0002866304089006455, "density": -188.99255615500059, "pH": 0.8223686268786521, "sulphates": 0.6389755969341748, "alcohol": 0.13784318193682632}, "isSweetSpot": false, "isOverfitCliff": true}]}, "test_samples": [{"id": 4656, "actual": 7.0, "pred": 6.383199057395174, "res": 0.6168009426048258, "features": {"fixed acidity": 6.0, "volatile acidity": 0.29, "citric acid": 0.41, "residual sugar": 10.8, "chlorides": 0.048, "free sulfur dioxide": 55.0, "total sulfur dioxide": 149.0, "density": 0.9937, "pH": 3.09, "sulphates": 0.59, "alcohol": 10.9666666666667}}, {"id": 598, "actual": 8.0, "pred": 6.1576140608796806, "res": 1.8423859391203194, "features": {"fixed acidity": 5.9, "volatile acidity": 0.27, "citric acid": 0.29, "residual sugar": 11.4, "chlorides": 0.036, "free sulfur dioxide": 31.0, "total sulfur dioxide": 115.0, "density": 0.9949, "pH": 3.35, "sulphates": 0.48, "alcohol": 10.5}}, {"id": 4325, "actual": 5.0, "pred": 5.694752267355341, "res": -0.6947522673553408, "features": {"fixed acidity": 6.4, "volatile acidity": 0.24, "citric acid": 0.26, "residual sugar": 8.2, "chlorides": 0.054, "free sulfur dioxide": 47.0, "total sulfur dioxide": 182.0, "density": 0.99538, "pH": 3.12, "sulphates": 0.5, "alcohol": 9.5}}, {"id": 1541, "actual": 4.0, "pred": 4.630335806803714, "res": -0.6303358068037141, "features": {"fixed acidity": 7.1, "volatile acidity": 0.53, "citric acid": 0.24, "residual sugar": 0.8, "chlorides": 0.029, "free sulfur dioxide": 29.0, "total sulfur dioxide": 86.0, "density": 0.993, "pH": 3.16, "sulphates": 0.32, "alcohol": 9.1}}, {"id": 3513, "actual": 6.0, "pred": 6.631768792027685, "res": -0.6317687920276853, "features": {"fixed acidity": 7.9, "volatile acidity": 0.35, "citric acid": 0.28, "residual sugar": 12.9, "chlorides": 0.032, "free sulfur dioxide": 13.0, "total sulfur dioxide": 63.0, "density": 0.9932, "pH": 2.99, "sulphates": 0.43, "alcohol": 13.0}}, {"id": 471, "actual": 5.0, "pred": 5.527239542720963, "res": -0.5272395427209631, "features": {"fixed acidity": 6.5, "volatile acidity": 0.38, "citric acid": 0.34, "residual sugar": 3.4, "chlorides": 0.036, "free sulfur dioxide": 34.0, "total sulfur dioxide": 200.0, "density": 0.9937, "pH": 3.14, "sulphates": 0.76, "alcohol": 10.0}}, {"id": 3494, "actual": 6.0, "pred": 6.223503066608188, "res": -0.2235030666081883, "features": {"fixed acidity": 6.7, "volatile acidity": 0.24, "citric acid": 0.36, "residual sugar": 8.4, "chlorides": 0.042, "free sulfur dioxide": 42.0, "total sulfur dioxide": 123.0, "density": 0.99473, "pH": 3.34, "sulphates": 0.52, "alcohol": 10.9}}, {"id": 3131, "actual": 5.0, "pred": 5.544514656581626, "res": -0.5445146565816259, "features": {"fixed acidity": 6.3, "volatile acidity": 0.35, "citric acid": 0.26, "residual sugar": 17.6, "chlorides": 0.061, "free sulfur dioxide": 59.0, "total sulfur dioxide": 198.0, "density": 0.99918, "pH": 3.11, "sulphates": 0.49, "alcohol": 8.8}}, {"id": 3248, "actual": 7.0, "pred": 6.12765999891576, "res": 0.8723400010842397, "features": {"fixed acidity": 6.4, "volatile acidity": 0.25, "citric acid": 0.37, "residual sugar": 4.5, "chlorides": 0.039, "free sulfur dioxide": 41.0, "total sulfur dioxide": 147.0, "density": 0.9921, "pH": 3.18, "sulphates": 0.4, "alcohol": 11.1}}, {"id": 944, "actual": 7.0, "pred": 5.371233286040848, "res": 1.628766713959152, "features": {"fixed acidity": 6.5, "volatile acidity": 0.18, "citric acid": 0.33, "residual sugar": 8.0, "chlorides": 0.051, "free sulfur dioxide": 16.0, "total sulfur dioxide": 131.0, "density": 0.9965, "pH": 3.28, "sulphates": 0.44, "alcohol": 8.7}}, {"id": 1479, "actual": 6.0, "pred": 5.795763687356029, "res": 0.20423631264397102, "features": {"fixed acidity": 7.7, "volatile acidity": 0.16, "citric acid": 0.49, "residual sugar": 2.0, "chlorides": 0.056, "free sulfur dioxide": 20.0, "total sulfur dioxide": 124.0, "density": 0.9948, "pH": 3.32, "sulphates": 0.49, "alcohol": 10.7}}, {"id": 2471, "actual": 7.0, "pred": 6.302322646884903, "res": 0.6976773531150968, "features": {"fixed acidity": 5.6, "volatile acidity": 0.35, "citric acid": 0.4, "residual sugar": 6.3, "chlorides": 0.022, "free sulfur dioxide": 23.0, "total sulfur dioxide": 174.0, "density": 0.9922, "pH": 3.54, "sulphates": 0.5, "alcohol": 11.6}}, {"id": 2405, "actual": 5.0, "pred": 5.781641809125574, "res": -0.7816418091255741, "features": {"fixed acidity": 6.6, "volatile acidity": 0.23, "citric acid": 0.18, "residual sugar": 8.5, "chlorides": 0.044, "free sulfur dioxide": 59.0, "total sulfur dioxide": 188.0, "density": 0.99558, "pH": 3.16, "sulphates": 0.49, "alcohol": 9.5}}, {"id": 109, "actual": 5.0, "pred": 5.649901840861574, "res": -0.649901840861574, "features": {"fixed acidity": 6.9, "volatile acidity": 0.33, "citric acid": 0.28, "residual sugar": 1.3, "chlorides": 0.051, "free sulfur dioxide": 37.0, "total sulfur dioxide": 187.0, "density": 0.9927, "pH": 3.27, "sulphates": 0.6, "alcohol": 10.3}}, {"id": 93, "actual": 7.0, "pred": 6.7185803957395365, "res": 0.28141960426046353, "features": {"fixed acidity": 6.9, "volatile acidity": 0.21, "citric acid": 0.33, "residual sugar": 1.8, "chlorides": 0.034, "free sulfur dioxide": 48.0, "total sulfur dioxide": 136.0, "density": 0.9899, "pH": 3.25, "sulphates": 0.41, "alcohol": 12.6}}, {"id": 4666, "actual": 5.0, "pred": 5.322211411915987, "res": -0.3222114119159869, "features": {"fixed acidity": 6.4, "volatile acidity": 0.31, "citric acid": 0.53, "residual sugar": 8.8, "chlorides": 0.057, "free sulfur dioxide": 36.0, "total sulfur dioxide": 221.0, "density": 0.99642, "pH": 3.17, "sulphates": 0.44, "alcohol": 9.1}}, {"id": 2107, "actual": 6.0, "pred": 5.845224912635146, "res": 0.1547750873648539, "features": {"fixed acidity": 8.1, "volatile acidity": 0.24, "citric acid": 0.33, "residual sugar": 10.2, "chlorides": 0.048, "free sulfur dioxide": 46.0, "total sulfur dioxide": 141.0, "density": 0.9972, "pH": 3.16, "sulphates": 0.48, "alcohol": 10.3}}, {"id": 677, "actual": 7.0, "pred": 6.333948128302197, "res": 0.6660518716978032, "features": {"fixed acidity": 5.8, "volatile acidity": 0.32, "citric acid": 0.38, "residual sugar": 4.75, "chlorides": 0.033, "free sulfur dioxide": 23.0, "total sulfur dioxide": 94.0, "density": 0.991, "pH": 3.42, "sulphates": 0.42, "alcohol": 11.8}}, {"id": 2222, "actual": 7.0, "pred": 5.7556490974235714, "res": 1.2443509025764286, "features": {"fixed acidity": 8.0, "volatile acidity": 0.45, "citric acid": 0.28, "residual sugar": 10.8, "chlorides": 0.051, "free sulfur dioxide": 25.0, "total sulfur dioxide": 157.0, "density": 0.9957, "pH": 3.06, "sulphates": 0.47, "alcohol": 11.4}}, {"id": 1436, "actual": 5.0, "pred": 5.155759990787686, "res": -0.15575999078768632, "features": {"fixed acidity": 8.5, "volatile acidity": 0.56, "citric acid": 0.74, "residual sugar": 17.85, "chlorides": 0.051, "free sulfur dioxide": 51.0, "total sulfur dioxide": 243.0, "density": 1.0005, "pH": 2.99, "sulphates": 0.7, "alcohol": 9.2}}, {"id": 1832, "actual": 7.0, "pred": 5.942364097656721, "res": 1.0576359023432786, "features": {"fixed acidity": 7.7, "volatile acidity": 0.44, "citric acid": 0.24, "residual sugar": 11.2, "chlorides": 0.031, "free sulfur dioxide": 41.0, "total sulfur dioxide": 167.0, "density": 0.9948, "pH": 3.12, "sulphates": 0.43, "alcohol": 11.3}}, {"id": 1557, "actual": 6.0, "pred": 5.883632344467813, "res": 0.11636765553218709, "features": {"fixed acidity": 7.9, "volatile acidity": 0.18, "citric acid": 0.49, "residual sugar": 5.2, "chlorides": 0.051, "free sulfur dioxide": 36.0, "total sulfur dioxide": 157.0, "density": 0.9953, "pH": 3.18, "sulphates": 0.48, "alcohol": 10.6}}, {"id": 1215, "actual": 5.0, "pred": 5.734221186154201, "res": -0.7342211861542012, "features": {"fixed acidity": 8.0, "volatile acidity": 0.28, "citric acid": 0.42, "residual sugar": 7.1, "chlorides": 0.045, "free sulfur dioxide": 41.0, "total sulfur dioxide": 169.0, "density": 0.9959, "pH": 3.17, "sulphates": 0.43, "alcohol": 10.6}}, {"id": 1231, "actual": 7.0, "pred": 6.236994659207511, "res": 0.763005340792489, "features": {"fixed acidity": 7.9, "volatile acidity": 0.41, "citric acid": 0.37, "residual sugar": 4.5, "chlorides": 0.03, "free sulfur dioxide": 40.0, "total sulfur dioxide": 114.0, "density": 0.992, "pH": 3.17, "sulphates": 0.54, "alcohol": 12.4}}, {"id": 2088, "actual": 6.0, "pred": 5.547722260498304, "res": 0.4522777395016959, "features": {"fixed acidity": 8.7, "volatile acidity": 0.15, "citric acid": 0.3, "residual sugar": 1.6, "chlorides": 0.046, "free sulfur dioxide": 29.0, "total sulfur dioxide": 130.0, "density": 0.9942, "pH": 3.22, "sulphates": 0.38, "alcohol": 9.8}}, {"id": 4327, "actual": 5.0, "pred": 5.694752267355341, "res": -0.6947522673553408, "features": {"fixed acidity": 6.4, "volatile acidity": 0.24, "citric acid": 0.26, "residual sugar": 8.2, "chlorides": 0.054, "free sulfur dioxide": 47.0, "total sulfur dioxide": 182.0, "density": 0.99538, "pH": 3.12, "sulphates": 0.5, "alcohol": 9.5}}, {"id": 1480, "actual": 6.0, "pred": 5.833590522372361, "res": 0.16640947762763858, "features": {"fixed acidity": 7.2, "volatile acidity": 0.08, "citric acid": 0.49, "residual sugar": 1.3, "chlorides": 0.05, "free sulfur dioxide": 18.0, "total sulfur dioxide": 148.0, "density": 0.9945, "pH": 3.46, "sulphates": 0.44, "alcohol": 10.2}}, {"id": 3505, "actual": 7.0, "pred": 6.4241820587734395, "res": 0.5758179412265605, "features": {"fixed acidity": 6.0, "volatile acidity": 0.2, "citric acid": 0.32, "residual sugar": 3.0, "chlorides": 0.031, "free sulfur dioxide": 26.0, "total sulfur dioxide": 118.0, "density": 0.99134, "pH": 3.38, "sulphates": 0.68, "alcohol": 11.2}}, {"id": 856, "actual": 5.0, "pred": 5.478648024155746, "res": -0.4786480241557456, "features": {"fixed acidity": 8.2, "volatile acidity": 0.38, "citric acid": 0.49, "residual sugar": 13.6, "chlorides": 0.042, "free sulfur dioxide": 58.0, "total sulfur dioxide": 166.0, "density": 0.99855, "pH": 3.1, "sulphates": 0.54, "alcohol": 9.4}}, {"id": 4233, "actual": 6.0, "pred": 5.937810778425472, "res": 0.062189221574527664, "features": {"fixed acidity": 6.3, "volatile acidity": 0.23, "citric acid": 0.33, "residual sugar": 6.9, "chlorides": 0.052, "free sulfur dioxide": 23.0, "total sulfur dioxide": 118.0, "density": 0.9938, "pH": 3.23, "sulphates": 0.46, "alcohol": 10.4}}, {"id": 2789, "actual": 5.0, "pred": 5.20886736374257, "res": -0.20886736374256998, "features": {"fixed acidity": 6.9, "volatile acidity": 0.4, "citric acid": 0.43, "residual sugar": 6.2, "chlorides": 0.065, "free sulfur dioxide": 42.0, "total sulfur dioxide": 178.0, "density": 0.99552, "pH": 3.11, "sulphates": 0.53, "alcohol": 9.4}}, {"id": 3312, "actual": 7.0, "pred": 6.81232785683649, "res": 0.18767214316351044, "features": {"fixed acidity": 5.9, "volatile acidity": 0.24, "citric acid": 0.28, "residual sugar": 1.3, "chlorides": 0.032, "free sulfur dioxide": 36.0, "total sulfur dioxide": 95.0, "density": 0.98889, "pH": 3.08, "sulphates": 0.64, "alcohol": 12.9}}, {"id": 668, "actual": 6.0, "pred": 5.91546685318643, "res": 0.08453314681356972, "features": {"fixed acidity": 6.1, "volatile acidity": 0.14, "citric acid": 0.25, "residual sugar": 1.3, "chlorides": 0.047, "free sulfur dioxide": 37.0, "total sulfur dioxide": 173.0, "density": 0.9925, "pH": 3.35, "sulphates": 0.46, "alcohol": 10.0}}, {"id": 1756, "actual": 5.0, "pred": 5.536517155738494, "res": -0.536517155738494, "features": {"fixed acidity": 6.7, "volatile acidity": 0.27, "citric acid": 0.25, "residual sugar": 8.0, "chlorides": 0.053, "free sulfur dioxide": 54.0, "total sulfur dioxide": 202.0, "density": 0.9961, "pH": 3.22, "sulphates": 0.43, "alcohol": 9.3}}, {"id": 3857, "actual": 6.0, "pred": 6.108797035939119, "res": -0.10879703593911927, "features": {"fixed acidity": 5.4, "volatile acidity": 0.17, "citric acid": 0.27, "residual sugar": 2.7, "chlorides": 0.049, "free sulfur dioxide": 28.0, "total sulfur dioxide": 104.0, "density": 0.99224, "pH": 3.46, "sulphates": 0.55, "alcohol": 10.3}}, {"id": 3590, "actual": 7.0, "pred": 6.64695108239728, "res": 0.3530489176027203, "features": {"fixed acidity": 6.6, "volatile acidity": 0.19, "citric acid": 0.35, "residual sugar": 1.5, "chlorides": 0.037, "free sulfur dioxide": 37.0, "total sulfur dioxide": 107.0, "density": 0.99006, "pH": 3.18, "sulphates": 0.68, "alcohol": 12.0}}, {"id": 3403, "actual": 5.0, "pred": 6.122068527464947, "res": -1.122068527464947, "features": {"fixed acidity": 8.8, "volatile acidity": 0.27, "citric acid": 0.25, "residual sugar": 5.0, "chlorides": 0.024, "free sulfur dioxide": 52.0, "total sulfur dioxide": 99.0, "density": 0.9925, "pH": 2.87, "sulphates": 0.49, "alcohol": 11.4}}, {"id": 2173, "actual": 5.0, "pred": 5.555595189232051, "res": -0.5555951892320508, "features": {"fixed acidity": 7.6, "volatile acidity": 0.32, "citric acid": 0.58, "residual sugar": 16.75, "chlorides": 0.05, "free sulfur dioxide": 43.0, "total sulfur dioxide": 163.0, "density": 0.9999, "pH": 3.15, "sulphates": 0.54, "alcohol": 9.2}}, {"id": 1988, "actual": 6.0, "pred": 5.7968486202178156, "res": 0.20315137978218445, "features": {"fixed acidity": 8.0, "volatile acidity": 0.22, "citric acid": 0.32, "residual sugar": 10.4, "chlorides": 0.043, "free sulfur dioxide": 63.0, "total sulfur dioxide": 201.0, "density": 0.997, "pH": 3.11, "sulphates": 0.53, "alcohol": 9.5}}, {"id": 2886, "actual": 5.0, "pred": 5.370463065657688, "res": -0.37046306565768816, "features": {"fixed acidity": 6.6, "volatile acidity": 0.41, "citric acid": 0.31, "residual sugar": 1.6, "chlorides": 0.042, "free sulfur dioxide": 18.0, "total sulfur dioxide": 101.0, "density": 0.99195, "pH": 3.13, "sulphates": 0.41, "alcohol": 10.5}}, {"id": 3598, "actual": 7.0, "pred": 6.908678636027716, "res": 0.09132136397228408, "features": {"fixed acidity": 5.8, "volatile acidity": 0.2, "citric acid": 0.24, "residual sugar": 1.4, "chlorides": 0.033, "free sulfur dioxide": 65.0, "total sulfur dioxide": 169.0, "density": 0.99043, "pH": 3.59, "sulphates": 0.56, "alcohol": 12.3}}], "feature_stats": {"fixed acidity": {"min": 3.8, "max": 14.2, "mean": 6.855, "median": 6.8}, "volatile acidity": {"min": 0.08, "max": 1.1, "mean": 0.278, "median": 0.26}, "citric acid": {"min": 0.0, "max": 1.66, "mean": 0.334, "median": 0.32}, "residual sugar": {"min": 0.6, "max": 65.8, "mean": 6.391, "median": 5.2}, "chlorides": {"min": 0.009, "max": 0.346, "mean": 0.046, "median": 0.043}, "free sulfur dioxide": {"min": 2.0, "max": 289.0, "mean": 35.308, "median": 34.0}, "total sulfur dioxide": {"min": 9.0, "max": 440.0, "mean": 138.361, "median": 134.0}, "density": {"min": 0.987, "max": 1.039, "mean": 0.994, "median": 0.994}, "pH": {"min": 2.72, "max": 3.82, "mean": 3.188, "median": 3.18}, "sulphates": {"min": 0.22, "max": 1.08, "mean": 0.49, "median": 0.47}, "alcohol": {"min": 8.0, "max": 14.2, "mean": 10.514, "median": 10.4}}}};
+
+    const FEATURE_ICONS = {
+      "fixed acidity": "🍋",
+      "volatile acidity": "🧪",
+      "citric acid": "🍊",
+      "residual sugar": "🍬",
+      "chlorides": "🧂",
+      "free sulfur dioxide": "💨",
+      "total sulfur dioxide": "🌫️",
+      "density": "⚖️",
+      "pH": "📏",
+      "sulphates": "🧬",
+      "alcohol": "🍷"
+    };
+
+    const FEATURE_INPUT_CONFIG = {
+      "fixed acidity": { label: "FIXED ACIDITY", unit: "g/dm³", step: 0.1, min: 3.0, max: 16.0 },
+      "volatile acidity": { label: "VOLATILE ACIDITY", unit: "g/dm³", step: 0.01, min: 0.1, max: 1.6 },
+      "citric acid": { label: "CITRIC ACID", unit: "g/dm³", step: 0.01, min: 0.0, max: 1.2 },
+      "residual sugar": { label: "RESIDUAL SUGAR", unit: "g/dm³", step: 0.1, min: 0.5, max: 35.0 },
+      "chlorides": { label: "CHLORIDES", unit: "g/dm³", step: 0.001, min: 0.01, max: 0.35 },
+      "free sulfur dioxide": { label: "FREE SO₂", unit: "mg/dm³", step: 1.0, min: 1.0, max: 120.0 },
+      "total sulfur dioxide": { label: "TOTAL SO₂", unit: "mg/dm³", step: 1.0, min: 5.0, max: 300.0 },
+      "density": { label: "DENSITY", unit: "g/cm³", step: 0.0005, min: 0.985, max: 1.010 },
+      "pH": { label: "pH LEVEL", unit: "pH", step: 0.01, min: 2.7, max: 4.1 },
+      "sulphates": { label: "SULPHATES", unit: "g/dm³", step: 0.01, min: 0.2, max: 1.6 },
+      "alcohol": { label: "ALCOHOL", unit: "% vol", step: 0.1, min: 8.0, max: 15.0 }
+    };
+
+    // State Variables
+    let activeWine = "red"; // 'red' or 'white'
+    let currentModel = null;
+    let selectedK = 6;
+    let activeProgressionMethod = "Forward_SFS";
+    let audioEnabled = true;
+    let crtEnabled = true;
+    let hoveredPoint = null;
+
+    // Audio Context
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function playSound(type) {
+      if (!audioEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(150, now + 0.04);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'select') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.setValueAtTime(880, now + 0.05);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'coin') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(987.77, now);
+          osc.frequency.setValueAtTime(1318.51, now + 0.08);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'zap') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(100, now + 0.15);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+          osc.start(now);
+          osc.stop(now + 0.15);
+        }
+      } catch (e) {}
+    }
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clockDisplay').textContent = `${h}:${m}:${s}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ============================================================
+    // DATASET SWITCHER: RED WINE vs WHITE WINE
+    // ============================================================
+    const wineSelect = document.getElementById('wineTypeSelect');
+    wineSelect.addEventListener('change', e => {
+      setWineDataset(e.target.value);
+      playSound('coin');
+    });
+
+    function setWineDataset(type) {
+      activeWine = type;
+      const data = WINE_DATA[type];
+      
+      // Update top ticker
+      updateTicker();
+
+      // Set default model (best one in models list)
+      const bestM = data.models[0];
+      currentModel = bestM;
+      activeProgressionMethod = bestM.id;
+      if (!data.progressions[activeProgressionMethod]) {
+        activeProgressionMethod = 'Forward_SFS';
+      }
+
+      // Sweet spot k for this wine
+      const progItems = data.progressions[activeProgressionMethod];
+      const sweet = progItems.find(p => p.isSweetSpot) || progItems[0];
+      selectedK = sweet.k;
+
+      // Update UI components
+      renderModelSelector();
+      renderFeatureFlags();
+      renderLeaderboard();
+      renderOutliersTable();
+      renderCassettes();
+      renderPresets();
+      renderKTabs();
+      updateOlsCard(sweet);
+      calculatePrediction(false);
+      updateFormulaDisplay();
+
+      // Status Bar
+      document.getElementById('sbWineBadge').innerHTML = type === 'red' ? '🍷 RED WINE (CRISP-DM)' : '🥂 WHITE WINE (CRISP-DM)';
+      document.getElementById('sbSampleBadge').textContent = `SAMPLE N=${data.sample_count.toLocaleString()} | 11 VARIABLES`;
+      document.getElementById('outliersDatasetCount').textContent = `DATASET SIZE: N=${data.sample_count.toLocaleString()}`;
+      document.getElementById('systemMsgStatus').textContent = `SWITCHED TO ${data.name.toUpperCase()} (N=${data.sample_count.toLocaleString()}). ALL TELEMETRY RE-ALIGNED.`;
+
+      // Redraw Canvases
+      drawScatterChart();
+      drawRmseChart();
+      drawR2Chart();
+    }
+
+    function updateTicker() {
+      const data = WINE_DATA[activeWine];
+      const best = data.models[0];
+      const baseline = data.models.find(m => m.name === 'Baseline OLS') || data.models[data.models.length - 1];
+
+      let tickerHtml = `
+        <span>DATASET: <span class="val-glow">${data.name.toUpperCase()} (N=${data.sample_count})</span></span>
+        <span>BEST METHOD: <span class="val-glow">${best.name} (${best.nFeat} Feat)</span></span>
+        <span>TEST R²: <span class="val-glow">${best.r2.toFixed(4)}</span></span>
+        <span>TEST RMSE: <span class="val-glow">${best.rmse.toFixed(4)}</span></span>
+        <span>TRAIN CV RMSE: <span class="val-glow">${best.cvRmse.toFixed(4)}</span></span>
+        <span>BASELINE OLS CV: <span class="val-glow">${baseline.cvRmse.toFixed(4)}</span></span>
+        <span>TOP DRIVER: <span class="val-glow">${activeWine === 'red' ? 'Alcohol (+0.286)' : 'Alcohol (+0.228), Residual Sugar'}</span></span>
+      `;
+      document.getElementById('tickerStream').innerHTML = tickerHtml;
+    }
+
+    // ============================================================
+    // RENDER: MODEL SELECTOR
+    // ============================================================
+    function renderModelSelector() {
+      const container = document.getElementById('modelListContainer');
+      container.innerHTML = '';
+      const data = WINE_DATA[activeWine];
+
+      // Add standard models
+      data.models.forEach(m => {
+        const card = document.createElement('div');
+        const isSelected = (currentModel && m.id === currentModel.id);
+        card.className = `model-radio-card ${isSelected ? 'selected' : ''}`;
+        card.onclick = () => selectModel(m.id);
+
+        card.innerHTML = `
+          <div class="model-card-left">
+            <div class="pixel-radio">
+              ${isSelected ? '<div class="pixel-radio-dot"></div>' : ''}
+            </div>
+            <div>
+              <div class="model-name">${m.name}</div>
+              <div style="font-size: 10px; color: #64748b;">${m.nFeat} Features | CV RMSE: ${m.cvRmse.toFixed(4)}</div>
+            </div>
+          </div>
+          <span class="model-badge ${m.isBest ? 'best' : ''}">${m.tag}</span>
+        `;
+        container.appendChild(card);
+      });
+
+      // Add "★ Compare 5 Methods" card
+      const compCard = document.createElement('div');
+      const isCompSelected = (activeProgressionMethod === 'Compare_All');
+      compCard.className = `model-radio-card ${isCompSelected ? 'selected' : ''}`;
+      compCard.onclick = () => selectModel('Compare_All');
+      compCard.innerHTML = `
+        <div class="model-card-left">
+          <div class="pixel-radio">
+            ${isCompSelected ? '<div class="pixel-radio-dot"></div>' : ''}
+          </div>
+          <div>
+            <div class="model-name" style="color: var(--neon-cyan);">★ Compare 5 Methods</div>
+            <div style="font-size: 10px; color: #64748b;">All 5 Algorithms | k = 1...11 Progression</div>
+          </div>
+        </div>
+        <span class="model-badge" style="background: #3b82f6; color: #fff;">5-CURVE OVERLAY</span>
+      `;
+      container.appendChild(compCard);
+    }
+
+    // ============================================================
+    // RENDER: FEATURE FLAGS (11 LEDs)
+    // ============================================================
+    function renderFeatureFlags() {
+      const grid = document.getElementById('featureFlagsGrid');
+      grid.innerHTML = '';
+      const data = WINE_DATA[activeWine];
+
+      const activeFeats = currentModel ? currentModel.features : [];
+
+      data.features.forEach(f => {
+        const isActive = activeFeats.includes(f);
+        const pill = document.createElement('div');
+        pill.className = 'feat-flag-pill';
+        const icon = FEATURE_ICONS[f] || '🧪';
+        pill.innerHTML = `
+          <div class="feat-led ${isActive ? 'on' : 'off'}"></div>
+          <span title="${f}">${icon} ${f}</span>
+        `;
+        grid.appendChild(pill);
+      });
+    }
+
+    // ============================================================
+    // RENDER: LEADERBOARD TABLE
+    // ============================================================
+    function renderLeaderboard() {
+      const tbody = document.getElementById('leaderboardBody');
+      tbody.innerHTML = '';
+      const data = WINE_DATA[activeWine];
+
+      data.models.forEach((m, idx) => {
+        const tr = document.createElement('tr');
+        const isSelected = (currentModel && m.id === currentModel.id);
+        if (isSelected) tr.style.background = '#15243d';
+
+        tr.innerHTML = `
+          <td class="rank-num ${idx === 0 ? 'first' : ''}">#0${idx + 1}</td>
+          <td style="color: ${isSelected ? 'var(--neon-cyan)' : '#e2e8f0'}; font-weight: bold;">
+            ${m.name}
+          </td>
+          <td><span style="color: var(--acid-yellow);">${m.nFeat}</span></td>
+          <td style="color: #6ee7b7;">${m.cvRmse.toFixed(4)}</td>
+          <td style="color: var(--neon-cyan);">${m.r2.toFixed(4)}</td>
+        `;
+        tr.onclick = () => selectModel(m.id);
+        tr.style.cursor = 'pointer';
+        tbody.appendChild(tr);
+      });
+
+      const foot = document.getElementById('leaderboardFootnote');
+      if (activeWine === 'red') {
+        foot.innerHTML = "★ Forward SFS &amp; Exhaustive Search tied for #1 rank (CV RMSE: 0.6582 with 6 optimal features).";
+      } else {
+        foot.innerHTML = "★ RFECV &amp; Exhaustive Search tied for #1 rank (CV RMSE: 0.7542 with 7 optimal features).";
+      }
+    }
+
+    // ============================================================
+    // RENDER: OUTLIERS TABLE
+    // ============================================================
+    function renderOutliersTable() {
+      const tbody = document.getElementById('outliersTableBody');
+      tbody.innerHTML = '';
+      const data = WINE_DATA[activeWine];
+
+      data.outliers.forEach(row => {
+        const tr = document.createElement('tr');
+        const isNegative = row.res < 0;
+        tr.innerHTML = `
+          <td style="color: #ffcc00; font-weight: bold;">[${row.rank}]</td>
+          <td>#${row.id}</td>
+          <td style="color: #fff; font-weight: bold;">${row.actual.toFixed(1)}</td>
+          <td style="color: #6ee7b7;">${row.pred.toFixed(2)}</td>
+          <td class="${isNegative ? 'res-negative' : 'res-positive'}">${isNegative ? '' : '+'}${row.res.toFixed(2)}</td>
+          <td>${row.alcohol.toFixed(1)}%</td>
+          <td>${row.volatile_acidity.toFixed(2)}</td>
+          <td>${row.density.toFixed(4)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const note = document.getElementById('outliersSummaryFootnote');
+      if (activeWine === 'red') {
+        note.textContent = "Row #832 is the #1 Red Wine outlier: Quality score 3 yet high alcohol and balanced acidity led model to predict 5.61 (residual: -2.61).";
+      } else {
+        note.textContent = "Row #4745 is the #1 White Wine outlier: Severely downgraded sensory rating (score 3) despite normal chemical metrics, yielding residual -3.81.";
+      }
+    }
+
+    // ============================================================
+    // RENDER: CHEMICAL CASSETTES (11 FEATURES)
+    // ============================================================
+    function renderCassettes() {
+      const container = document.getElementById('cassettesContainer');
+      container.innerHTML = '';
+      const data = WINE_DATA[activeWine];
+
+      data.features.forEach((feat, idx) => {
+        const cfg = FEATURE_INPUT_CONFIG[feat] || { label: feat.toUpperCase(), unit: "", step: 0.1, min: 0, max: 100 };
+        const stats = data.feature_stats[feat];
+        const defaultVal = stats ? stats.mean : (cfg.min + cfg.max) / 2;
+
+        const card = document.createElement('div');
+        const accentClass = (idx % 3 === 1) ? 'pink-accent' : ((idx % 3 === 2) ? 'yellow-accent' : '');
+        card.className = `cassette-card ${accentClass}`;
+        card.id = `cassette_${feat.replace(/\s+/g, '_')}`;
+
+        const icon = FEATURE_ICONS[feat] || '🧪';
+
+        card.innerHTML = `
+          <div class="cassette-title">
+            <span>${icon} ${cfg.label}</span>
+            <span class="coef-badge" id="coefBadge_${feat.replace(/\s+/g, '_')}" style="color: var(--neon-cyan);">[--]</span>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 4px;">
+            <input type="number" id="inp_${feat.replace(/\s+/g, '_')}" class="arcade-number-input" 
+                   value="${defaultVal}" step="${cfg.step}" min="${cfg.min}" max="${cfg.max}">
+            <span style="font-size: 10px; color: #64748b;">${cfg.unit}</span>
+          </div>
+          <input type="range" id="rng_${feat.replace(/\s+/g, '_')}" 
+                 min="${cfg.min}" max="${cfg.max}" value="${defaultVal}" step="${cfg.step}" 
+                 style="width: 100%; margin-top: 6px; accent-color: var(--neon-cyan);">
+        `;
+        container.appendChild(card);
+
+        // Bind Sync
+        const numInput = card.querySelector(`#inp_${feat.replace(/\s+/g, '_')}`);
+        const rngInput = card.querySelector(`#rng_${feat.replace(/\s+/g, '_')}`);
+        numInput.addEventListener('input', () => {
+          rngInput.value = numInput.value;
+          calculatePrediction(false);
+        });
+        rngInput.addEventListener('input', () => {
+          numInput.value = rngInput.value;
+          calculatePrediction(false);
+        });
+      });
+
+      updateCassetteBadges();
+    }
+
+    // ============================================================
+    // RENDER: QUICK PRESETS
+    // ============================================================
+    function renderPresets() {
+      const container = document.getElementById('presetBtnsContainer');
+      container.innerHTML = '';
+
+      const presets = activeWine === 'red' ? [
+        { id: 'typical_red', label: '🍷 Typical Red Sample' },
+        { id: 'high_alcohol', label: '🍇 High Alcohol Reserve (Score ~ 7)' },
+        { id: 'high_volatile', label: '🧪 High Volatile Acid (Flawed ~ 3)' },
+        { id: 'low_sugar', label: '⚡ Bone-Dry Cabernet' },
+        { id: 'outlier_red', label: '⚠️ Outlier Bottle #832' }
+      ] : [
+        { id: 'typical_white', label: '🥂 Typical White Sample' },
+        { id: 'sweet_riesling', label: '🍬 Sweet Riesling' },
+        { id: 'crisp_sauvignon', label: '🍋 Crisp Sauvignon Blanc' },
+        { id: 'high_alcohol_white', label: '🍾 Reserve Chardonnay (Score ~ 7)' },
+        { id: 'outlier_white', label: '⚠️ Outlier Bottle #4745' }
+      ];
+
+      presets.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'preset-chip';
+        btn.textContent = p.label;
+        btn.onclick = () => loadPreset(p.id);
+        container.appendChild(btn);
+      });
+    }
+
+    window.loadPreset = function(presetId) {
+      playSound('click');
+      const data = WINE_DATA[activeWine];
+      let vals = {};
+
+      if (presetId === 'typical_red') {
+        vals = { "fixed acidity": 8.3, "volatile acidity": 0.53, "citric acid": 0.27, "residual sugar": 2.5, "chlorides": 0.08, "free sulfur dioxide": 16.0, "total sulfur dioxide": 46.0, "density": 0.9967, "pH": 3.31, "sulphates": 0.65, "alcohol": 10.4 };
+      } else if (presetId === 'high_alcohol') {
+        vals = { "fixed acidity": 8.5, "volatile acidity": 0.35, "citric acid": 0.40, "residual sugar": 2.2, "chlorides": 0.065, "free sulfur dioxide": 18.0, "total sulfur dioxide": 38.0, "density": 0.9950, "pH": 3.25, "sulphates": 0.85, "alcohol": 13.5 };
+      } else if (presetId === 'high_volatile') {
+        vals = { "fixed acidity": 7.8, "volatile acidity": 1.15, "citric acid": 0.05, "residual sugar": 2.0, "chlorides": 0.110, "free sulfur dioxide": 8.0, "total sulfur dioxide": 22.0, "density": 0.9975, "pH": 3.55, "sulphates": 0.45, "alcohol": 9.2 };
+      } else if (presetId === 'low_sugar') {
+        vals = { "fixed acidity": 9.2, "volatile acidity": 0.45, "citric acid": 0.35, "residual sugar": 1.4, "chlorides": 0.075, "free sulfur dioxide": 15.0, "total sulfur dioxide": 42.0, "density": 0.9960, "pH": 3.20, "sulphates": 0.70, "alcohol": 11.5 };
+      } else if (presetId === 'outlier_red') {
+        vals = { "fixed acidity": 10.4, "volatile acidity": 0.61, "citric acid": 0.49, "residual sugar": 2.1, "chlorides": 0.200, "free sulfur dioxide": 5.0, "total sulfur dioxide": 16.0, "density": 0.9994, "pH": 3.16, "sulphates": 0.63, "alcohol": 8.4 };
+      } else if (presetId === 'typical_white') {
+        vals = { "fixed acidity": 6.85, "volatile acidity": 0.28, "citric acid": 0.33, "residual sugar": 6.39, "chlorides": 0.046, "free sulfur dioxide": 35.3, "total sulfur dioxide": 138.4, "density": 0.9940, "pH": 3.19, "sulphates": 0.49, "alcohol": 10.5 };
+      } else if (presetId === 'sweet_riesling') {
+        vals = { "fixed acidity": 7.4, "volatile acidity": 0.22, "citric acid": 0.38, "residual sugar": 18.5, "chlorides": 0.035, "free sulfur dioxide": 42.0, "total sulfur dioxide": 160.0, "density": 0.9985, "pH": 3.10, "sulphates": 0.44, "alcohol": 9.0 };
+      } else if (presetId === 'crisp_sauvignon') {
+        vals = { "fixed acidity": 8.2, "volatile acidity": 0.24, "citric acid": 0.42, "residual sugar": 1.8, "chlorides": 0.038, "free sulfur dioxide": 30.0, "total sulfur dioxide": 110.0, "density": 0.9915, "pH": 3.02, "sulphates": 0.52, "alcohol": 12.2 };
+      } else if (presetId === 'high_alcohol_white') {
+        vals = { "fixed acidity": 6.6, "volatile acidity": 0.25, "citric acid": 0.30, "residual sugar": 3.5, "chlorides": 0.040, "free sulfur dioxide": 28.0, "total sulfur dioxide": 105.0, "density": 0.9910, "pH": 3.25, "sulphates": 0.58, "alcohol": 13.4 };
+      } else if (presetId === 'outlier_white') {
+        vals = { "fixed acidity": 7.6, "volatile acidity": 0.48, "citric acid": 0.37, "residual sugar": 1.2, "chlorides": 0.036, "free sulfur dioxide": 6.0, "total sulfur dioxide": 99.0, "density": 0.9902, "pH": 3.04, "sulphates": 0.58, "alcohol": 12.5 };
+      }
+
+      // Apply to DOM
+      for (const [f, v] of Object.entries(vals)) {
+        const inp = document.getElementById(`inp_${f.replace(/\s+/g, '_')}`);
+        const rng = document.getElementById(`rng_${f.replace(/\s+/g, '_')}`);
+        if (inp && rng) {
+          inp.value = v;
+          rng.value = v;
+        }
+      }
+      calculatePrediction(true);
+    };
+
+    // ============================================================
+    // PREDICTION ENGINE
+    // ============================================================
+    function calculatePrediction(withSound = true) {
+      if (!currentModel) return;
+      const data = WINE_DATA[activeWine];
+      const coefs = currentModel.coefs || {};
+      const features = currentModel.features || [];
+      let pred = currentModel.intercept || 0;
+
+      features.forEach(f => {
+        const inp = document.getElementById(`inp_${f.replace(/\s+/g, '_')}`);
+        if (inp && coefs[f]) {
+          pred += coefs[f] * parseFloat(inp.value || 0);
+        }
+      });
+
+      // Clamp predicted quality between 0 and 10
+      pred = Math.max(1, Math.min(10, pred));
+
+      animateNumber(pred);
+      if (withSound) playSound('coin');
+    }
+
+    function animateNumber(target) {
+      const el = document.getElementById('screenProfitOutput');
+      const start = parseFloat(el.textContent) || 5.0;
+      const duration = 200;
+      const startTime = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const current = start + (target - start) * progress;
+        el.textContent = `${current.toFixed(2)} / 10`;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    document.getElementById('btnRunPrediction').addEventListener('click', () => {
+      calculatePrediction(true);
+    });
+
+    function updateFormulaDisplay() {
+      if (!currentModel) return;
+      const c = currentModel.coefs || {};
+      const f = currentModel.features || [];
+      let terms = [`${(currentModel.intercept || 0).toFixed(3)}`];
+
+      f.forEach(feat => {
+        if (c[feat]) {
+          const sign = c[feat] >= 0 ? '+' : '-';
+          terms.push(`${sign} ${Math.abs(c[feat]).toFixed(3)}×(${feat})`);
+        }
+      });
+
+      document.getElementById('screenFormulaBreakdown').textContent = `Equation: Quality = ${terms.join(' ')}`;
+    }
+
+    function updateCassetteBadges() {
+      if (!currentModel) return;
+      const data = WINE_DATA[activeWine];
+      const c = currentModel.coefs || {};
+      const f = currentModel.features || [];
+
+      data.features.forEach(feat => {
+        const badge = document.getElementById(`coefBadge_${feat.replace(/\s+/g, '_')}`);
+        const card = document.getElementById(`cassette_${feat.replace(/\s+/g, '_')}`);
+        if (!badge || !card) return;
+
+        if (f.includes(feat)) {
+          const val = c[feat] || 0;
+          badge.textContent = `[${val >= 0 ? '+' : ''}${val.toFixed(3)}]`;
+          badge.style.color = val >= 0 ? 'var(--matrix-green)' : 'var(--hot-pink)';
+          card.style.opacity = '1';
+        } else {
+          badge.textContent = '[PRUNED: 0.00]';
+          badge.style.color = '#64748b';
+          card.style.opacity = '0.55';
+        }
+      });
+    }
+
+    // ============================================================
+    // SELECT MODEL (METHOD CONSOLE)
+    // ============================================================
+    function selectModel(modelId) {
+      const data = WINE_DATA[activeWine];
+      playSound('select');
+
+      if (modelId === 'Compare_All') {
+        activeProgressionMethod = 'Compare_All';
+        renderModelSelector();
+        renderKTabs();
+        updateOlsCardComparison(selectedK);
+        drawRmseChart();
+        drawR2Chart();
+        document.getElementById('perfWindowTitle').textContent = `MODEL_PERFORMANCE_MONITOR.EXE - 5-Method Comparative Overlay (k = 1...11)`;
+        document.getElementById('perfComparisonLegend').style.display = 'flex';
+        document.getElementById('systemMsgStatus').textContent = `MODE: 5-ALGORITHM COMPARISON OVERLAY (k=1..11). DISPLAYING DUAL 5-CURVE PROJECTIONS.`;
+        return;
+      }
+
+      const target = data.models.find(m => m.id === modelId) || data.models[0];
+      currentModel = target;
+      activeProgressionMethod = modelId;
+      if (!data.progressions[activeProgressionMethod]) {
+        activeProgressionMethod = 'Forward_SFS';
+      }
+
+      // Sweet spot for this method
+      const progItems = data.progressions[activeProgressionMethod];
+      const sweet = progItems.find(p => p.isSweetSpot) || progItems[0];
+      selectedK = sweet.k;
+
+      // Update Diagnostics
+      document.getElementById('statMethodName').textContent = currentModel.name;
+      document.getElementById('statFeatureCount').textContent = `${currentModel.nFeat} of 11`;
+      document.getElementById('statR2').textContent = currentModel.r2.toFixed(4);
+      document.getElementById('statAdjR2').textContent = currentModel.adjR2.toFixed(4);
+      document.getElementById('statRMSE').textContent = currentModel.rmse.toFixed(4);
+      document.getElementById('statCvRmse').textContent = currentModel.cvRmse.toFixed(4);
+      document.getElementById('calcModelBadge').textContent = currentModel.name;
+
+      renderModelSelector();
+      renderFeatureFlags();
+      renderLeaderboard();
+      renderKTabs();
+      updateOlsCard(sweet);
+      calculatePrediction(false);
+      updateFormulaDisplay();
+      updateCassetteBadges();
+      drawScatterChart();
+      drawRmseChart();
+      drawR2Chart();
+
+      document.getElementById('perfWindowTitle').textContent = `MODEL_PERFORMANCE_MONITOR.EXE - ${target.name} Progression (k = 1...11)`;
+      document.getElementById('perfComparisonLegend').style.display = 'none';
+      document.getElementById('systemMsgStatus').textContent = `LOADED: ${target.name} (k=${target.nFeat}). FEATURES: [${target.features.join(', ')}]`;
+    }
+
+    // ============================================================
+    // K-TABS AND PROGRESSION INTERACTION (k = 1...11)
+    // ============================================================
+    function renderKTabs() {
+      const container = document.getElementById('kTabsContainer');
+      container.innerHTML = '';
+      const data = WINE_DATA[activeWine];
+
+      for (let k = 1; k <= 11; k++) {
+        const btn = document.createElement('button');
+        let classes = ['k-tab-btn'];
+
+        if (activeProgressionMethod === 'Compare_All') {
+          if (activeWine === 'red' && (k === 7 || k === 8)) classes.push('sweet-spot');
+          if (activeWine === 'white' && (k === 7 || k === 8)) classes.push('sweet-spot');
+          if (k === 11) classes.push('overfit-cliff');
+        } else {
+          const items = data.progressions[activeProgressionMethod] || [];
+          const item = items.find(p => p.k === k);
+          if (item && item.isSweetSpot) classes.push('sweet-spot');
+          if (item && item.isOverfitCliff) classes.push('overfit-cliff');
+        }
+
+        if (k === selectedK) classes.push('active');
+        btn.className = classes.join(' ');
+        btn.innerHTML = `<span>k=${k}</span>`;
+        btn.onclick = () => selectK(k);
+        container.appendChild(btn);
+      }
+    }
+
+    function selectK(k) {
+      selectedK = k;
+      const data = WINE_DATA[activeWine];
+
+      if (activeProgressionMethod === 'Compare_All') {
+        playSound('click');
+        renderKTabs();
+        updateOlsCardComparison(selectedK);
+        drawRmseChart();
+        drawR2Chart();
+        return;
+      }
+
+      const items = data.progressions[activeProgressionMethod] || [];
+      const target = items.find(p => p.k === k) || items[0];
+      if (!target) return;
+
+      if (target.isSweetSpot) playSound('coin');
+      else if (target.isOverfitCliff) playSound('zap');
+      else playSound('click');
+
+      currentModel = {
+        id: `${activeProgressionMethod}_k${target.k}`,
+        name: `${activeProgressionMethod.replace('_', ' ')} (k=${target.k})`,
+        features: target.features,
+        nFeat: target.k,
+        cvRmse: target.rmse,
+        mae: 0.50,
+        rmse: target.rmse,
+        r2: target.r2,
+        adjR2: target.r2 - 0.01,
+        intercept: target.intercept,
+        coefs: target.coefs,
+        isBest: target.isSweetSpot,
+        tag: target.isSweetSpot ? "SWEET SPOT" : (target.isOverfitCliff ? "CLIFF" : `k=${target.k}`)
+      };
+
+      document.getElementById('statMethodName').textContent = currentModel.name;
+      document.getElementById('statFeatureCount').textContent = `${target.k} of 11`;
+      document.getElementById('statR2').textContent = target.r2.toFixed(4);
+      document.getElementById('statAdjR2').textContent = currentModel.adjR2.toFixed(4);
+      document.getElementById('statRMSE').textContent = target.rmse.toFixed(4);
+      document.getElementById('statCvRmse').textContent = target.rmse.toFixed(4);
+      document.getElementById('calcModelBadge').textContent = currentModel.name;
+
+      renderFeatureFlags();
+      calculatePrediction(false);
+      updateFormulaDisplay();
+      updateCassetteBadges();
+      renderKTabs();
+      updateOlsCard(target);
+      drawRmseChart();
+      drawR2Chart();
+      drawScatterChart();
+    }
+
+    function updateOlsCard(item) {
+      document.getElementById('olsFormulaKTag').textContent = `MODEL: k = ${item.k} (${item.features.length} Features)`;
+      
+      let terms = [`${(item.intercept || 0).toFixed(3)}`];
+      for (const [f, c] of Object.entries(item.coefs || {})) {
+        const sign = c >= 0 ? '+' : '-';
+        terms.push(`<span style="color: ${c >= 0 ? '#00f0ff' : '#ff007f'}">${sign} ${Math.abs(c).toFixed(3)}</span> &times; [${f}]`);
+      }
+      document.getElementById('olsFormulaOutput').innerHTML = `<span style="color: #ccff00;">Quality</span> = ${terms.join(' ')}`;
+
+      document.getElementById('olsFeatSubset').textContent = `[${item.features.map(f => `'${f}'`).join(', ')}]`;
+      document.getElementById('olsMetricRmse').textContent = item.rmse.toFixed(4);
+      document.getElementById('olsMetricR2').textContent = item.r2.toFixed(4);
+
+      const statusBadge = document.getElementById('olsCardStatusBadge');
+      if (item.isSweetSpot) {
+        statusBadge.style.color = '#00ff88';
+        statusBadge.textContent = '[★ SWEET SPOT: MIN TEST RMSE]';
+      } else if (item.isOverfitCliff) {
+        statusBadge.style.color = '#fbbf24';
+        statusBadge.textContent = '[⚠ OVER-PARAMETERIZED MODEL]';
+      } else {
+        statusBadge.style.color = '#67e8f9';
+        statusBadge.textContent = `[k = ${item.k} EVALUATED]`;
+      }
+
+      const interp = document.getElementById('olsInterpretationText');
+      if (activeWine === 'red') {
+        interp.textContent = item.isSweetSpot 
+          ? "★ OPTIMAL RED WINE SUBSET: Volatile acidity (negative, -1.01) and alcohol (positive, +0.286) explain the lion's share of variance. Sulphates and total sulfur dioxide further stabilize the fit."
+          : `k=${item.k} evaluated for Red Wine. RMSE: ${item.rmse.toFixed(4)}, R²: ${item.r2.toFixed(4)}.`;
+      } else {
+        interp.textContent = item.isSweetSpot 
+          ? "★ OPTIMAL WHITE WINE SUBSET: Residual sugar and density counterbalance alcohol content, preserving crisp acidity and reducing sensory prediction error."
+          : `k=${item.k} evaluated for White Wine. RMSE: ${item.rmse.toFixed(4)}, R²: ${item.r2.toFixed(4)}.`;
+      }
+    }
+
+    function updateOlsCardComparison(k) {
+      const data = WINE_DATA[activeWine];
+      const algos = ['LassoCV', 'Forward_SFS', 'RFECV', 'ElasticNetCV', 'Exhaustive'];
+      document.getElementById('olsFormulaKTag').textContent = `5-METHOD MATRIX: k = ${k}`;
+      
+      let html = `
+        <div style="font-size: 15px; margin-bottom: 8px; color: #a7f3d0; border-bottom: 1px dashed #008033; padding-bottom: 4px; font-family: 'Share Tech Mono', monospace;">
+          <b>5-ALGORITHM SELECTION &amp; ERROR MATRIX AT k = ${k} (${data.name}):</b>
+        </div>
+        <div style="overflow-x: auto; width: 100%; max-width: 100%;">
+          <table style="width: 100%; table-layout: fixed; border-collapse: collapse; font-family: 'VT323', monospace; font-size: 18px;">
+            <thead>
+              <tr style="color: #64748b; border-bottom: 1px dotted #005a28; text-align: left;">
+                <th style="padding: 2px 6px; width: 22%;">ALGORITHM</th>
+                <th style="padding: 2px 6px; width: 48%;">SELECTED SUBSET</th>
+                <th style="padding: 2px 6px; width: 15%;">TEST RMSE</th>
+                <th style="padding: 2px 6px; width: 15%;">TEST R²</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      let minR = 999;
+      let bestA = '';
+      algos.forEach(a => {
+        const item = data.progressions[a].find(p => p.k === k);
+        if (item && item.rmse < minR) {
+          minR = item.rmse;
+          bestA = a;
+        }
+      });
+
+      algos.forEach(a => {
+        const item = data.progressions[a].find(p => p.k === k);
+        const isWinner = (a === bestA);
+        html += `
+          <tr style="border-bottom: 1px dotted #14351e; background: ${isWinner ? 'rgba(0, 255, 102, 0.08)' : 'transparent'};">
+            <td style="padding: 2px 6px; color: var(--neon-cyan); font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${a.replace('_', ' ')}</td>
+            <td style="padding: 2px 6px; color: #e2e8f0; word-break: break-word; white-space: normal; line-height: 1.15; font-size: 16px;">[${item.features.join(', ')}]</td>
+            <td style="padding: 2px 6px; color: ${isWinner ? '#00ff88' : '#cbd5e1'}; font-weight: ${isWinner ? 'bold' : 'normal'};">${item.rmse.toFixed(4)} ${isWinner ? '★' : ''}</td>
+            <td style="padding: 2px 6px; color: var(--acid-yellow);">${item.r2.toFixed(4)}</td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table></div>`;
+      document.getElementById('olsFormulaOutput').innerHTML = html;
+
+      const bestItem = data.progressions[bestA].find(p => p.k === k);
+      document.getElementById('olsFeatSubset').textContent = `Best at k=${k}: [${bestItem.features.join(', ')}]`;
+      document.getElementById('olsMetricRmse').textContent = minR.toFixed(4);
+      document.getElementById('olsMetricR2').textContent = bestItem.r2.toFixed(4);
+    }
+
+    // ============================================================
+    // CANVAS: ACTUAL VS PREDICTED SCATTER
+    // ============================================================
+    const scatterCanvas = document.getElementById('scatterCanvas');
+    const sCtx = scatterCanvas.getContext('2d');
+
+    function drawScatterChart() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = scatterCanvas.getBoundingClientRect();
+      scatterCanvas.width = rect.width * dpr;
+      scatterCanvas.height = rect.height * dpr;
+      sCtx.scale(dpr, dpr);
+
+      const w = rect.width;
+      const h = rect.height;
+      const pad = 36;
+      sCtx.clearRect(0, 0, w, h);
+
+      const minVal = 2.5;
+      const maxVal = 9.5;
+
+      function toX(v) { return pad + ((v - minVal) / (maxVal - minVal)) * (w - 2 * pad); }
+      function toY(v) { return (h - pad) - ((v - minVal) / (maxVal - minVal)) * (h - 2 * pad); }
+
+      // Grid
+      sCtx.strokeStyle = '#1e283d';
+      sCtx.lineWidth = 1;
+      sCtx.fillStyle = '#64748b';
+      sCtx.font = '9px "Share Tech Mono"';
+
+      for (let q = 3; q <= 9; q++) {
+        const x = toX(q);
+        sCtx.beginPath();
+        sCtx.moveTo(x, pad);
+        sCtx.lineTo(x, h - pad);
+        sCtx.stroke();
+        sCtx.fillText(q.toString(), x - 3, h - pad + 14);
+
+        const y = toY(q);
+        sCtx.beginPath();
+        sCtx.moveTo(pad, y);
+        sCtx.lineTo(w - pad, y);
+        sCtx.stroke();
+        sCtx.fillText(q.toString(), pad - 18, y + 3);
+      }
+
+      // 45 degree line
+      sCtx.save();
+      sCtx.strokeStyle = 'rgba(255, 0, 127, 0.6)';
+      sCtx.lineWidth = 1.5;
+      sCtx.setLineDash([4, 4]);
+      sCtx.beginPath();
+      sCtx.moveTo(toX(minVal), toY(minVal));
+      sCtx.lineTo(toX(maxVal), toY(maxVal));
+      sCtx.stroke();
+      sCtx.restore();
+
+      // Axis labels
+      sCtx.fillStyle = '#94a3b8';
+      sCtx.font = '9px "Press Start 2P"';
+      sCtx.fillText('ACTUAL QUALITY', w / 2 - 45, h - 8);
+
+      sCtx.save();
+      sCtx.translate(12, h / 2 + 35);
+      sCtx.rotate(-Math.PI / 2);
+      sCtx.fillText('PREDICTED', 0, 0);
+      sCtx.restore();
+
+      // Plot Test Samples
+      const data = WINE_DATA[activeWine];
+      const samples = data.test_samples;
+      const coefs = currentModel ? currentModel.coefs || {} : {};
+      const features = currentModel ? currentModel.features || [] : [];
+      const intercept = currentModel ? currentModel.intercept || 0 : 0;
+
+      samples.forEach(pt => {
+        let dynamicPred = intercept;
+        features.forEach(f => {
+          if (coefs[f] && pt.features[f] !== undefined) {
+            dynamicPred += coefs[f] * pt.features[f];
+          }
+        });
+        pt._dynPred = dynamicPred;
+        pt._dynRes = pt.actual - dynamicPred;
+
+        const cx = toX(pt.actual);
+        const cy = toY(dynamicPred);
+        pt._cx = cx;
+        pt._cy = cy;
+
+        // Draw Dot
+        sCtx.save();
+        sCtx.fillStyle = '#00f0ff';
+        sCtx.shadowColor = '#00f0ff';
+        sCtx.shadowBlur = 8;
+        sCtx.beginPath();
+        sCtx.arc(cx, cy, 4, 0, Math.PI * 2);
+        sCtx.fill();
+
+        // Core dot
+        sCtx.fillStyle = '#ffffff';
+        sCtx.beginPath();
+        sCtx.arc(cx, cy, 1.5, 0, Math.PI * 2);
+        sCtx.fill();
+        sCtx.restore();
+      });
+
+      // Hover circle
+      if (hoveredPoint) {
+        sCtx.save();
+        sCtx.strokeStyle = '#ffff00';
+        sCtx.lineWidth = 2;
+        sCtx.beginPath();
+        sCtx.arc(hoveredPoint._cx, hoveredPoint._cy, 8, 0, Math.PI * 2);
+        sCtx.stroke();
+        sCtx.restore();
+      }
+    }
+
+    scatterCanvas.addEventListener('mousemove', e => {
+      const rect = scatterCanvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const samples = WINE_DATA[activeWine].test_samples;
+
+      let found = null;
+      for (const pt of samples) {
+        if (pt._cx && Math.hypot(pt._cx - mx, pt._cy - my) < 10) {
+          found = pt;
+          break;
+        }
+      }
+
+      const tooltip = document.getElementById('chart-tooltip');
+      if (found) {
+        hoveredPoint = found;
+        tooltip.style.display = 'block';
+        tooltip.style.left = `${e.clientX + 14}px`;
+        tooltip.style.top = `${e.clientY - 20}px`;
+        tooltip.innerHTML = `
+          <div style="font-family: 'Press Start 2P'; font-size: 8px; color: var(--acid-yellow); margin-bottom: 4px;">
+            BOTTLE #${found.id} (${activeWine.toUpperCase()})
+          </div>
+          <div>ACTUAL SCORE: <b style="color: #fff;">${found.actual.toFixed(1)}</b></div>
+          <div>PREDICTED: <b style="color: var(--neon-cyan);">${found._dynPred.toFixed(2)}</b></div>
+          <div>RESIDUAL: <b style="color: ${found._dynRes >= 0 ? '#00ff66' : '#ff007f'};">${found._dynRes >= 0 ? '+' : ''}${found._dynRes.toFixed(2)}</b></div>
+        `;
+        drawScatterChart();
+      } else if (hoveredPoint) {
+        hoveredPoint = null;
+        tooltip.style.display = 'none';
+        drawScatterChart();
+      }
+    });
+
+    scatterCanvas.addEventListener('mouseleave', () => {
+      hoveredPoint = null;
+      document.getElementById('chart-tooltip').style.display = 'none';
+      drawScatterChart();
+    });
+
+    // ============================================================
+    // CANVAS: DUAL PROGRESSION CHARTS (RMSE & R-squared)
+    // ============================================================
+    const rmseCanvas = document.getElementById('rmseChartCanvas');
+    const r2Canvas = document.getElementById('r2ChartCanvas');
+
+    const ALGO_COLORS = {
+      "LassoCV": "#00f0ff",
+      "Forward_SFS": "#ff8c00",
+      "RFECV": "#00ff66",
+      "ElasticNetCV": "#ff007f",
+      "Exhaustive": "#b388ff"
+    };
+
+    function drawRmseChart() {
+      const ctx = rmseCanvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const container = rmseCanvas.parentElement;
+      const rect = container ? container.getBoundingClientRect() : rmseCanvas.getBoundingClientRect();
+      const w = Math.floor(rect.width) || 460;
+      const h = Math.floor(rect.height) || 230;
+      rmseCanvas.width = w * dpr;
+      rmseCanvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+
+      const padLeft = 48;
+      const padRight = 24;
+      const padTop = 28;
+      const padBottom = 28;
+      ctx.clearRect(0, 0, w, h);
+
+      const data = WINE_DATA[activeWine];
+      const minY = activeWine === 'red' ? 0.60 : 0.78;
+      const maxY = activeWine === 'red' ? 0.68 : 0.92;
+
+      function toX(k) { return padLeft + ((k - 1) / 10) * (w - padLeft - padRight); }
+      function toY(rmse) { return (h - padBottom) - ((rmse - minY) / (maxY - minY)) * (h - padTop - padBottom); }
+
+      // Y Grid
+      ctx.strokeStyle = '#182235';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#64748b';
+      ctx.font = '9px "Share Tech Mono"';
+
+      const stepY = activeWine === 'red' ? 0.02 : 0.03;
+      for (let v = minY; v <= maxY + 0.001; v += stepY) {
+        const y = toY(v);
+        ctx.beginPath();
+        ctx.moveTo(padLeft, y);
+        ctx.lineTo(w - padRight, y);
+        ctx.stroke();
+        ctx.fillText(v.toFixed(2), 8, y + 3);
+      }
+
+      // X Grid
+      for (let k = 1; k <= 11; k++) {
+        const x = toX(k);
+        ctx.beginPath();
+        ctx.moveTo(x, padTop);
+        ctx.lineTo(x, h - padBottom);
+        ctx.stroke();
+        ctx.fillText(`k=${k}`, x - 8, h - padBottom + 14);
+      }
+
+      // Draw active lines
+      const algosToDraw = activeProgressionMethod === 'Compare_All'
+        ? ['LassoCV', 'Forward_SFS', 'RFECV', 'ElasticNetCV', 'Exhaustive']
+        : [activeProgressionMethod];
+
+      algosToDraw.forEach(algo => {
+        const items = data.progressions[algo];
+        if (!items) return;
+        const col = ALGO_COLORS[algo] || '#00f0ff';
+
+        ctx.save();
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(toX(items[0].k), toY(items[0].rmse));
+        for (let i = 1; i < items.length; i++) {
+          ctx.lineTo(toX(items[i].k), toY(items[i].rmse));
+        }
+        ctx.stroke();
+
+        // Nodes
+        items.forEach(it => {
+          const cx = toX(it.k);
+          const cy = toY(it.rmse);
+          it._cxRmse = cx;
+          it._cyRmse = cy;
+          it._algo = algo;
+
+          ctx.fillStyle = col;
+          ctx.beginPath();
+          ctx.arc(cx, cy, it.k === selectedK ? 5 : 3.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (it.k === selectedK) {
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        });
+        ctx.restore();
+      });
+    }
+
+    function drawR2Chart() {
+      const ctx = r2Canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const container = r2Canvas.parentElement;
+      const rect = container ? container.getBoundingClientRect() : r2Canvas.getBoundingClientRect();
+      const w = Math.floor(rect.width) || 460;
+      const h = Math.floor(rect.height) || 230;
+      r2Canvas.width = w * dpr;
+      r2Canvas.height = h * dpr;
+      ctx.scale(dpr, dpr);
+
+      const padLeft = 48;
+      const padRight = 24;
+      const padTop = 28;
+      const padBottom = 28;
+      ctx.clearRect(0, 0, w, h);
+
+      const data = WINE_DATA[activeWine];
+      const minY = activeWine === 'red' ? 0.20 : 0.05;
+      const maxY = activeWine === 'red' ? 0.38 : 0.30;
+
+      function toX(k) { return padLeft + ((k - 1) / 10) * (w - padLeft - padRight); }
+      function toY(r2) { return (h - padBottom) - ((r2 - minY) / (maxY - minY)) * (h - padTop - padBottom); }
+
+      // Y Grid
+      ctx.strokeStyle = '#182235';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#64748b';
+      ctx.font = '9px "Share Tech Mono"';
+
+      const stepY = activeWine === 'red' ? 0.04 : 0.05;
+      for (let v = minY; v <= maxY + 0.001; v += stepY) {
+        const y = toY(v);
+        ctx.beginPath();
+        ctx.moveTo(padLeft, y);
+        ctx.lineTo(w - padRight, y);
+        ctx.stroke();
+        ctx.fillText(v.toFixed(2), 8, y + 3);
+      }
+
+      // X Grid
+      for (let k = 1; k <= 11; k++) {
+        const x = toX(k);
+        ctx.beginPath();
+        ctx.moveTo(x, padTop);
+        ctx.lineTo(x, h - padBottom);
+        ctx.stroke();
+        ctx.fillText(`k=${k}`, x - 8, h - padBottom + 14);
+      }
+
+      // Draw active lines
+      const algosToDraw = activeProgressionMethod === 'Compare_All'
+        ? ['LassoCV', 'Forward_SFS', 'RFECV', 'ElasticNetCV', 'Exhaustive']
+        : [activeProgressionMethod];
+
+      algosToDraw.forEach(algo => {
+        const items = data.progressions[algo];
+        if (!items) return;
+        const col = ALGO_COLORS[algo] || '#00f0ff';
+
+        ctx.save();
+        ctx.strokeStyle = col;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(toX(items[0].k), toY(items[0].r2));
+        for (let i = 1; i < items.length; i++) {
+          ctx.lineTo(toX(items[i].k), toY(items[i].r2));
+        }
+        ctx.stroke();
+
+        // Nodes
+        items.forEach(it => {
+          const cx = toX(it.k);
+          const cy = toY(it.r2);
+          it._cxR2 = cx;
+          it._cyR2 = cy;
+          it._algo = algo;
+
+          ctx.fillStyle = col;
+          ctx.beginPath();
+          ctx.arc(cx, cy, it.k === selectedK ? 5 : 3.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (it.k === selectedK) {
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 8, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        });
+        ctx.restore();
+      });
+    }
+
+    // Attach chart hover & click
+    function attachChartInteractions(canvasEl, type) {
+      canvasEl.addEventListener('click', e => {
+        const rect = canvasEl.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        const data = WINE_DATA[activeWine];
+        let candidates = [];
+        if (activeProgressionMethod === 'Compare_All') {
+          ['LassoCV', 'Forward_SFS', 'RFECV', 'ElasticNetCV', 'Exhaustive'].forEach(a => candidates.push(...data.progressions[a]));
+        } else {
+          candidates = data.progressions[activeProgressionMethod] || [];
+        }
+
+        for (const item of candidates) {
+          const cx = type === 'rmse' ? item._cxRmse : item._cxR2;
+          const cy = type === 'rmse' ? item._cyRmse : item._cyR2;
+          if (cx && cy && Math.hypot(cx - mx, cy - my) < 15) {
+            selectK(item.k);
+            break;
+          }
+        }
+      });
+
+      canvasEl.addEventListener('mousemove', e => {
+        const rect = canvasEl.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        const data = WINE_DATA[activeWine];
+        let candidates = [];
+        if (activeProgressionMethod === 'Compare_All') {
+          ['LassoCV', 'Forward_SFS', 'RFECV', 'ElasticNetCV', 'Exhaustive'].forEach(a => candidates.push(...data.progressions[a]));
+        } else {
+          candidates = data.progressions[activeProgressionMethod] || [];
+        }
+
+        let found = null;
+        for (const item of candidates) {
+          const cx = type === 'rmse' ? item._cxRmse : item._cxR2;
+          const cy = type === 'rmse' ? item._cyRmse : item._cyR2;
+          if (cx && cy && Math.hypot(cx - mx, cy - my) < 10) {
+            found = item;
+            break;
+          }
+        }
+
+        const tooltip = document.getElementById('chart-tooltip');
+        if (found) {
+          tooltip.style.display = 'block';
+          tooltip.style.left = `${e.clientX + 14}px`;
+          tooltip.style.top = `${e.clientY - 20}px`;
+          tooltip.innerHTML = `
+            <div style="font-family: 'Press Start 2P'; font-size: 8px; color: var(--neon-cyan); margin-bottom: 4px;">
+              ${found._algo ? found._algo.replace('_', ' ') : activeProgressionMethod.replace('_', ' ')} (k=${found.k})
+            </div>
+            <div>TEST RMSE: <b style="color: #00ff88;">${found.rmse.toFixed(4)}</b></div>
+            <div>TEST R²: <b style="color: var(--acid-yellow);">${found.r2.toFixed(4)}</b></div>
+            <div style="font-size: 9px; color: #94a3b8; margin-top: 2px;">Click to inspect this k subset</div>
+          `;
+        } else {
+          tooltip.style.display = 'none';
+        }
+      });
+
+      canvasEl.addEventListener('mouseleave', () => {
+        document.getElementById('chart-tooltip').style.display = 'none';
+      });
+    }
+    attachChartInteractions(rmseCanvas, 'rmse');
+    attachChartInteractions(r2Canvas, 'r2');
+
+    // SYNC TO PREDICTOR BUTTON
+    document.getElementById('btnSyncWithCalc').addEventListener('click', () => {
+      playSound('coin');
+      const data = WINE_DATA[activeWine];
+      let targetItem = null;
+
+      if (activeProgressionMethod === 'Compare_All') {
+        targetItem = data.progressions['Exhaustive'].find(p => p.k === selectedK);
+      } else {
+        targetItem = (data.progressions[activeProgressionMethod] || []).find(p => p.k === selectedK);
+      }
+
+      if (targetItem) {
+        currentModel = {
+          id: `Sync_k${targetItem.k}`,
+          name: `Synced k=${targetItem.k} Model`,
+          features: targetItem.features,
+          nFeat: targetItem.k,
+          cvRmse: targetItem.rmse,
+          mae: 0.50,
+          rmse: targetItem.rmse,
+          r2: targetItem.r2,
+          adjR2: targetItem.r2 - 0.01,
+          intercept: targetItem.intercept,
+          coefs: targetItem.coefs,
+          isBest: targetItem.isSweetSpot,
+          tag: "SYNCED"
+        };
+        document.getElementById('calcModelBadge').textContent = currentModel.name;
+        renderFeatureFlags();
+        calculatePrediction(true);
+        updateFormulaDisplay();
+        updateCassetteBadges();
+        drawScatterChart();
+        document.querySelector('.arcade-machine').scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    // CRT & Audio Toggles
+    const btnCrt = document.getElementById('btnCrtToggle');
+    const crtOverlay = document.getElementById('crtOverlay');
+    btnCrt.addEventListener('click', () => {
+      crtEnabled = !crtEnabled;
+      playSound('zap');
+      if (crtEnabled) {
+        crtOverlay.classList.remove('disabled');
+        btnCrt.classList.add('active');
+        btnCrt.innerHTML = '<span>📺 CRT: ON</span>';
+      } else {
+        crtOverlay.classList.add('disabled');
+        btnCrt.classList.remove('active');
+        btnCrt.innerHTML = '<span>📺 CRT: OFF</span>';
+      }
+    });
+
+    const btnAudio = document.getElementById('btnAudioToggle');
+    btnAudio.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      if (audioEnabled) {
+        btnAudio.classList.add('active');
+        btnAudio.innerHTML = '<span>🔊 SFX: ON</span>';
+        playSound('click');
+      } else {
+        btnAudio.classList.remove('active');
+        btnAudio.innerHTML = '<span>🔇 SFX: OFF</span>';
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      drawScatterChart();
+      drawRmseChart();
+      drawR2Chart();
+    });
+
+    // ============================================================
+    // INITIALIZATION
+    // ============================================================
+    setWineDataset('red');
+    document.fonts.ready.then(() => {
+      drawScatterChart();
+      drawRmseChart();
+      drawR2Chart();
+    });
+  </script>
+</body>
+</html>

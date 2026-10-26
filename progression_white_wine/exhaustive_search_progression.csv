@@ -1,0 +1,12 @@
+Number of Features,Selected Features,RMSE,R-squared
+1,['alcohol'],0.8547773008329457,0.1710201454832173
+2,"['volatile acidity', 'alcohol']",0.8286564365045869,0.2209110738462854
+3,"['volatile acidity', 'residual sugar', 'alcohol']",0.8186193261200481,0.23967021814726852
+4,"['volatile acidity', 'residual sugar', 'density', 'alcohol']",0.8136294023860519,0.24891120308128234
+5,"['volatile acidity', 'residual sugar', 'density', 'sulphates', 'alcohol']",0.8088536736261613,0.2577025990949162
+6,"['volatile acidity', 'residual sugar', 'density', 'pH', 'sulphates', 'alcohol']",0.8059298405553713,0.2630593924866521
+7,"['volatile acidity', 'citric acid', 'residual sugar', 'density', 'pH', 'sulphates', 'alcohol']",0.8057894680791772,0.2633160827438761
+8,"['volatile acidity', 'citric acid', 'residual sugar', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']",0.8057743883269282,0.2633436554721128
+9,"['volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']",0.8066658455429712,0.26171277494848555
+10,"['volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']",0.8080343282455806,0.2592056890178627
+11,"['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol']",0.8123086554972686,0.2513476761101421

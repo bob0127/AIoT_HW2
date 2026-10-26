@@ -1,0 +1,5011 @@
+{
+  "red": {
+    "name": "Red Wine",
+    "sample_count": 1599,
+    "features": [
+      "fixed acidity",
+      "volatile acidity",
+      "citric acid",
+      "residual sugar",
+      "chlorides",
+      "free sulfur dioxide",
+      "total sulfur dioxide",
+      "density",
+      "pH",
+      "sulphates",
+      "alcohol"
+    ],
+    "models": [
+      {
+        "id": "Forward_SFS",
+        "name": "Forward SFS",
+        "features": [
+          "volatile acidity",
+          "chlorides",
+          "total sulfur dioxide",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 6,
+        "cvRmse": 0.658213344991636,
+        "mae": 0.50441418749263,
+        "rmse": 0.6245729944929942,
+        "r2": 0.4030789168087623,
+        "adjR2": 0.3916363401341699,
+        "intercept": 4.264604140895025,
+        "coefs": {
+          "volatile acidity": -0.9750333800157531,
+          "chlorides": -1.9281425505175656,
+          "total sulfur dioxide": -0.002584034981357508,
+          "pH": -0.4235674170446934,
+          "sulphates": 0.8373715275536037,
+          "alcohol": 0.2896650729443442
+        },
+        "isBest": true,
+        "tag": "BEST CV RMSE"
+      },
+      {
+        "id": "Exhaustive",
+        "name": "Exhaustive",
+        "features": [
+          "volatile acidity",
+          "chlorides",
+          "total sulfur dioxide",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 6,
+        "cvRmse": 0.658213344991636,
+        "mae": 0.50441418749263,
+        "rmse": 0.6245729944929942,
+        "r2": 0.4030789168087623,
+        "adjR2": 0.3916363401341699,
+        "intercept": 4.264604140895025,
+        "coefs": {
+          "volatile acidity": -0.9750333800157531,
+          "chlorides": -1.9281425505175656,
+          "total sulfur dioxide": -0.002584034981357508,
+          "pH": -0.4235674170446934,
+          "sulphates": 0.8373715275536037,
+          "alcohol": 0.2896650729443442
+        },
+        "isBest": false,
+        "tag": "6 FEAT"
+      },
+      {
+        "id": "RFECV",
+        "name": "RFECV",
+        "features": [
+          "volatile acidity",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 7,
+        "cvRmse": 0.6586531211915245,
+        "mae": 0.5042888908468803,
+        "rmse": 0.6255223527813317,
+        "r2": 0.4012628835442984,
+        "adjR2": 0.3878296790084332,
+        "intercept": 4.425266849694866,
+        "coefs": {
+          "volatile acidity": -0.9476664518150136,
+          "chlorides": -1.9520135529218496,
+          "free sulfur dioxide": 0.006114794100102176,
+          "total sulfur dioxide": -0.003901984991496521,
+          "pH": -0.47945971945770327,
+          "sulphates": 0.8280506914178013,
+          "alcohol": 0.28799388798707365
+        },
+        "isBest": false,
+        "tag": "7 FEAT"
+      },
+      {
+        "id": "LassoCV",
+        "name": "LassoCV",
+        "features": [
+          "fixed acidity",
+          "volatile acidity",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 8,
+        "cvRmse": 0.6595769300848573,
+        "mae": 0.504342018406435,
+        "rmse": 0.6258946255310328,
+        "r2": 0.400550007855648,
+        "adjR2": 0.3851300723664042,
+        "intercept": 4.24912818995389,
+        "coefs": {
+          "fixed acidity": 0.00513420012335233,
+          "volatile acidity": -0.9450367135780529,
+          "chlorides": -1.9328619969340826,
+          "free sulfur dioxide": 0.006129827941716459,
+          "total sulfur dioxide": -0.0038649376198220953,
+          "pH": -0.43959617404142026,
+          "sulphates": 0.8250591657301962,
+          "alcohol": 0.2878314009479524
+        },
+        "isBest": false,
+        "tag": "8 FEAT"
+      },
+      {
+        "id": "ElasticNetCV",
+        "name": "ElasticNetCV",
+        "features": [
+          "fixed acidity",
+          "volatile acidity",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 8,
+        "cvRmse": 0.6595769300848573,
+        "mae": 0.504342018406435,
+        "rmse": 0.6258946255310328,
+        "r2": 0.400550007855648,
+        "adjR2": 0.3851300723664042,
+        "intercept": 4.24912818995389,
+        "coefs": {
+          "fixed acidity": 0.00513420012335233,
+          "volatile acidity": -0.9450367135780529,
+          "chlorides": -1.9328619969340826,
+          "free sulfur dioxide": 0.006129827941716459,
+          "total sulfur dioxide": -0.0038649376198220953,
+          "pH": -0.43959617404142026,
+          "sulphates": 0.8250591657301962,
+          "alcohol": 0.2878314009479524
+        },
+        "isBest": false,
+        "tag": "8 FEAT"
+      },
+      {
+        "id": "Baseline_OLS",
+        "name": "Baseline OLS",
+        "features": [
+          "fixed acidity",
+          "volatile acidity",
+          "citric acid",
+          "residual sugar",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 11,
+        "cvRmse": 0.6617862488269394,
+        "mae": 0.5035304415524376,
+        "rmse": 0.6245199307980126,
+        "r2": 0.4031803412796227,
+        "adjR2": 0.3818653534681807,
+        "intercept": 14.355105195761599,
+        "coefs": {
+          "fixed acidity": 0.02308533390927699,
+          "volatile acidity": -1.001304434067819,
+          "citric acid": -0.14082146122413172,
+          "residual sugar": 0.006564311041477068,
+          "chlorides": -1.8065031490473689,
+          "free sulfur dioxide": 0.005627334387083072,
+          "total sulfur dioxide": -0.003644448933868838,
+          "density": -10.351593588830037,
+          "pH": -0.39368773233986604,
+          "sulphates": 0.8411716226093193,
+          "alcohol": 0.2818895674091905
+        },
+        "isBest": false,
+        "tag": "11 FEAT"
+      }
+    ],
+    "outliers": [
+      {
+        "rank": 1,
+        "id": 832,
+        "actual": 3.0,
+        "pred": 5.605749639153122,
+        "res": -2.605749639153122,
+        "abs_res": 2.605749639153122,
+        "alcohol": 9.9,
+        "volatile_acidity": 0.44,
+        "density": 0.99832
+      },
+      {
+        "rank": 2,
+        "id": 652,
+        "actual": 5.0,
+        "pred": 7.342026769564805,
+        "res": -2.3420267695648054,
+        "abs_res": 2.3420267695648054,
+        "alcohol": 14.9,
+        "volatile_acidity": 0.36,
+        "density": 0.9976
+      },
+      {
+        "rank": 3,
+        "id": 1276,
+        "actual": 4.0,
+        "pred": 6.314964529615369,
+        "res": -2.314964529615369,
+        "abs_res": 2.314964529615369,
+        "alcohol": 12.0,
+        "volatile_acidity": 0.4,
+        "density": 0.99566
+      },
+      {
+        "rank": 4,
+        "id": 1505,
+        "actual": 3.0,
+        "pred": 5.229233194660752,
+        "res": -2.229233194660752,
+        "abs_res": 2.229233194660752,
+        "alcohol": 9.95,
+        "volatile_acidity": 0.76,
+        "density": 0.996
+      },
+      {
+        "rank": 5,
+        "id": 899,
+        "actual": 3.0,
+        "pred": 5.160916129414251,
+        "res": -2.160916129414251,
+        "abs_res": 2.160916129414251,
+        "alcohol": 11.0,
+        "volatile_acidity": 1.02,
+        "density": 0.99892
+      },
+      {
+        "rank": 6,
+        "id": 459,
+        "actual": 3.0,
+        "pred": 5.142186811692978,
+        "res": -2.1421868116929783,
+        "abs_res": 2.1421868116929783,
+        "alcohol": 9.0,
+        "volatile_acidity": 0.58,
+        "density": 1.0008
+      },
+      {
+        "rank": 7,
+        "id": 1478,
+        "actual": 3.0,
+        "pred": 5.1372785178341305,
+        "res": -2.1372785178341305,
+        "abs_res": 2.1372785178341305,
+        "alcohol": 10.2,
+        "volatile_acidity": 0.875,
+        "density": 0.99808
+      },
+      {
+        "rank": 8,
+        "id": 45,
+        "actual": 4.0,
+        "pred": 6.101832676682605,
+        "res": -2.101832676682605,
+        "abs_res": 2.101832676682605,
+        "alcohol": 13.1,
+        "volatile_acidity": 0.52,
+        "density": 0.9934
+      },
+      {
+        "rank": 9,
+        "id": 813,
+        "actual": 4.0,
+        "pred": 6.002084139173711,
+        "res": -2.0020841391737108,
+        "abs_res": 2.0020841391737108,
+        "alcohol": 11.4,
+        "volatile_acidity": 0.39,
+        "density": 0.99462
+      },
+      {
+        "rank": 10,
+        "id": 1235,
+        "actual": 4.0,
+        "pred": 5.981259168221998,
+        "res": -1.9812591682219975,
+        "abs_res": 1.9812591682219975,
+        "alcohol": 11.5,
+        "volatile_acidity": 0.33,
+        "density": 0.99572
+      }
+    ],
+    "progressions": {
+      "LassoCV": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.6606511770470889,
+          "r2": 0.2375724715126017,
+          "intercept": 1.846049105828241,
+          "coefs": {
+            "alcohol": 0.36494637138373665
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "alcohol",
+            "volatile acidity"
+          ],
+          "rmse": 0.6433994337100989,
+          "r2": 0.2768714785915397,
+          "intercept": 3.073618514805075,
+          "coefs": {
+            "alcohol": 0.3207394044491698,
+            "volatile acidity": -1.4475438918913774
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates"
+          ],
+          "rmse": 0.6333283464592145,
+          "r2": 0.2993324641844879,
+          "intercept": 2.6207699434751492,
+          "coefs": {
+            "alcohol": 0.31489888510560515,
+            "volatile acidity": -1.2931742858914639,
+            "sulphates": 0.6552429478366983
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides"
+          ],
+          "rmse": 0.6316064514370808,
+          "r2": 0.3031372389545067,
+          "intercept": 2.793907001642298,
+          "coefs": {
+            "alcohol": 0.2974349590168255,
+            "volatile acidity": -1.2395032967402906,
+            "sulphates": 0.8516799251451405,
+            "chlorides": -1.7142420907075526
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide"
+          ],
+          "rmse": 0.6259157889490532,
+          "r2": 0.3156378903919262,
+          "intercept": 3.0105263238850326,
+          "coefs": {
+            "alcohol": 0.2826893509453827,
+            "volatile acidity": -1.2104641589159708,
+            "sulphates": 0.894918407846776,
+            "chlorides": -1.765529501107151,
+            "total sulfur dioxide": -0.002175219705751852
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH"
+          ],
+          "rmse": 0.6206983401233143,
+          "r2": 0.3269996183244599,
+          "intercept": 4.1834061990517135,
+          "coefs": {
+            "alcohol": 0.2946736093547016,
+            "volatile acidity": -1.1137405975543926,
+            "sulphates": 0.8708241573137835,
+            "chlorides": -2.0201320804258387,
+            "total sulfur dioxide": -0.002241151800218555,
+            "pH": -0.39512762327067097
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar"
+          ],
+          "rmse": 0.6219766245348741,
+          "r2": 0.3242247704144952,
+          "intercept": 4.127509369225173,
+          "coefs": {
+            "alcohol": 0.29219084298217496,
+            "volatile acidity": -1.1160128705981087,
+            "sulphates": 0.8777273739627106,
+            "chlorides": -2.059211674052232,
+            "total sulfur dioxide": -0.002401777006473038,
+            "pH": -0.38061500431405265,
+            "residual sugar": 0.016192135112839186
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity"
+          ],
+          "rmse": 0.621987251755179,
+          "r2": 0.3242016773485781,
+          "intercept": 4.118969244871213,
+          "coefs": {
+            "alcohol": 0.2921915159374737,
+            "volatile acidity": -1.115863591285682,
+            "sulphates": 0.877542937820949,
+            "chlorides": -2.058210793816897,
+            "total sulfur dioxide": -0.0023993993263027313,
+            "pH": -0.37869322036098835,
+            "residual sugar": 0.016161853897720242,
+            "fixed acidity": 0.00025103486594871445
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity",
+            "free sulfur dioxide"
+          ],
+          "rmse": 0.6190117305858833,
+          "r2": 0.3306521065414525,
+          "intercept": 4.195451199119158,
+          "coefs": {
+            "alcohol": 0.29208778910694727,
+            "volatile acidity": -1.0982376691239628,
+            "sulphates": 0.875067723529539,
+            "chlorides": -2.074573694044807,
+            "total sulfur dioxide": -0.0031059473603389787,
+            "pH": -0.40968869817324494,
+            "residual sugar": 0.013805579450741963,
+            "fixed acidity": 0.0008746503049339039,
+            "free sulfur dioxide": 0.003430871178222744
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "density"
+          ],
+          "rmse": 0.6204468942188227,
+          "r2": 0.3275447749729072,
+          "intercept": 35.15776902706608,
+          "coefs": {
+            "alcohol": 0.2631049208568707,
+            "volatile acidity": -1.074792374171522,
+            "sulphates": 0.9189545187927598,
+            "chlorides": -2.0126541222371617,
+            "total sulfur dioxide": -0.003006322803128514,
+            "pH": -0.2502327003383272,
+            "residual sugar": 0.026855720436176213,
+            "fixed acidity": 0.030462735090668797,
+            "free sulfur dioxide": 0.0031177044450469427,
+            "density": -31.617200530227393
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "density",
+            "citric acid"
+          ],
+          "rmse": 0.620057414938428,
+          "r2": 0.3283887639580194,
+          "intercept": 34.99871062872098,
+          "coefs": {
+            "alcohol": 0.26779741669968204,
+            "volatile acidity": -1.1495280168528628,
+            "sulphates": 0.9240401058970932,
+            "chlorides": -1.873407393710632,
+            "total sulfur dioxide": -0.0027774837020353438,
+            "pH": -0.25448605130405716,
+            "residual sugar": 0.027870003574608296,
+            "fixed acidity": 0.041283507494032895,
+            "free sulfur dioxide": 0.0026836261633733094,
+            "density": -31.51666572502725,
+            "citric acid": -0.17792706333256283
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "Forward_SFS": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.6606511770470889,
+          "r2": 0.2375724715126017,
+          "intercept": 1.846049105828241,
+          "coefs": {
+            "alcohol": 0.36494637138373665
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "volatile acidity",
+            "alcohol"
+          ],
+          "rmse": 0.6433994337100989,
+          "r2": 0.2768714785915397,
+          "intercept": 3.0736185148050748,
+          "coefs": {
+            "volatile acidity": -1.447543891891378,
+            "alcohol": 0.3207394044491699
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "volatile acidity",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6333283464592145,
+          "r2": 0.2993324641844879,
+          "intercept": 2.6207699434751452,
+          "coefs": {
+            "volatile acidity": -1.2931742858914645,
+            "sulphates": 0.6552429478366979,
+            "alcohol": 0.3148988851056056
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6316064514370809,
+          "r2": 0.3031372389545065,
+          "intercept": 2.7939070016422973,
+          "coefs": {
+            "volatile acidity": -1.2395032967402941,
+            "chlorides": -1.7142420907075542,
+            "sulphates": 0.8516799251451416,
+            "alcohol": 0.2974349590168257
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "total sulfur dioxide",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.625915788949053,
+          "r2": 0.3156378903919266,
+          "intercept": 3.01052632388509,
+          "coefs": {
+            "volatile acidity": -1.2104641589159773,
+            "chlorides": -1.7655295011071723,
+            "total sulfur dioxide": -0.002175219705752074,
+            "sulphates": 0.8949184078467785,
+            "alcohol": 0.2826893509453786
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6206983401233142,
+          "r2": 0.3269996183244601,
+          "intercept": 4.1834061990516975,
+          "coefs": {
+            "volatile acidity": -1.1137405975543853,
+            "chlorides": -2.0201320804258276,
+            "total sulfur dioxide": -0.0022411518002178887,
+            "pH": -0.395127623270669,
+            "sulphates": 0.8708241573137839,
+            "alcohol": 0.294673609354699
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.617792764301597,
+          "r2": 0.3332856888188835,
+          "intercept": 4.28117566689855,
+          "coefs": {
+            "volatile acidity": -1.095307357339715,
+            "chlorides": -2.0466413219588997,
+            "free sulfur dioxide": 0.0037344045758301303,
+            "total sulfur dioxide": -0.0030412679847233726,
+            "pH": -0.43183640478308777,
+            "sulphates": 0.8696871855673348,
+            "alcohol": 0.29417818541579455
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6189769588944662,
+          "r2": 0.3307273028699156,
+          "intercept": 4.225093685826158,
+          "coefs": {
+            "volatile acidity": -1.0987777130316396,
+            "residual sugar": 0.013913719027076738,
+            "chlorides": -2.0780391702678824,
+            "free sulfur dioxide": 0.003426908820341214,
+            "total sulfur dioxide": -0.0031134087995466665,
+            "pH": -0.4163432259749099,
+            "sulphates": 0.8757126614936778,
+            "alcohol": 0.2920855661366974
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6184045265145922,
+          "r2": 0.3319646226276582,
+          "intercept": 4.432593178495868,
+          "coefs": {
+            "volatile acidity": -1.153385586543607,
+            "citric acid": -0.11936333887005554,
+            "residual sugar": 0.015527303956445495,
+            "chlorides": -2.0135045087263572,
+            "free sulfur dioxide": 0.0031018654290213394,
+            "total sulfur dioxide": -0.0030221430887351908,
+            "pH": -0.4745660239313743,
+            "sulphates": 0.8846171849410998,
+            "alcohol": 0.2951531176363716
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6185575419413595,
+          "r2": 0.3316339899741426,
+          "intercept": 9.126848229263956,
+          "coefs": {
+            "volatile acidity": -1.1425284208414779,
+            "citric acid": -0.0973066716933866,
+            "residual sugar": 0.017702893501732743,
+            "chlorides": -2.0336188692887722,
+            "free sulfur dioxide": 0.0030957174910336963,
+            "total sulfur dioxide": -0.0030616282649190765,
+            "density": -4.681092963327166,
+            "pH": -0.4735280627443261,
+            "sulphates": 0.8926995864312033,
+            "alcohol": 0.29028407732585887
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6200574149384274,
+          "r2": 0.3283887639580209,
+          "intercept": 34.998710628720914,
+          "coefs": {
+            "fixed acidity": 0.04128350749403165,
+            "volatile acidity": -1.1495280168528441,
+            "citric acid": -0.17792706333253744,
+            "residual sugar": 0.027870003574605166,
+            "chlorides": -1.8734073937107887,
+            "free sulfur dioxide": 0.00268362616337392,
+            "total sulfur dioxide": -0.002777483702035566,
+            "density": -31.51666572502717,
+            "pH": -0.254486051304075,
+            "sulphates": 0.9240401058971084,
+            "alcohol": 0.2677974166996867
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "RFECV": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.6606511770470889,
+          "r2": 0.2375724715126017,
+          "intercept": 1.846049105828241,
+          "coefs": {
+            "alcohol": 0.36494637138373665
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "volatile acidity",
+            "alcohol"
+          ],
+          "rmse": 0.6433994337100989,
+          "r2": 0.2768714785915397,
+          "intercept": 3.0736185148050748,
+          "coefs": {
+            "volatile acidity": -1.447543891891378,
+            "alcohol": 0.3207394044491699
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "volatile acidity",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6333283464592145,
+          "r2": 0.2993324641844879,
+          "intercept": 2.6207699434751452,
+          "coefs": {
+            "volatile acidity": -1.2931742858914645,
+            "sulphates": 0.6552429478366979,
+            "alcohol": 0.3148988851056056
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6316064514370809,
+          "r2": 0.3031372389545065,
+          "intercept": 2.7939070016422973,
+          "coefs": {
+            "volatile acidity": -1.2395032967402941,
+            "chlorides": -1.7142420907075542,
+            "sulphates": 0.8516799251451416,
+            "alcohol": 0.2974349590168257
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "total sulfur dioxide",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.625915788949053,
+          "r2": 0.3156378903919266,
+          "intercept": 3.01052632388509,
+          "coefs": {
+            "volatile acidity": -1.2104641589159773,
+            "chlorides": -1.7655295011071723,
+            "total sulfur dioxide": -0.002175219705752074,
+            "sulphates": 0.8949184078467785,
+            "alcohol": 0.2826893509453786
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "chlorides",
+            "total sulfur dioxide",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6246346560991285,
+          "r2": 0.3184365464236124,
+          "intercept": 2.7373454630331153,
+          "coefs": {
+            "fixed acidity": 0.02398202619940002,
+            "volatile acidity": -1.1510324944437658,
+            "chlorides": -1.7968644909674556,
+            "total sulfur dioxide": -0.002007837995501971,
+            "sulphates": 0.867178726504378,
+            "alcohol": 0.2879571116927365
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "chlorides",
+            "total sulfur dioxide",
+            "density",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6235625739248083,
+          "r2": 0.3207741207674419,
+          "intercept": 26.412316483374653,
+          "coefs": {
+            "fixed acidity": 0.04093323922809892,
+            "volatile acidity": -1.1173494762447842,
+            "chlorides": -1.79150659470426,
+            "total sulfur dioxide": -0.0019410960806511834,
+            "density": -23.74424630492745,
+            "sulphates": 0.8953566802769483,
+            "alcohol": 0.2698008521743053
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "chlorides",
+            "total sulfur dioxide",
+            "density",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6251893921615393,
+          "r2": 0.3172254201688389,
+          "intercept": 50.5727588267887,
+          "coefs": {
+            "fixed acidity": 0.0532458491475923,
+            "volatile acidity": -1.0925272132679669,
+            "residual sugar": 0.035351533638268186,
+            "chlorides": -1.885293927445641,
+            "total sulfur dioxide": -0.002263696853216146,
+            "density": -47.94672117643343,
+            "sulphates": 0.9429616129344767,
+            "alcohol": 0.24574395007180896
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "total sulfur dioxide",
+            "density",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6244676388818332,
+          "r2": 0.3188009758121676,
+          "intercept": 50.622149836608976,
+          "coefs": {
+            "fixed acidity": 0.06621107463558737,
+            "volatile acidity": -1.1748155890547747,
+            "citric acid": -0.20039462091437432,
+            "residual sugar": 0.03624478469171439,
+            "chlorides": -1.7257311831395685,
+            "total sulfur dioxide": -0.002101715058158149,
+            "density": -48.085065152977606,
+            "sulphates": 0.9486394083036273,
+            "alcohol": 0.2506435873909968
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6224085478571894,
+          "r2": 0.3232858784435485,
+          "intercept": 37.48862019696949,
+          "coefs": {
+            "fixed acidity": 0.045090887550902174,
+            "volatile acidity": -1.173408320490134,
+            "citric acid": -0.20780753537229718,
+            "residual sugar": 0.030900471502069045,
+            "chlorides": -1.8325475038632772,
+            "total sulfur dioxide": -0.002198483175166688,
+            "density": -34.128469868376214,
+            "pH": -0.21859215673844218,
+            "sulphates": 0.9304076919643669,
+            "alcohol": 0.2662539361764328
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6200574149384274,
+          "r2": 0.3283887639580209,
+          "intercept": 34.998710628720914,
+          "coefs": {
+            "fixed acidity": 0.04128350749403165,
+            "volatile acidity": -1.1495280168528441,
+            "citric acid": -0.17792706333253744,
+            "residual sugar": 0.027870003574605166,
+            "chlorides": -1.8734073937107887,
+            "free sulfur dioxide": 0.00268362616337392,
+            "total sulfur dioxide": -0.002777483702035566,
+            "density": -31.51666572502717,
+            "pH": -0.254486051304075,
+            "sulphates": 0.9240401058971084,
+            "alcohol": 0.2677974166996867
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        }
+      ],
+      "ElasticNetCV": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.6606511770470889,
+          "r2": 0.2375724715126017,
+          "intercept": 1.846049105828241,
+          "coefs": {
+            "alcohol": 0.36494637138373665
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "alcohol",
+            "volatile acidity"
+          ],
+          "rmse": 0.6433994337100989,
+          "r2": 0.2768714785915397,
+          "intercept": 3.073618514805075,
+          "coefs": {
+            "alcohol": 0.3207394044491698,
+            "volatile acidity": -1.4475438918913774
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates"
+          ],
+          "rmse": 0.6333283464592145,
+          "r2": 0.2993324641844879,
+          "intercept": 2.6207699434751492,
+          "coefs": {
+            "alcohol": 0.31489888510560515,
+            "volatile acidity": -1.2931742858914639,
+            "sulphates": 0.6552429478366983
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides"
+          ],
+          "rmse": 0.6316064514370808,
+          "r2": 0.3031372389545067,
+          "intercept": 2.793907001642298,
+          "coefs": {
+            "alcohol": 0.2974349590168255,
+            "volatile acidity": -1.2395032967402906,
+            "sulphates": 0.8516799251451405,
+            "chlorides": -1.7142420907075526
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide"
+          ],
+          "rmse": 0.6259157889490532,
+          "r2": 0.3156378903919262,
+          "intercept": 3.0105263238850326,
+          "coefs": {
+            "alcohol": 0.2826893509453827,
+            "volatile acidity": -1.2104641589159708,
+            "sulphates": 0.894918407846776,
+            "chlorides": -1.765529501107151,
+            "total sulfur dioxide": -0.002175219705751852
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH"
+          ],
+          "rmse": 0.6206983401233143,
+          "r2": 0.3269996183244599,
+          "intercept": 4.1834061990517135,
+          "coefs": {
+            "alcohol": 0.2946736093547016,
+            "volatile acidity": -1.1137405975543926,
+            "sulphates": 0.8708241573137835,
+            "chlorides": -2.0201320804258387,
+            "total sulfur dioxide": -0.002241151800218555,
+            "pH": -0.39512762327067097
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar"
+          ],
+          "rmse": 0.6219766245348741,
+          "r2": 0.3242247704144952,
+          "intercept": 4.127509369225173,
+          "coefs": {
+            "alcohol": 0.29219084298217496,
+            "volatile acidity": -1.1160128705981087,
+            "sulphates": 0.8777273739627106,
+            "chlorides": -2.059211674052232,
+            "total sulfur dioxide": -0.002401777006473038,
+            "pH": -0.38061500431405265,
+            "residual sugar": 0.016192135112839186
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity"
+          ],
+          "rmse": 0.621987251755179,
+          "r2": 0.3242016773485781,
+          "intercept": 4.118969244871213,
+          "coefs": {
+            "alcohol": 0.2921915159374737,
+            "volatile acidity": -1.115863591285682,
+            "sulphates": 0.877542937820949,
+            "chlorides": -2.058210793816897,
+            "total sulfur dioxide": -0.0023993993263027313,
+            "pH": -0.37869322036098835,
+            "residual sugar": 0.016161853897720242,
+            "fixed acidity": 0.00025103486594871445
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity",
+            "free sulfur dioxide"
+          ],
+          "rmse": 0.6190117305858833,
+          "r2": 0.3306521065414525,
+          "intercept": 4.195451199119158,
+          "coefs": {
+            "alcohol": 0.29208778910694727,
+            "volatile acidity": -1.0982376691239628,
+            "sulphates": 0.875067723529539,
+            "chlorides": -2.074573694044807,
+            "total sulfur dioxide": -0.0031059473603389787,
+            "pH": -0.40968869817324494,
+            "residual sugar": 0.013805579450741963,
+            "fixed acidity": 0.0008746503049339039,
+            "free sulfur dioxide": 0.003430871178222744
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "density"
+          ],
+          "rmse": 0.6204468942188227,
+          "r2": 0.3275447749729072,
+          "intercept": 35.15776902706608,
+          "coefs": {
+            "alcohol": 0.2631049208568707,
+            "volatile acidity": -1.074792374171522,
+            "sulphates": 0.9189545187927598,
+            "chlorides": -2.0126541222371617,
+            "total sulfur dioxide": -0.003006322803128514,
+            "pH": -0.2502327003383272,
+            "residual sugar": 0.026855720436176213,
+            "fixed acidity": 0.030462735090668797,
+            "free sulfur dioxide": 0.0031177044450469427,
+            "density": -31.617200530227393
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "alcohol",
+            "volatile acidity",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "residual sugar",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "density",
+            "citric acid"
+          ],
+          "rmse": 0.620057414938428,
+          "r2": 0.3283887639580194,
+          "intercept": 34.99871062872098,
+          "coefs": {
+            "alcohol": 0.26779741669968204,
+            "volatile acidity": -1.1495280168528628,
+            "sulphates": 0.9240401058970932,
+            "chlorides": -1.873407393710632,
+            "total sulfur dioxide": -0.0027774837020353438,
+            "pH": -0.25448605130405716,
+            "residual sugar": 0.027870003574608296,
+            "fixed acidity": 0.041283507494032895,
+            "free sulfur dioxide": 0.0026836261633733094,
+            "density": -31.51666572502725,
+            "citric acid": -0.17792706333256283
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "Exhaustive": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.6606511770470889,
+          "r2": 0.2375724715126017,
+          "intercept": 1.846049105828241,
+          "coefs": {
+            "alcohol": 0.36494637138373665
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6417753689241018,
+          "r2": 0.2805175040302782,
+          "intercept": 1.3645712115126267,
+          "coefs": {
+            "sulphates": 0.9799570303999767,
+            "alcohol": 0.34916091761172613
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "volatile acidity",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6333283464592145,
+          "r2": 0.2993324641844879,
+          "intercept": 2.6207699434751452,
+          "coefs": {
+            "volatile acidity": -1.2931742858914645,
+            "sulphates": 0.6552429478366979,
+            "alcohol": 0.3148988851056056
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "volatile acidity",
+            "total sulfur dioxide",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6280204361938125,
+          "r2": 0.3110278056709038,
+          "intercept": 2.825336595201262,
+          "coefs": {
+            "volatile acidity": -1.2666326016570997,
+            "total sulfur dioxide": -0.002104515751471421,
+            "sulphates": 0.6913899416093172,
+            "alcohol": 0.3011380822036721
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "chlorides",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6241084519780653,
+          "r2": 0.3195843867854178,
+          "intercept": 4.442585564224241,
+          "coefs": {
+            "chlorides": -2.7997220918284436,
+            "total sulfur dioxide": -0.002684657039081743,
+            "pH": -0.7786285026416288,
+            "sulphates": 1.1656728699853647,
+            "alcohol": 0.32485132013055745
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6191381953814623,
+          "r2": 0.3303785815425812,
+          "intercept": 4.5975123733768255,
+          "coefs": {
+            "chlorides": -2.8222724356599596,
+            "free sulfur dioxide": 0.00618913435799371,
+            "total sulfur dioxide": -0.003998546869668693,
+            "pH": -0.8289475667628274,
+            "sulphates": 1.1557008274884009,
+            "alcohol": 0.3232024647107275
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "volatile acidity",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.617792764301597,
+          "r2": 0.3332856888188835,
+          "intercept": 4.28117566689855,
+          "coefs": {
+            "volatile acidity": -1.095307357339715,
+            "chlorides": -2.0466413219588997,
+            "free sulfur dioxide": 0.0037344045758301303,
+            "total sulfur dioxide": -0.0030412679847233726,
+            "pH": -0.43183640478308777,
+            "sulphates": 0.8696871855673348,
+            "alcohol": 0.29417818541579455
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6172063261135179,
+          "r2": 0.3345508417427238,
+          "intercept": 4.4549107902645915,
+          "coefs": {
+            "volatile acidity": -1.139313133909062,
+            "citric acid": -0.09690317015623737,
+            "chlorides": -1.9912938393433575,
+            "free sulfur dioxide": 0.003499473838648804,
+            "total sulfur dioxide": -0.00296038342910767,
+            "pH": -0.4805622959701306,
+            "sulphates": 0.8763488845505318,
+            "alcohol": 0.29686554479399463
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6172288688782487,
+          "r2": 0.3345022312955243,
+          "intercept": 0.6955606875024856,
+          "coefs": {
+            "volatile acidity": -1.149580207235592,
+            "citric acid": -0.1170738377394113,
+            "chlorides": -1.9776867396396762,
+            "free sulfur dioxide": 0.0034598086086136326,
+            "total sulfur dioxide": -0.002935708511726018,
+            "density": 3.7463138195733734,
+            "pH": -0.48072059737996947,
+            "sulphates": 0.8708076366237635,
+            "alcohol": 0.30057025276544475
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6175965023435612,
+          "r2": 0.3337092284886243,
+          "intercept": 11.04712176395639,
+          "coefs": {
+            "fixed acidity": 0.020321284694773768,
+            "volatile acidity": -1.1550192192310795,
+            "citric acid": -0.1623464103816177,
+            "chlorides": -1.8830125789991081,
+            "free sulfur dioxide": 0.0033598909024133983,
+            "total sulfur dioxide": -0.002760244261757583,
+            "density": -7.080718595993975,
+            "pH": -0.3749332752372146,
+            "sulphates": 0.8800457279833865,
+            "alcohol": 0.2924093937315159
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.6200574149384274,
+          "r2": 0.3283887639580209,
+          "intercept": 34.998710628720914,
+          "coefs": {
+            "fixed acidity": 0.04128350749403165,
+            "volatile acidity": -1.1495280168528441,
+            "citric acid": -0.17792706333253744,
+            "residual sugar": 0.027870003574605166,
+            "chlorides": -1.8734073937107887,
+            "free sulfur dioxide": 0.00268362616337392,
+            "total sulfur dioxide": -0.002777483702035566,
+            "density": -31.51666572502717,
+            "pH": -0.254486051304075,
+            "sulphates": 0.9240401058971084,
+            "alcohol": 0.2677974166996867
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ]
+    },
+    "test_samples": [
+      {
+        "id": 803,
+        "actual": 6.0,
+        "pred": 5.341003065411032,
+        "res": 0.6589969345889681,
+        "features": {
+          "fixed acidity": 7.7,
+          "volatile acidity": 0.56,
+          "citric acid": 0.08,
+          "residual sugar": 2.5,
+          "chlorides": 0.114,
+          "free sulfur dioxide": 14.0,
+          "total sulfur dioxide": 46.0,
+          "density": 0.9971,
+          "pH": 3.24,
+          "sulphates": 0.66,
+          "alcohol": 9.6
+        }
+      },
+      {
+        "id": 613,
+        "actual": 5.0,
+        "pred": 5.775114705978034,
+        "res": -0.7751147059780337,
+        "features": {
+          "fixed acidity": 8.2,
+          "volatile acidity": 0.39,
+          "citric acid": 0.38,
+          "residual sugar": 1.5,
+          "chlorides": 0.058,
+          "free sulfur dioxide": 10.0,
+          "total sulfur dioxide": 29.0,
+          "density": 0.9962,
+          "pH": 3.26,
+          "sulphates": 0.74,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 30,
+        "actual": 5.0,
+        "pred": 5.181808068434112,
+        "res": -0.1818080684341119,
+        "features": {
+          "fixed acidity": 6.7,
+          "volatile acidity": 0.675,
+          "citric acid": 0.07,
+          "residual sugar": 2.4,
+          "chlorides": 0.089,
+          "free sulfur dioxide": 17.0,
+          "total sulfur dioxide": 82.0,
+          "density": 0.9958,
+          "pH": 3.35,
+          "sulphates": 0.54,
+          "alcohol": 10.1
+        }
+      },
+      {
+        "id": 29,
+        "actual": 6.0,
+        "pred": 5.337364408440839,
+        "res": 0.6626355915591606,
+        "features": {
+          "fixed acidity": 7.8,
+          "volatile acidity": 0.645,
+          "citric acid": 0.0,
+          "residual sugar": 2.0,
+          "chlorides": 0.082,
+          "free sulfur dioxide": 8.0,
+          "total sulfur dioxide": 16.0,
+          "density": 0.9964,
+          "pH": 3.38,
+          "sulphates": 0.59,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 1425,
+        "actual": 6.0,
+        "pred": 5.791238813667897,
+        "res": 0.2087611863321026,
+        "features": {
+          "fixed acidity": 8.3,
+          "volatile acidity": 0.26,
+          "citric acid": 0.37,
+          "residual sugar": 1.4,
+          "chlorides": 0.076,
+          "free sulfur dioxide": 8.0,
+          "total sulfur dioxide": 23.0,
+          "density": 0.9974,
+          "pH": 3.26,
+          "sulphates": 0.7,
+          "alcohol": 9.6
+        }
+      },
+      {
+        "id": 394,
+        "actual": 5.0,
+        "pred": 5.555086976878169,
+        "res": -0.5550869768781688,
+        "features": {
+          "fixed acidity": 12.7,
+          "volatile acidity": 0.6,
+          "citric acid": 0.65,
+          "residual sugar": 2.3,
+          "chlorides": 0.063,
+          "free sulfur dioxide": 6.0,
+          "total sulfur dioxide": 25.0,
+          "density": 0.9997,
+          "pH": 3.03,
+          "sulphates": 0.57,
+          "alcohol": 9.9
+        }
+      },
+      {
+        "id": 422,
+        "actual": 5.0,
+        "pred": 5.185513543270893,
+        "res": -0.18551354327089342,
+        "features": {
+          "fixed acidity": 7.7,
+          "volatile acidity": 0.96,
+          "citric acid": 0.2,
+          "residual sugar": 2.0,
+          "chlorides": 0.047,
+          "free sulfur dioxide": 15.0,
+          "total sulfur dioxide": 60.0,
+          "density": 0.9955,
+          "pH": 3.36,
+          "sulphates": 0.44,
+          "alcohol": 10.9
+        }
+      },
+      {
+        "id": 859,
+        "actual": 6.0,
+        "pred": 6.004650311413975,
+        "res": -0.0046503114139753166,
+        "features": {
+          "fixed acidity": 6.8,
+          "volatile acidity": 0.56,
+          "citric acid": 0.22,
+          "residual sugar": 1.8,
+          "chlorides": 0.074,
+          "free sulfur dioxide": 15.0,
+          "total sulfur dioxide": 24.0,
+          "density": 0.99438,
+          "pH": 3.4,
+          "sulphates": 0.82,
+          "alcohol": 11.2
+        }
+      },
+      {
+        "id": 817,
+        "actual": 6.0,
+        "pred": 6.41910599719556,
+        "res": -0.41910599719555997,
+        "features": {
+          "fixed acidity": 10.8,
+          "volatile acidity": 0.29,
+          "citric acid": 0.42,
+          "residual sugar": 1.6,
+          "chlorides": 0.084,
+          "free sulfur dioxide": 19.0,
+          "total sulfur dioxide": 27.0,
+          "density": 0.99545,
+          "pH": 3.28,
+          "sulphates": 0.73,
+          "alcohol": 11.9
+        }
+      },
+      {
+        "id": 383,
+        "actual": 6.0,
+        "pred": 5.820172612559123,
+        "res": 0.17982738744087712,
+        "features": {
+          "fixed acidity": 8.3,
+          "volatile acidity": 0.26,
+          "citric acid": 0.42,
+          "residual sugar": 2.0,
+          "chlorides": 0.08,
+          "free sulfur dioxide": 11.0,
+          "total sulfur dioxide": 27.0,
+          "density": 0.9974,
+          "pH": 3.21,
+          "sulphates": 0.8,
+          "alcohol": 9.4
+        }
+      },
+      {
+        "id": 781,
+        "actual": 5.0,
+        "pred": 5.333423702399386,
+        "res": -0.33342370239938557,
+        "features": {
+          "fixed acidity": 6.5,
+          "volatile acidity": 0.46,
+          "citric acid": 0.14,
+          "residual sugar": 2.4,
+          "chlorides": 0.114,
+          "free sulfur dioxide": 9.0,
+          "total sulfur dioxide": 37.0,
+          "density": 0.99732,
+          "pH": 3.66,
+          "sulphates": 0.65,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 838,
+        "actual": 7.0,
+        "pred": 6.3122888759446525,
+        "res": 0.6877111240553475,
+        "features": {
+          "fixed acidity": 10.1,
+          "volatile acidity": 0.31,
+          "citric acid": 0.35,
+          "residual sugar": 1.6,
+          "chlorides": 0.075,
+          "free sulfur dioxide": 9.0,
+          "total sulfur dioxide": 28.0,
+          "density": 0.99672,
+          "pH": 3.24,
+          "sulphates": 0.83,
+          "alcohol": 11.2
+        }
+      },
+      {
+        "id": 1310,
+        "actual": 5.0,
+        "pred": 5.186436442748667,
+        "res": -0.18643644274866666,
+        "features": {
+          "fixed acidity": 7.5,
+          "volatile acidity": 0.61,
+          "citric acid": 0.26,
+          "residual sugar": 1.9,
+          "chlorides": 0.073,
+          "free sulfur dioxide": 24.0,
+          "total sulfur dioxide": 88.0,
+          "density": 0.99612,
+          "pH": 3.3,
+          "sulphates": 0.53,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 1542,
+        "actual": 6.0,
+        "pred": 5.394411261791076,
+        "res": 0.6055887382089242,
+        "features": {
+          "fixed acidity": 6.7,
+          "volatile acidity": 0.855,
+          "citric acid": 0.02,
+          "residual sugar": 1.9,
+          "chlorides": 0.064,
+          "free sulfur dioxide": 29.0,
+          "total sulfur dioxide": 38.0,
+          "density": 0.99472,
+          "pH": 3.3,
+          "sulphates": 0.56,
+          "alcohol": 10.75
+        }
+      },
+      {
+        "id": 926,
+        "actual": 6.0,
+        "pred": 5.962784062156042,
+        "res": 0.037215937843957825,
+        "features": {
+          "fixed acidity": 9.4,
+          "volatile acidity": 0.24,
+          "citric acid": 0.33,
+          "residual sugar": 2.3,
+          "chlorides": 0.061,
+          "free sulfur dioxide": 52.0,
+          "total sulfur dioxide": 73.0,
+          "density": 0.99786,
+          "pH": 3.47,
+          "sulphates": 0.9,
+          "alcohol": 10.2
+        }
+      },
+      {
+        "id": 1168,
+        "actual": 6.0,
+        "pred": 6.275467223673944,
+        "res": -0.27546722367394416,
+        "features": {
+          "fixed acidity": 6.5,
+          "volatile acidity": 0.34,
+          "citric acid": 0.27,
+          "residual sugar": 2.8,
+          "chlorides": 0.067,
+          "free sulfur dioxide": 8.0,
+          "total sulfur dioxide": 44.0,
+          "density": 0.99384,
+          "pH": 3.21,
+          "sulphates": 0.56,
+          "alcohol": 12.0
+        }
+      },
+      {
+        "id": 76,
+        "actual": 5.0,
+        "pred": 5.6717135464361945,
+        "res": -0.6717135464361945,
+        "features": {
+          "fixed acidity": 8.8,
+          "volatile acidity": 0.41,
+          "citric acid": 0.64,
+          "residual sugar": 2.2,
+          "chlorides": 0.093,
+          "free sulfur dioxide": 9.0,
+          "total sulfur dioxide": 42.0,
+          "density": 0.9986,
+          "pH": 3.54,
+          "sulphates": 0.66,
+          "alcohol": 10.5
+        }
+      },
+      {
+        "id": 818,
+        "actual": 5.0,
+        "pred": 5.0152395799721265,
+        "res": -0.015239579972126549,
+        "features": {
+          "fixed acidity": 7.1,
+          "volatile acidity": 0.715,
+          "citric acid": 0.0,
+          "residual sugar": 2.35,
+          "chlorides": 0.071,
+          "free sulfur dioxide": 21.0,
+          "total sulfur dioxide": 47.0,
+          "density": 0.99632,
+          "pH": 3.29,
+          "sulphates": 0.45,
+          "alcohol": 9.4
+        }
+      },
+      {
+        "id": 482,
+        "actual": 5.0,
+        "pred": 5.8884486685385,
+        "res": -0.8884486685384996,
+        "features": {
+          "fixed acidity": 10.6,
+          "volatile acidity": 0.36,
+          "citric acid": 0.59,
+          "residual sugar": 2.2,
+          "chlorides": 0.152,
+          "free sulfur dioxide": 6.0,
+          "total sulfur dioxide": 18.0,
+          "density": 0.9986,
+          "pH": 3.04,
+          "sulphates": 1.05,
+          "alcohol": 9.4
+        }
+      },
+      {
+        "id": 764,
+        "actual": 6.0,
+        "pred": 5.1189310288142655,
+        "res": 0.8810689711857345,
+        "features": {
+          "fixed acidity": 9.1,
+          "volatile acidity": 0.68,
+          "citric acid": 0.11,
+          "residual sugar": 2.8,
+          "chlorides": 0.093,
+          "free sulfur dioxide": 11.0,
+          "total sulfur dioxide": 44.0,
+          "density": 0.99888,
+          "pH": 3.31,
+          "sulphates": 0.55,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 1125,
+        "actual": 7.0,
+        "pred": 6.292042180923503,
+        "res": 0.7079578190764968,
+        "features": {
+          "fixed acidity": 8.8,
+          "volatile acidity": 0.24,
+          "citric acid": 0.35,
+          "residual sugar": 1.7,
+          "chlorides": 0.055,
+          "free sulfur dioxide": 13.0,
+          "total sulfur dioxide": 27.0,
+          "density": 0.99394,
+          "pH": 3.14,
+          "sulphates": 0.59,
+          "alcohol": 11.3
+        }
+      },
+      {
+        "id": 1436,
+        "actual": 5.0,
+        "pred": 5.007879466375378,
+        "res": -0.007879466375378286,
+        "features": {
+          "fixed acidity": 10.0,
+          "volatile acidity": 0.38,
+          "citric acid": 0.38,
+          "residual sugar": 1.6,
+          "chlorides": 0.169,
+          "free sulfur dioxide": 27.0,
+          "total sulfur dioxide": 90.0,
+          "density": 0.99914,
+          "pH": 3.15,
+          "sulphates": 0.65,
+          "alcohol": 8.5
+        }
+      },
+      {
+        "id": 575,
+        "actual": 6.0,
+        "pred": 5.999221489189613,
+        "res": 0.0007785108103872673,
+        "features": {
+          "fixed acidity": 12.3,
+          "volatile acidity": 0.27,
+          "citric acid": 0.49,
+          "residual sugar": 3.1,
+          "chlorides": 0.079,
+          "free sulfur dioxide": 28.0,
+          "total sulfur dioxide": 46.0,
+          "density": 0.9993,
+          "pH": 3.2,
+          "sulphates": 0.8,
+          "alcohol": 10.2
+        }
+      },
+      {
+        "id": 44,
+        "actual": 5.0,
+        "pred": 5.19973703994727,
+        "res": -0.1997370399472702,
+        "features": {
+          "fixed acidity": 6.8,
+          "volatile acidity": 0.67,
+          "citric acid": 0.02,
+          "residual sugar": 1.8,
+          "chlorides": 0.05,
+          "free sulfur dioxide": 5.0,
+          "total sulfur dioxide": 11.0,
+          "density": 0.9962,
+          "pH": 3.48,
+          "sulphates": 0.52,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 607,
+        "actual": 6.0,
+        "pred": 5.568111209910345,
+        "res": 0.43188879008965486,
+        "features": {
+          "fixed acidity": 8.8,
+          "volatile acidity": 0.48,
+          "citric acid": 0.41,
+          "residual sugar": 3.3,
+          "chlorides": 0.092,
+          "free sulfur dioxide": 26.0,
+          "total sulfur dioxide": 52.0,
+          "density": 0.9982,
+          "pH": 3.31,
+          "sulphates": 0.53,
+          "alcohol": 10.5
+        }
+      },
+      {
+        "id": 727,
+        "actual": 5.0,
+        "pred": 5.4069127473395175,
+        "res": -0.40691274733951754,
+        "features": {
+          "fixed acidity": 6.4,
+          "volatile acidity": 0.57,
+          "citric acid": 0.02,
+          "residual sugar": 1.8,
+          "chlorides": 0.067,
+          "free sulfur dioxide": 4.0,
+          "total sulfur dioxide": 11.0,
+          "density": 0.997,
+          "pH": 3.46,
+          "sulphates": 0.68,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 371,
+        "actual": 6.0,
+        "pred": 5.70037481132737,
+        "res": 0.2996251886726302,
+        "features": {
+          "fixed acidity": 7.9,
+          "volatile acidity": 0.24,
+          "citric acid": 0.4,
+          "residual sugar": 1.6,
+          "chlorides": 0.056,
+          "free sulfur dioxide": 11.0,
+          "total sulfur dioxide": 25.0,
+          "density": 0.9967,
+          "pH": 3.32,
+          "sulphates": 0.87,
+          "alcohol": 8.7
+        }
+      },
+      {
+        "id": 324,
+        "actual": 6.0,
+        "pred": 5.424969901771405,
+        "res": 0.575030098228595,
+        "features": {
+          "fixed acidity": 10.0,
+          "volatile acidity": 0.49,
+          "citric acid": 0.2,
+          "residual sugar": 11.0,
+          "chlorides": 0.071,
+          "free sulfur dioxide": 13.0,
+          "total sulfur dioxide": 50.0,
+          "density": 1.0015,
+          "pH": 3.16,
+          "sulphates": 0.69,
+          "alcohol": 9.2
+        }
+      },
+      {
+        "id": 199,
+        "actual": 4.0,
+        "pred": 5.179625931260899,
+        "res": -1.1796259312608992,
+        "features": {
+          "fixed acidity": 6.9,
+          "volatile acidity": 1.09,
+          "citric acid": 0.06,
+          "residual sugar": 2.1,
+          "chlorides": 0.061,
+          "free sulfur dioxide": 12.0,
+          "total sulfur dioxide": 31.0,
+          "density": 0.9948,
+          "pH": 3.51,
+          "sulphates": 0.43,
+          "alcohol": 11.4
+        }
+      },
+      {
+        "id": 1023,
+        "actual": 6.0,
+        "pred": 6.378748458140813,
+        "res": -0.37874845814081315,
+        "features": {
+          "fixed acidity": 8.2,
+          "volatile acidity": 0.32,
+          "citric acid": 0.42,
+          "residual sugar": 2.3,
+          "chlorides": 0.098,
+          "free sulfur dioxide": 3.0,
+          "total sulfur dioxide": 9.0,
+          "density": 0.99506,
+          "pH": 3.27,
+          "sulphates": 0.55,
+          "alcohol": 12.3
+        }
+      },
+      {
+        "id": 56,
+        "actual": 5.0,
+        "pred": 5.71496360774721,
+        "res": -0.7149636077472099,
+        "features": {
+          "fixed acidity": 10.2,
+          "volatile acidity": 0.42,
+          "citric acid": 0.57,
+          "residual sugar": 3.4,
+          "chlorides": 0.07,
+          "free sulfur dioxide": 4.0,
+          "total sulfur dioxide": 10.0,
+          "density": 0.9971,
+          "pH": 3.04,
+          "sulphates": 0.63,
+          "alcohol": 9.6
+        }
+      },
+      {
+        "id": 432,
+        "actual": 6.0,
+        "pred": 6.672732007259614,
+        "res": -0.6727320072596141,
+        "features": {
+          "fixed acidity": 11.9,
+          "volatile acidity": 0.37,
+          "citric acid": 0.69,
+          "residual sugar": 2.3,
+          "chlorides": 0.078,
+          "free sulfur dioxide": 12.0,
+          "total sulfur dioxide": 24.0,
+          "density": 0.9958,
+          "pH": 3.0,
+          "sulphates": 0.65,
+          "alcohol": 12.8
+        }
+      },
+      {
+        "id": 1529,
+        "actual": 6.0,
+        "pred": 5.34439440324258,
+        "res": 0.6556055967574199,
+        "features": {
+          "fixed acidity": 7.1,
+          "volatile acidity": 0.69,
+          "citric acid": 0.08,
+          "residual sugar": 2.1,
+          "chlorides": 0.063,
+          "free sulfur dioxide": 42.0,
+          "total sulfur dioxide": 52.0,
+          "density": 0.99608,
+          "pH": 3.42,
+          "sulphates": 0.6,
+          "alcohol": 10.2
+        }
+      },
+      {
+        "id": 128,
+        "actual": 7.0,
+        "pred": 5.885925126172446,
+        "res": 1.1140748738275539,
+        "features": {
+          "fixed acidity": 8.0,
+          "volatile acidity": 0.59,
+          "citric acid": 0.16,
+          "residual sugar": 1.8,
+          "chlorides": 0.065,
+          "free sulfur dioxide": 3.0,
+          "total sulfur dioxide": 16.0,
+          "density": 0.9962,
+          "pH": 3.42,
+          "sulphates": 0.92,
+          "alcohol": 10.5
+        }
+      },
+      {
+        "id": 1421,
+        "actual": 5.0,
+        "pred": 5.3662054972077495,
+        "res": -0.36620549720774953,
+        "features": {
+          "fixed acidity": 7.5,
+          "volatile acidity": 0.4,
+          "citric acid": 0.18,
+          "residual sugar": 1.6,
+          "chlorides": 0.079,
+          "free sulfur dioxide": 24.0,
+          "total sulfur dioxide": 58.0,
+          "density": 0.9965,
+          "pH": 3.34,
+          "sulphates": 0.58,
+          "alcohol": 9.4
+        }
+      },
+      {
+        "id": 1107,
+        "actual": 7.0,
+        "pred": 6.494745292035766,
+        "res": 0.5052547079642338,
+        "features": {
+          "fixed acidity": 9.1,
+          "volatile acidity": 0.3,
+          "citric acid": 0.41,
+          "residual sugar": 2.0,
+          "chlorides": 0.068,
+          "free sulfur dioxide": 10.0,
+          "total sulfur dioxide": 24.0,
+          "density": 0.99523,
+          "pH": 3.27,
+          "sulphates": 0.85,
+          "alcohol": 11.7
+        }
+      },
+      {
+        "id": 266,
+        "actual": 4.0,
+        "pred": 4.990379794901097,
+        "res": -0.9903797949010968,
+        "features": {
+          "fixed acidity": 8.1,
+          "volatile acidity": 0.87,
+          "citric acid": 0.0,
+          "residual sugar": 3.3,
+          "chlorides": 0.096,
+          "free sulfur dioxide": 26.0,
+          "total sulfur dioxide": 61.0,
+          "density": 1.00025,
+          "pH": 3.6,
+          "sulphates": 0.72,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 63,
+        "actual": 5.0,
+        "pred": 5.132363112776835,
+        "res": -0.13236311277683477,
+        "features": {
+          "fixed acidity": 7.0,
+          "volatile acidity": 0.735,
+          "citric acid": 0.05,
+          "residual sugar": 2.0,
+          "chlorides": 0.081,
+          "free sulfur dioxide": 13.0,
+          "total sulfur dioxide": 54.0,
+          "density": 0.9966,
+          "pH": 3.39,
+          "sulphates": 0.57,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 628,
+        "actual": 6.0,
+        "pred": 5.282193845042647,
+        "res": 0.7178061549573531,
+        "features": {
+          "fixed acidity": 8.7,
+          "volatile acidity": 0.54,
+          "citric acid": 0.26,
+          "residual sugar": 2.5,
+          "chlorides": 0.097,
+          "free sulfur dioxide": 7.0,
+          "total sulfur dioxide": 31.0,
+          "density": 0.9976,
+          "pH": 3.27,
+          "sulphates": 0.6,
+          "alcohol": 9.3
+        }
+      },
+      {
+        "id": 1314,
+        "actual": 6.0,
+        "pred": 5.498768379420504,
+        "res": 0.501231620579496,
+        "features": {
+          "fixed acidity": 7.0,
+          "volatile acidity": 0.36,
+          "citric acid": 0.21,
+          "residual sugar": 2.4,
+          "chlorides": 0.086,
+          "free sulfur dioxide": 24.0,
+          "total sulfur dioxide": 69.0,
+          "density": 0.99556,
+          "pH": 3.4,
+          "sulphates": 0.53,
+          "alcohol": 10.1
+        }
+      }
+    ],
+    "feature_stats": {
+      "fixed acidity": {
+        "min": 4.6,
+        "max": 15.9,
+        "mean": 8.32,
+        "median": 7.9
+      },
+      "volatile acidity": {
+        "min": 0.12,
+        "max": 1.58,
+        "mean": 0.528,
+        "median": 0.52
+      },
+      "citric acid": {
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.271,
+        "median": 0.26
+      },
+      "residual sugar": {
+        "min": 0.9,
+        "max": 15.5,
+        "mean": 2.539,
+        "median": 2.2
+      },
+      "chlorides": {
+        "min": 0.012,
+        "max": 0.611,
+        "mean": 0.087,
+        "median": 0.079
+      },
+      "free sulfur dioxide": {
+        "min": 1.0,
+        "max": 72.0,
+        "mean": 15.875,
+        "median": 14.0
+      },
+      "total sulfur dioxide": {
+        "min": 6.0,
+        "max": 289.0,
+        "mean": 46.468,
+        "median": 38.0
+      },
+      "density": {
+        "min": 0.99,
+        "max": 1.004,
+        "mean": 0.997,
+        "median": 0.997
+      },
+      "pH": {
+        "min": 2.74,
+        "max": 4.01,
+        "mean": 3.311,
+        "median": 3.31
+      },
+      "sulphates": {
+        "min": 0.33,
+        "max": 2.0,
+        "mean": 0.658,
+        "median": 0.62
+      },
+      "alcohol": {
+        "min": 8.4,
+        "max": 14.9,
+        "mean": 10.423,
+        "median": 10.2
+      }
+    }
+  },
+  "white": {
+    "name": "White Wine",
+    "sample_count": 4898,
+    "features": [
+      "fixed acidity",
+      "volatile acidity",
+      "citric acid",
+      "residual sugar",
+      "chlorides",
+      "free sulfur dioxide",
+      "total sulfur dioxide",
+      "density",
+      "pH",
+      "sulphates",
+      "alcohol"
+    ],
+    "models": [
+      {
+        "id": "RFECV",
+        "name": "RFECV",
+        "features": [
+          "volatile acidity",
+          "residual sugar",
+          "free sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 7,
+        "cvRmse": 0.7542011032057269,
+        "mae": 0.5884737314444423,
+        "rmse": 0.7562605413036244,
+        "r2": 0.2615237642146719,
+        "adjR2": 0.2562055197182755,
+        "intercept": 100.51857966435279,
+        "coefs": {
+          "volatile acidity": -1.954720770718598,
+          "residual sugar": 0.06161080051845439,
+          "free sulfur dioxide": 0.004716730942726725,
+          "density": -99.72878114365217,
+          "pH": 0.4560303922471599,
+          "sulphates": 0.6037136866356825,
+          "alcohol": 0.2591340186373745
+        },
+        "isBest": true,
+        "tag": "BEST CV RMSE"
+      },
+      {
+        "id": "Exhaustive",
+        "name": "Exhaustive",
+        "features": [
+          "volatile acidity",
+          "residual sugar",
+          "free sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 7,
+        "cvRmse": 0.7542011032057269,
+        "mae": 0.5884737314444423,
+        "rmse": 0.7562605413036244,
+        "r2": 0.2615237642146719,
+        "adjR2": 0.2562055197182755,
+        "intercept": 100.51857966435279,
+        "coefs": {
+          "volatile acidity": -1.954720770718598,
+          "residual sugar": 0.06161080051845439,
+          "free sulfur dioxide": 0.004716730942726725,
+          "density": -99.72878114365217,
+          "pH": 0.4560303922471599,
+          "sulphates": 0.6037136866356825,
+          "alcohol": 0.2591340186373745
+        },
+        "isBest": false,
+        "tag": "7 FEAT"
+      },
+      {
+        "id": "LassoCV",
+        "name": "LassoCV",
+        "features": [
+          "volatile acidity",
+          "citric acid",
+          "residual sugar",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 10,
+        "cvRmse": 0.7547663407743639,
+        "mae": 0.5881974831136414,
+        "rmse": 0.7561762036201706,
+        "r2": 0.261688463809114,
+        "adjR2": 0.2540691497101368,
+        "intercept": 96.87700336737261,
+        "coefs": {
+          "volatile acidity": -1.939827611325501,
+          "citric acid": -0.032054215178204136,
+          "residual sugar": 0.06039867853188349,
+          "chlorides": -0.23216037487796243,
+          "free sulfur dioxide": 0.005108217445465638,
+          "total sulfur dioxide": -0.00026771918010503465,
+          "density": -95.9948060141812,
+          "pH": 0.4466868091573798,
+          "sulphates": 0.610246929425593,
+          "alcohol": 0.2595612004952985
+        },
+        "isBest": false,
+        "tag": "10 FEAT"
+      },
+      {
+        "id": "Forward_SFS",
+        "name": "Forward SFS",
+        "features": [
+          "fixed acidity",
+          "volatile acidity",
+          "residual sugar",
+          "free sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 8,
+        "cvRmse": 0.7552927031783773,
+        "mae": 0.5862544230928097,
+        "rmse": 0.754066452770406,
+        "r2": 0.2658025325595577,
+        "adjR2": 0.2597535317979476,
+        "intercept": 127.74258545785823,
+        "coefs": {
+          "fixed acidity": 0.04487229798566601,
+          "volatile acidity": -1.919546303773969,
+          "residual sugar": 0.07221541750065774,
+          "free sulfur dioxide": 0.004754418507930902,
+          "density": -127.6786784082931,
+          "pH": 0.6095352969136223,
+          "sulphates": 0.6418510166627233,
+          "alcohol": 0.2271904177637934
+        },
+        "isBest": false,
+        "tag": "8 FEAT"
+      },
+      {
+        "id": "Baseline_OLS",
+        "name": "Baseline OLS",
+        "features": [
+          "fixed acidity",
+          "volatile acidity",
+          "citric acid",
+          "residual sugar",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 11,
+        "cvRmse": 0.7559826217906419,
+        "mae": 0.586266538325047,
+        "rmse": 0.7543373063311434,
+        "r2": 0.2652750042179158,
+        "adjR2": 0.256925856538574,
+        "intercept": 124.39391498452146,
+        "coefs": {
+          "fixed acidity": 0.04590723697723874,
+          "volatile acidity": -1.9148843151194292,
+          "citric acid": -0.0613034698386939,
+          "residual sugar": 0.07123955067229368,
+          "chlorides": -0.026475132919644935,
+          "free sulfur dioxide": 0.0051194537152481345,
+          "total sulfur dioxide": -0.00024215396202831307,
+          "density": -124.26412496100279,
+          "pH": 0.6006998541735339,
+          "sulphates": 0.6490727804551876,
+          "alcohol": 0.22900868360007703
+        },
+        "isBest": false,
+        "tag": "11 FEAT"
+      },
+      {
+        "id": "ElasticNetCV",
+        "name": "ElasticNetCV",
+        "features": [
+          "fixed acidity",
+          "volatile acidity",
+          "citric acid",
+          "residual sugar",
+          "chlorides",
+          "free sulfur dioxide",
+          "total sulfur dioxide",
+          "density",
+          "pH",
+          "sulphates",
+          "alcohol"
+        ],
+        "nFeat": 11,
+        "cvRmse": 0.7559826217906419,
+        "mae": 0.586266538325047,
+        "rmse": 0.7543373063311434,
+        "r2": 0.2652750042179158,
+        "adjR2": 0.256925856538574,
+        "intercept": 124.39391498452146,
+        "coefs": {
+          "fixed acidity": 0.04590723697723874,
+          "volatile acidity": -1.9148843151194292,
+          "citric acid": -0.0613034698386939,
+          "residual sugar": 0.07123955067229368,
+          "chlorides": -0.026475132919644935,
+          "free sulfur dioxide": 0.0051194537152481345,
+          "total sulfur dioxide": -0.00024215396202831307,
+          "density": -124.26412496100279,
+          "pH": 0.6006998541735339,
+          "sulphates": 0.6490727804551876,
+          "alcohol": 0.22900868360007703
+        },
+        "isBest": false,
+        "tag": "11 FEAT"
+      }
+    ],
+    "outliers": [
+      {
+        "rank": 1,
+        "id": 4745,
+        "actual": 3.0,
+        "pred": 6.810749990702675,
+        "res": -3.810749990702675,
+        "abs_res": 3.810749990702675,
+        "alcohol": 10.5,
+        "volatile_acidity": 0.26,
+        "density": 0.99314
+      },
+      {
+        "rank": 2,
+        "id": 253,
+        "actual": 3.0,
+        "pred": 6.3741872949699285,
+        "res": -3.3741872949699285,
+        "abs_res": 3.3741872949699285,
+        "alcohol": 11.7,
+        "volatile_acidity": 0.24,
+        "density": 0.9913
+      },
+      {
+        "rank": 3,
+        "id": 3307,
+        "actual": 3.0,
+        "pred": 6.3143036200398655,
+        "res": -3.314303620039865,
+        "abs_res": 3.314303620039865,
+        "alcohol": 11.0,
+        "volatile_acidity": 0.24,
+        "density": 0.99395
+      },
+      {
+        "rank": 4,
+        "id": 445,
+        "actual": 3.0,
+        "pred": 6.28842337279869,
+        "res": -3.2884233727986896,
+        "abs_res": 3.2884233727986896,
+        "alcohol": 11.5,
+        "volatile_acidity": 0.32,
+        "density": 0.9937
+      },
+      {
+        "rank": 5,
+        "id": 774,
+        "actual": 9.0,
+        "pred": 5.781964172388271,
+        "res": 3.218035827611729,
+        "abs_res": 3.218035827611729,
+        "alcohol": 10.4,
+        "volatile_acidity": 0.27,
+        "density": 0.997
+      },
+      {
+        "rank": 6,
+        "id": 740,
+        "actual": 3.0,
+        "pred": 6.217774201410322,
+        "res": -3.2177742014103217,
+        "abs_res": 3.2177742014103217,
+        "alcohol": 12.6,
+        "volatile_acidity": 0.39,
+        "density": 0.9915
+      },
+      {
+        "rank": 7,
+        "id": 3810,
+        "actual": 3.0,
+        "pred": 6.217559810655871,
+        "res": -3.217559810655871,
+        "abs_res": 3.217559810655871,
+        "alcohol": 10.5,
+        "volatile_acidity": 0.26,
+        "density": 0.99705
+      },
+      {
+        "rank": 8,
+        "id": 1229,
+        "actual": 3.0,
+        "pred": 6.063860584083628,
+        "res": -3.063860584083628,
+        "abs_res": 3.063860584083628,
+        "alcohol": 12.4,
+        "volatile_acidity": 0.33,
+        "density": 0.9911
+      },
+      {
+        "rank": 9,
+        "id": 3409,
+        "actual": 3.0,
+        "pred": 5.992486440792362,
+        "res": -2.992486440792362,
+        "abs_res": 2.992486440792362,
+        "alcohol": 11.0,
+        "volatile_acidity": 0.23,
+        "density": 0.9916
+      },
+      {
+        "rank": 10,
+        "id": 3087,
+        "actual": 3.0,
+        "pred": 5.985814368658254,
+        "res": -2.9858143686582537,
+        "abs_res": 2.9858143686582537,
+        "alcohol": 10.1,
+        "volatile_acidity": 0.2,
+        "density": 0.995
+      }
+    ],
+    "progressions": {
+      "LassoCV": [
+        {
+          "k": 1,
+          "features": [
+            "density"
+          ],
+          "rmse": 0.9030059554746898,
+          "r2": 0.0748348937652069,
+          "intercept": 98.59561419075833,
+          "coefs": {
+            "density": -93.26266892774849
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "density",
+            "residual sugar"
+          ],
+          "rmse": 0.8589805748381828,
+          "r2": 0.1628472643816516,
+          "intercept": 230.4361102158021,
+          "coefs": {
+            "density": -226.49714257181202,
+            "residual sugar": 0.09349473916195115
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity"
+          ],
+          "rmse": 0.8437138457782711,
+          "r2": 0.1923403849646294,
+          "intercept": 237.50830659375035,
+          "coefs": {
+            "density": -233.10980441264556,
+            "residual sugar": 0.09846970522001743,
+            "volatile acidity": -1.9067850333948853
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol"
+          ],
+          "rmse": 0.8136294023860527,
+          "r2": 0.2489112030812807,
+          "intercept": 71.27995570482311,
+          "coefs": {
+            "density": -68.54439305982689,
+            "residual sugar": 0.05036957390169158,
+            "volatile acidity": -2.032340977246037,
+            "alcohol": 0.284323209238738
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH"
+          ],
+          "rmse": 0.8096668488998391,
+          "r2": 0.2562093220454446,
+          "intercept": 97.8460214724155,
+          "coefs": {
+            "density": -96.63482590318756,
+            "residual sugar": 0.06295888185563923,
+            "volatile acidity": -2.0011391098243543,
+            "alcohol": 0.24652180680647212,
+            "pH": 0.522194792754121
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH",
+            "fixed acidity"
+          ],
+          "rmse": 0.8117625485791681,
+          "r2": 0.2523539605554483,
+          "intercept": 146.8072499496431,
+          "coefs": {
+            "density": -146.65172811360478,
+            "residual sugar": 0.08104485769872692,
+            "volatile acidity": -1.9628311152941624,
+            "alcohol": 0.18679539966175646,
+            "pH": 0.7675562802201734,
+            "fixed acidity": 0.06945817279968867
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide"
+          ],
+          "rmse": 0.8134298768405296,
+          "r2": 0.2492795354604188,
+          "intercept": 149.44740214377615,
+          "coefs": {
+            "density": -149.56522894050804,
+            "residual sugar": 0.07824842414878154,
+            "volatile acidity": -1.8778384004137916,
+            "alcohol": 0.19141946780066096,
+            "pH": 0.7632783950109071,
+            "fixed acidity": 0.07862707836217103,
+            "free sulfur dioxide": 0.004304755073519219
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates"
+          ],
+          "rmse": 0.8122284848666076,
+          "r2": 0.2514954449827716,
+          "intercept": 197.5865219832855,
+          "coefs": {
+            "density": -198.3365499812712,
+            "residual sugar": 0.09627475740664831,
+            "volatile acidity": -1.8364322625865646,
+            "alcohol": 0.1331354508248751,
+            "pH": 0.8539166439559036,
+            "fixed acidity": 0.11283901646040535,
+            "free sulfur dioxide": 0.004018499592704006,
+            "sulphates": 0.6387786462404272
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates",
+            "chlorides"
+          ],
+          "rmse": 0.8124817638138223,
+          "r2": 0.2510285566432191,
+          "intercept": 193.2528048519846,
+          "coefs": {
+            "density": -193.85164218410594,
+            "residual sugar": 0.0943331884022274,
+            "volatile acidity": -1.8244939251856003,
+            "alcohol": 0.13441890586846308,
+            "pH": 0.8313362172922962,
+            "fixed acidity": 0.10843692137208762,
+            "free sulfur dioxide": 0.00405043145830844,
+            "sulphates": 0.6351975766229273,
+            "chlorides": -0.5665426723027475
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide"
+          ],
+          "rmse": 0.8122666916531249,
+          "r2": 0.2514250248315708,
+          "intercept": 188.6220895931247,
+          "coefs": {
+            "density": -189.15840313192894,
+            "residual sugar": 0.09295308169447147,
+            "volatile acidity": -1.8074835008997117,
+            "alcohol": 0.13752533620098467,
+            "pH": 0.8234798032968373,
+            "fixed acidity": 0.10655655046410394,
+            "free sulfur dioxide": 0.004431356636564656,
+            "sulphates": 0.638216456988553,
+            "chlorides": -0.5659338591293945,
+            "total sulfur dioxide": -0.0002893078467563759
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "density",
+            "residual sugar",
+            "volatile acidity",
+            "alcohol",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "citric acid"
+          ],
+          "rmse": 0.8123086554972679,
+          "r2": 0.2513476761101432,
+          "intercept": 188.45929532075917,
+          "coefs": {
+            "density": -188.9925561549984,
+            "residual sugar": 0.09291407692568206,
+            "volatile acidity": -1.8103251557519637,
+            "alcohol": 0.13784318193682674,
+            "pH": 0.8223686268786561,
+            "fixed acidity": 0.10698151724062213,
+            "free sulfur dioxide": 0.004435521286309134,
+            "sulphates": 0.6389755969341661,
+            "chlorides": -0.5567236275663635,
+            "total sulfur dioxide": -0.00028663040890068714,
+            "citric acid": -0.01516302857445936
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "Forward_SFS": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.8547773008329457,
+          "r2": 0.1710201454832173,
+          "intercept": 2.6206968685646794,
+          "coefs": {
+            "alcohol": 0.3110058707053819
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "volatile acidity",
+            "alcohol"
+          ],
+          "rmse": 0.8286564365045869,
+          "r2": 0.2209110738462854,
+          "intercept": 3.0708899869264448,
+          "coefs": {
+            "volatile acidity": -1.9587939640007743,
+            "alcohol": 0.3200505353072511
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "alcohol"
+          ],
+          "rmse": 0.8186193261200481,
+          "r2": 0.2396702181472685,
+          "intercept": 2.397069740813591,
+          "coefs": {
+            "volatile acidity": -2.0537806804190923,
+            "residual sugar": 0.026611883262133096,
+            "alcohol": 0.37051665851846177
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "free sulfur dioxide",
+            "alcohol"
+          ],
+          "rmse": 0.8183221512436127,
+          "r2": 0.2402221472050305,
+          "intercept": 2.1510174049698034,
+          "coefs": {
+            "volatile acidity": -1.9663185400369336,
+            "residual sugar": 0.022691892493030275,
+            "free sulfur dioxide": 0.004554638328892038,
+            "alcohol": 0.37865877110323715
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "free sulfur dioxide",
+            "density",
+            "alcohol"
+          ],
+          "rmse": 0.8140824444068785,
+          "r2": 0.2480745334116941,
+          "intercept": 69.24264845788747,
+          "coefs": {
+            "volatile acidity": -1.946871758287309,
+            "residual sugar": 0.045894665355401,
+            "free sulfur dioxide": 0.004479954709299995,
+            "density": -66.75792567815695,
+            "alcohol": 0.29457826684345445
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "free sulfur dioxide",
+            "density",
+            "pH",
+            "alcohol"
+          ],
+          "rmse": 0.8105403881955132,
+          "r2": 0.2546035236142276,
+          "intercept": 94.1590440286149,
+          "coefs": {
+            "volatile acidity": -1.9240480274957188,
+            "residual sugar": 0.05795947185373717,
+            "free sulfur dioxide": 0.004151558214918166,
+            "density": -93.07707314660205,
+            "pH": 0.48683258625315967,
+            "alcohol": 0.25858498374975575
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "free sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8069088576742508,
+          "r2": 0.2612678824876397,
+          "intercept": 113.97756951286527,
+          "coefs": {
+            "volatile acidity": -1.9065195105774848,
+            "residual sugar": 0.06552920920789924,
+            "free sulfur dioxide": 0.003861127041170462,
+            "density": -112.98624631796308,
+            "pH": 0.4624338103231146,
+            "sulphates": 0.5256840283291087,
+            "alcohol": 0.23467066841323836
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "free sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8122284848666123,
+          "r2": 0.251495444982763,
+          "intercept": 197.58652198328627,
+          "coefs": {
+            "fixed acidity": 0.11283901646040514,
+            "volatile acidity": -1.8364322625865426,
+            "residual sugar": 0.09627475740664748,
+            "free sulfur dioxide": 0.004018499592704172,
+            "density": -198.3365499812718,
+            "pH": 0.8539166439558978,
+            "sulphates": 0.6387786462404005,
+            "alcohol": 0.1331354508248655
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8124817638138233,
+          "r2": 0.2510285566432172,
+          "intercept": 193.25280485198542,
+          "coefs": {
+            "fixed acidity": 0.10843692137208846,
+            "volatile acidity": -1.8244939251855794,
+            "residual sugar": 0.09433318840222782,
+            "chlorides": -0.5665426723028807,
+            "free sulfur dioxide": 0.004050431458308745,
+            "density": -193.85164218410677,
+            "pH": 0.8313362172922953,
+            "sulphates": 0.6351975766229055,
+            "alcohol": 0.1344189058684626
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8122666916531244,
+          "r2": 0.251425024831572,
+          "intercept": 188.62208959312753,
+          "coefs": {
+            "fixed acidity": 0.1065565504640966,
+            "volatile acidity": -1.8074835008997512,
+            "residual sugar": 0.09295308169447596,
+            "chlorides": -0.5659338591293934,
+            "free sulfur dioxide": 0.004431356636564188,
+            "total sulfur dioxide": -0.00028930784675651466,
+            "density": -189.15840313193164,
+            "pH": 0.8234798032968418,
+            "sulphates": 0.6382164569885089,
+            "alcohol": 0.1375253362009818
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8123086554972686,
+          "r2": 0.2513476761101421,
+          "intercept": 188.45929532076138,
+          "coefs": {
+            "fixed acidity": 0.10698151724061847,
+            "volatile acidity": -1.810325155751974,
+            "citric acid": -0.015163028574455088,
+            "residual sugar": 0.09291407692568253,
+            "chlorides": -0.5567236275662689,
+            "free sulfur dioxide": 0.00443552128630903,
+            "total sulfur dioxide": -0.0002866304089006455,
+            "density": -188.99255615500059,
+            "pH": 0.8223686268786521,
+            "sulphates": 0.6389755969341748,
+            "alcohol": 0.13784318193682632
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "RFECV": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.8547773008329457,
+          "r2": 0.1710201454832173,
+          "intercept": 2.6206968685646794,
+          "coefs": {
+            "alcohol": 0.3110058707053819
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "volatile acidity",
+            "alcohol"
+          ],
+          "rmse": 0.8286564365045869,
+          "r2": 0.2209110738462854,
+          "intercept": 3.0708899869264448,
+          "coefs": {
+            "volatile acidity": -1.9587939640007743,
+            "alcohol": 0.3200505353072511
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "alcohol"
+          ],
+          "rmse": 0.8186193261200481,
+          "r2": 0.2396702181472685,
+          "intercept": 2.397069740813591,
+          "coefs": {
+            "volatile acidity": -2.0537806804190923,
+            "residual sugar": 0.026611883262133096,
+            "alcohol": 0.37051665851846177
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "alcohol"
+          ],
+          "rmse": 0.8136294023860519,
+          "r2": 0.2489112030812823,
+          "intercept": 71.27995570481511,
+          "coefs": {
+            "volatile acidity": -2.032340977246047,
+            "residual sugar": 0.050369573901686976,
+            "density": -68.54439305981894,
+            "alcohol": 0.28432320923874993
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "pH",
+            "alcohol"
+          ],
+          "rmse": 0.8096668488998401,
+          "r2": 0.2562093220454429,
+          "intercept": 97.84602147241519,
+          "coefs": {
+            "volatile acidity": -2.001139109824407,
+            "residual sugar": 0.06295888185565117,
+            "density": -96.63482590318733,
+            "pH": 0.5221947927541064,
+            "alcohol": 0.24652180680648025
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "pH",
+            "alcohol"
+          ],
+          "rmse": 0.8117625485791665,
+          "r2": 0.2523539605554513,
+          "intercept": 146.80724994964518,
+          "coefs": {
+            "fixed acidity": 0.06945817279968405,
+            "volatile acidity": -1.962831115294821,
+            "residual sugar": 0.08104485769872372,
+            "density": -146.65172811360628,
+            "pH": 0.7675562802201733,
+            "alcohol": 0.18679539966171926
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8104367125620141,
+          "r2": 0.2547941976648818,
+          "intercept": 198.05365892995096,
+          "coefs": {
+            "fixed acidity": 0.10639279106349042,
+            "volatile acidity": -1.9129177070630723,
+            "residual sugar": 0.09996778573172205,
+            "density": -198.5879801208671,
+            "pH": 0.8633927102961421,
+            "sulphates": 0.6775396104034849,
+            "alcohol": 0.1253008672349546
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "free sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8122284848666123,
+          "r2": 0.251495444982763,
+          "intercept": 197.58652198328627,
+          "coefs": {
+            "fixed acidity": 0.11283901646040514,
+            "volatile acidity": -1.8364322625865426,
+            "residual sugar": 0.09627475740664748,
+            "free sulfur dioxide": 0.004018499592704172,
+            "density": -198.3365499812718,
+            "pH": 0.8539166439558978,
+            "sulphates": 0.6387786462404005,
+            "alcohol": 0.1331354508248655
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8124817638138233,
+          "r2": 0.2510285566432172,
+          "intercept": 193.25280485198542,
+          "coefs": {
+            "fixed acidity": 0.10843692137208846,
+            "volatile acidity": -1.8244939251855794,
+            "residual sugar": 0.09433318840222782,
+            "chlorides": -0.5665426723028807,
+            "free sulfur dioxide": 0.004050431458308745,
+            "density": -193.85164218410677,
+            "pH": 0.8313362172922953,
+            "sulphates": 0.6351975766229055,
+            "alcohol": 0.1344189058684626
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8122666916531244,
+          "r2": 0.251425024831572,
+          "intercept": 188.62208959312753,
+          "coefs": {
+            "fixed acidity": 0.1065565504640966,
+            "volatile acidity": -1.8074835008997512,
+            "residual sugar": 0.09295308169447596,
+            "chlorides": -0.5659338591293934,
+            "free sulfur dioxide": 0.004431356636564188,
+            "total sulfur dioxide": -0.00028930784675651466,
+            "density": -189.15840313193164,
+            "pH": 0.8234798032968418,
+            "sulphates": 0.6382164569885089,
+            "alcohol": 0.1375253362009818
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8123086554972686,
+          "r2": 0.2513476761101421,
+          "intercept": 188.45929532076138,
+          "coefs": {
+            "fixed acidity": 0.10698151724061847,
+            "volatile acidity": -1.810325155751974,
+            "citric acid": -0.015163028574455088,
+            "residual sugar": 0.09291407692568253,
+            "chlorides": -0.5567236275662689,
+            "free sulfur dioxide": 0.00443552128630903,
+            "total sulfur dioxide": -0.0002866304089006455,
+            "density": -188.99255615500059,
+            "pH": 0.8223686268786521,
+            "sulphates": 0.6389755969341748,
+            "alcohol": 0.13784318193682632
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "ElasticNetCV": [
+        {
+          "k": 1,
+          "features": [
+            "density"
+          ],
+          "rmse": 0.9030059554746898,
+          "r2": 0.0748348937652069,
+          "intercept": 98.59561419075833,
+          "coefs": {
+            "density": -93.26266892774849
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "density",
+            "residual sugar"
+          ],
+          "rmse": 0.8589805748381828,
+          "r2": 0.1628472643816516,
+          "intercept": 230.4361102158021,
+          "coefs": {
+            "density": -226.49714257181202,
+            "residual sugar": 0.09349473916195115
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol"
+          ],
+          "rmse": 0.8418061200696634,
+          "r2": 0.1959886623316864,
+          "intercept": 79.99083463060921,
+          "coefs": {
+            "density": -77.58001833178234,
+            "residual sugar": 0.049787587979515685,
+            "alcohol": 0.2566083663407356
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity"
+          ],
+          "rmse": 0.813629402386051,
+          "r2": 0.2489112030812839,
+          "intercept": 71.27995570482288,
+          "coefs": {
+            "density": -68.54439305982669,
+            "residual sugar": 0.050369573901691486,
+            "alcohol": 0.28432320923873844,
+            "volatile acidity": -2.0323409772460344
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH"
+          ],
+          "rmse": 0.8096668488998404,
+          "r2": 0.2562093220454423,
+          "intercept": 97.84602147241533,
+          "coefs": {
+            "density": -96.63482590318738,
+            "residual sugar": 0.0629588818556392,
+            "alcohol": 0.24652180680647215,
+            "volatile acidity": -2.0011391098243525,
+            "pH": 0.5221947927541196
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH",
+            "fixed acidity"
+          ],
+          "rmse": 0.8117625485791681,
+          "r2": 0.2523539605554484,
+          "intercept": 146.8072499496435,
+          "coefs": {
+            "density": -146.65172811360517,
+            "residual sugar": 0.08104485769872696,
+            "alcohol": 0.186795399661755,
+            "volatile acidity": -1.9628311152941624,
+            "pH": 0.7675562802201722,
+            "fixed acidity": 0.06945817279968823
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide"
+          ],
+          "rmse": 0.8134298768405304,
+          "r2": 0.2492795354604173,
+          "intercept": 149.44740214377654,
+          "coefs": {
+            "density": -149.56522894050843,
+            "residual sugar": 0.07824842414878172,
+            "alcohol": 0.19141946780066102,
+            "volatile acidity": -1.8778384004137934,
+            "pH": 0.7632783950109073,
+            "fixed acidity": 0.0786270783621706,
+            "free sulfur dioxide": 0.004304755073519247
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates"
+          ],
+          "rmse": 0.8122284848666075,
+          "r2": 0.2514954449827717,
+          "intercept": 197.58652198328656,
+          "coefs": {
+            "density": -198.33654998127227,
+            "residual sugar": 0.09627475740664876,
+            "alcohol": 0.13313545082487444,
+            "volatile acidity": -1.8364322625865641,
+            "pH": 0.8539166439559048,
+            "fixed acidity": 0.11283901646040582,
+            "free sulfur dioxide": 0.004018499592704214,
+            "sulphates": 0.638778646240427
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates",
+            "chlorides"
+          ],
+          "rmse": 0.8124817638138252,
+          "r2": 0.2510285566432136,
+          "intercept": 193.25280485198616,
+          "coefs": {
+            "density": -193.85164218410753,
+            "residual sugar": 0.09433318840222811,
+            "alcohol": 0.13441890586846314,
+            "volatile acidity": -1.824493925185601,
+            "pH": 0.8313362172922959,
+            "fixed acidity": 0.10843692137209009,
+            "free sulfur dioxide": 0.00405043145830869,
+            "sulphates": 0.635197576622927,
+            "chlorides": -0.566542672302745
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide"
+          ],
+          "rmse": 0.8122666916531218,
+          "r2": 0.2514250248315764,
+          "intercept": 188.62208959312713,
+          "coefs": {
+            "density": -189.1584031319314,
+            "residual sugar": 0.09295308169447282,
+            "alcohol": 0.13752533620098412,
+            "volatile acidity": -1.8074835008996972,
+            "pH": 0.82347980329684,
+            "fixed acidity": 0.10655655046410509,
+            "free sulfur dioxide": 0.004431356636564122,
+            "sulphates": 0.6382164569885531,
+            "chlorides": -0.5659338591293919,
+            "total sulfur dioxide": -0.0002893078467561955
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "density",
+            "residual sugar",
+            "alcohol",
+            "volatile acidity",
+            "pH",
+            "fixed acidity",
+            "free sulfur dioxide",
+            "sulphates",
+            "chlorides",
+            "total sulfur dioxide",
+            "citric acid"
+          ],
+          "rmse": 0.8123086554972718,
+          "r2": 0.2513476761101362,
+          "intercept": 188.45929532075996,
+          "coefs": {
+            "density": -188.99255615499916,
+            "residual sugar": 0.09291407692568199,
+            "alcohol": 0.13784318193682668,
+            "volatile acidity": -1.8103251557519524,
+            "pH": 0.8223686268786574,
+            "fixed acidity": 0.10698151724062284,
+            "free sulfur dioxide": 0.004435521286309727,
+            "sulphates": 0.6389755969341642,
+            "chlorides": -0.5567236275663656,
+            "total sulfur dioxide": -0.0002866304089007704,
+            "citric acid": -0.015163028574459609
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ],
+      "Exhaustive": [
+        {
+          "k": 1,
+          "features": [
+            "alcohol"
+          ],
+          "rmse": 0.8547773008329457,
+          "r2": 0.1710201454832173,
+          "intercept": 2.6206968685646794,
+          "coefs": {
+            "alcohol": 0.3110058707053819
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 2,
+          "features": [
+            "volatile acidity",
+            "alcohol"
+          ],
+          "rmse": 0.8286564365045869,
+          "r2": 0.2209110738462854,
+          "intercept": 3.0708899869264448,
+          "coefs": {
+            "volatile acidity": -1.9587939640007743,
+            "alcohol": 0.3200505353072511
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 3,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "alcohol"
+          ],
+          "rmse": 0.8186193261200481,
+          "r2": 0.2396702181472685,
+          "intercept": 2.397069740813591,
+          "coefs": {
+            "volatile acidity": -2.0537806804190923,
+            "residual sugar": 0.026611883262133096,
+            "alcohol": 0.37051665851846177
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 4,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "alcohol"
+          ],
+          "rmse": 0.8136294023860519,
+          "r2": 0.2489112030812823,
+          "intercept": 71.27995570481511,
+          "coefs": {
+            "volatile acidity": -2.032340977246047,
+            "residual sugar": 0.050369573901686976,
+            "density": -68.54439305981894,
+            "alcohol": 0.28432320923874993
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 5,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8088536736261613,
+          "r2": 0.2577025990949162,
+          "intercept": 95.56615177551747,
+          "coefs": {
+            "volatile acidity": -2.0038775661638337,
+            "residual sugar": 0.05950005973965043,
+            "density": -93.03730919929669,
+            "sulphates": 0.6100460173438865,
+            "alcohol": 0.25529297460782197
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 6,
+          "features": [
+            "volatile acidity",
+            "residual sugar",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8059298405553713,
+          "r2": 0.2630593924866521,
+          "intercept": 119.02703771345132,
+          "coefs": {
+            "volatile acidity": -1.9763186709946607,
+            "residual sugar": 0.07077698688584137,
+            "density": -117.92378827525432,
+            "pH": 0.4930960207447258,
+            "sulphates": 0.569232270776428,
+            "alcohol": 0.22154021882794497
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 7,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8057894680791772,
+          "r2": 0.2633160827438761,
+          "intercept": 120.76248225427787,
+          "coefs": {
+            "volatile acidity": -1.9667521569659465,
+            "citric acid": 0.051101060134108575,
+            "residual sugar": 0.07133096024256874,
+            "density": -119.69798793980492,
+            "pH": 0.5020446362245217,
+            "sulphates": 0.5676165908299172,
+            "alcohol": 0.21937172301098823
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 8,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8057743883269282,
+          "r2": 0.2633436554721128,
+          "intercept": 127.0559572658471,
+          "coefs": {
+            "volatile acidity": -1.997631836288638,
+            "citric acid": 0.03584311323837355,
+            "residual sugar": 0.07202967485370368,
+            "total sulfur dioxide": 0.0007200230111750923,
+            "density": -126.09117578631094,
+            "pH": 0.4951277310400079,
+            "sulphates": 0.5451256960072498,
+            "alcohol": 0.21975267882011149
+          },
+          "isSweetSpot": true,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 9,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8066658455429712,
+          "r2": 0.2617127749484855,
+          "intercept": 126.08223041106902,
+          "coefs": {
+            "volatile acidity": -1.972562711571494,
+            "citric acid": 0.05071203346065102,
+            "residual sugar": 0.07107430197531041,
+            "chlorides": -0.9386512830526698,
+            "total sulfur dioxide": 0.0007427318615973039,
+            "density": -124.99246656379681,
+            "pH": 0.485990885156018,
+            "sulphates": 0.5460192443021356,
+            "alcohol": 0.21446244640804052
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 10,
+          "features": [
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8080343282455806,
+          "r2": 0.2592056890178627,
+          "intercept": 107.86090489566361,
+          "coefs": {
+            "volatile acidity": -1.8442768325125571,
+            "citric acid": 0.03328000351739875,
+            "residual sugar": 0.0631498999051884,
+            "chlorides": -1.013978104721458,
+            "free sulfur dioxide": 0.004546013380335643,
+            "total sulfur dioxide": -0.00047797355713201026,
+            "density": -106.68981544607156,
+            "pH": 0.45310257971796347,
+            "sulphates": 0.5344134150569644,
+            "alcohol": 0.23074033120992593
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": false
+        },
+        {
+          "k": 11,
+          "features": [
+            "fixed acidity",
+            "volatile acidity",
+            "citric acid",
+            "residual sugar",
+            "chlorides",
+            "free sulfur dioxide",
+            "total sulfur dioxide",
+            "density",
+            "pH",
+            "sulphates",
+            "alcohol"
+          ],
+          "rmse": 0.8123086554972686,
+          "r2": 0.2513476761101421,
+          "intercept": 188.45929532076138,
+          "coefs": {
+            "fixed acidity": 0.10698151724061847,
+            "volatile acidity": -1.810325155751974,
+            "citric acid": -0.015163028574455088,
+            "residual sugar": 0.09291407692568253,
+            "chlorides": -0.5567236275662689,
+            "free sulfur dioxide": 0.00443552128630903,
+            "total sulfur dioxide": -0.0002866304089006455,
+            "density": -188.99255615500059,
+            "pH": 0.8223686268786521,
+            "sulphates": 0.6389755969341748,
+            "alcohol": 0.13784318193682632
+          },
+          "isSweetSpot": false,
+          "isOverfitCliff": true
+        }
+      ]
+    },
+    "test_samples": [
+      {
+        "id": 4656,
+        "actual": 7.0,
+        "pred": 6.383199057395174,
+        "res": 0.6168009426048258,
+        "features": {
+          "fixed acidity": 6.0,
+          "volatile acidity": 0.29,
+          "citric acid": 0.41,
+          "residual sugar": 10.8,
+          "chlorides": 0.048,
+          "free sulfur dioxide": 55.0,
+          "total sulfur dioxide": 149.0,
+          "density": 0.9937,
+          "pH": 3.09,
+          "sulphates": 0.59,
+          "alcohol": 10.9666666666667
+        }
+      },
+      {
+        "id": 598,
+        "actual": 8.0,
+        "pred": 6.1576140608796806,
+        "res": 1.8423859391203194,
+        "features": {
+          "fixed acidity": 5.9,
+          "volatile acidity": 0.27,
+          "citric acid": 0.29,
+          "residual sugar": 11.4,
+          "chlorides": 0.036,
+          "free sulfur dioxide": 31.0,
+          "total sulfur dioxide": 115.0,
+          "density": 0.9949,
+          "pH": 3.35,
+          "sulphates": 0.48,
+          "alcohol": 10.5
+        }
+      },
+      {
+        "id": 4325,
+        "actual": 5.0,
+        "pred": 5.694752267355341,
+        "res": -0.6947522673553408,
+        "features": {
+          "fixed acidity": 6.4,
+          "volatile acidity": 0.24,
+          "citric acid": 0.26,
+          "residual sugar": 8.2,
+          "chlorides": 0.054,
+          "free sulfur dioxide": 47.0,
+          "total sulfur dioxide": 182.0,
+          "density": 0.99538,
+          "pH": 3.12,
+          "sulphates": 0.5,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 1541,
+        "actual": 4.0,
+        "pred": 4.630335806803714,
+        "res": -0.6303358068037141,
+        "features": {
+          "fixed acidity": 7.1,
+          "volatile acidity": 0.53,
+          "citric acid": 0.24,
+          "residual sugar": 0.8,
+          "chlorides": 0.029,
+          "free sulfur dioxide": 29.0,
+          "total sulfur dioxide": 86.0,
+          "density": 0.993,
+          "pH": 3.16,
+          "sulphates": 0.32,
+          "alcohol": 9.1
+        }
+      },
+      {
+        "id": 3513,
+        "actual": 6.0,
+        "pred": 6.631768792027685,
+        "res": -0.6317687920276853,
+        "features": {
+          "fixed acidity": 7.9,
+          "volatile acidity": 0.35,
+          "citric acid": 0.28,
+          "residual sugar": 12.9,
+          "chlorides": 0.032,
+          "free sulfur dioxide": 13.0,
+          "total sulfur dioxide": 63.0,
+          "density": 0.9932,
+          "pH": 2.99,
+          "sulphates": 0.43,
+          "alcohol": 13.0
+        }
+      },
+      {
+        "id": 471,
+        "actual": 5.0,
+        "pred": 5.527239542720963,
+        "res": -0.5272395427209631,
+        "features": {
+          "fixed acidity": 6.5,
+          "volatile acidity": 0.38,
+          "citric acid": 0.34,
+          "residual sugar": 3.4,
+          "chlorides": 0.036,
+          "free sulfur dioxide": 34.0,
+          "total sulfur dioxide": 200.0,
+          "density": 0.9937,
+          "pH": 3.14,
+          "sulphates": 0.76,
+          "alcohol": 10.0
+        }
+      },
+      {
+        "id": 3494,
+        "actual": 6.0,
+        "pred": 6.223503066608188,
+        "res": -0.2235030666081883,
+        "features": {
+          "fixed acidity": 6.7,
+          "volatile acidity": 0.24,
+          "citric acid": 0.36,
+          "residual sugar": 8.4,
+          "chlorides": 0.042,
+          "free sulfur dioxide": 42.0,
+          "total sulfur dioxide": 123.0,
+          "density": 0.99473,
+          "pH": 3.34,
+          "sulphates": 0.52,
+          "alcohol": 10.9
+        }
+      },
+      {
+        "id": 3131,
+        "actual": 5.0,
+        "pred": 5.544514656581626,
+        "res": -0.5445146565816259,
+        "features": {
+          "fixed acidity": 6.3,
+          "volatile acidity": 0.35,
+          "citric acid": 0.26,
+          "residual sugar": 17.6,
+          "chlorides": 0.061,
+          "free sulfur dioxide": 59.0,
+          "total sulfur dioxide": 198.0,
+          "density": 0.99918,
+          "pH": 3.11,
+          "sulphates": 0.49,
+          "alcohol": 8.8
+        }
+      },
+      {
+        "id": 3248,
+        "actual": 7.0,
+        "pred": 6.12765999891576,
+        "res": 0.8723400010842397,
+        "features": {
+          "fixed acidity": 6.4,
+          "volatile acidity": 0.25,
+          "citric acid": 0.37,
+          "residual sugar": 4.5,
+          "chlorides": 0.039,
+          "free sulfur dioxide": 41.0,
+          "total sulfur dioxide": 147.0,
+          "density": 0.9921,
+          "pH": 3.18,
+          "sulphates": 0.4,
+          "alcohol": 11.1
+        }
+      },
+      {
+        "id": 944,
+        "actual": 7.0,
+        "pred": 5.371233286040848,
+        "res": 1.628766713959152,
+        "features": {
+          "fixed acidity": 6.5,
+          "volatile acidity": 0.18,
+          "citric acid": 0.33,
+          "residual sugar": 8.0,
+          "chlorides": 0.051,
+          "free sulfur dioxide": 16.0,
+          "total sulfur dioxide": 131.0,
+          "density": 0.9965,
+          "pH": 3.28,
+          "sulphates": 0.44,
+          "alcohol": 8.7
+        }
+      },
+      {
+        "id": 1479,
+        "actual": 6.0,
+        "pred": 5.795763687356029,
+        "res": 0.20423631264397102,
+        "features": {
+          "fixed acidity": 7.7,
+          "volatile acidity": 0.16,
+          "citric acid": 0.49,
+          "residual sugar": 2.0,
+          "chlorides": 0.056,
+          "free sulfur dioxide": 20.0,
+          "total sulfur dioxide": 124.0,
+          "density": 0.9948,
+          "pH": 3.32,
+          "sulphates": 0.49,
+          "alcohol": 10.7
+        }
+      },
+      {
+        "id": 2471,
+        "actual": 7.0,
+        "pred": 6.302322646884903,
+        "res": 0.6976773531150968,
+        "features": {
+          "fixed acidity": 5.6,
+          "volatile acidity": 0.35,
+          "citric acid": 0.4,
+          "residual sugar": 6.3,
+          "chlorides": 0.022,
+          "free sulfur dioxide": 23.0,
+          "total sulfur dioxide": 174.0,
+          "density": 0.9922,
+          "pH": 3.54,
+          "sulphates": 0.5,
+          "alcohol": 11.6
+        }
+      },
+      {
+        "id": 2405,
+        "actual": 5.0,
+        "pred": 5.781641809125574,
+        "res": -0.7816418091255741,
+        "features": {
+          "fixed acidity": 6.6,
+          "volatile acidity": 0.23,
+          "citric acid": 0.18,
+          "residual sugar": 8.5,
+          "chlorides": 0.044,
+          "free sulfur dioxide": 59.0,
+          "total sulfur dioxide": 188.0,
+          "density": 0.99558,
+          "pH": 3.16,
+          "sulphates": 0.49,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 109,
+        "actual": 5.0,
+        "pred": 5.649901840861574,
+        "res": -0.649901840861574,
+        "features": {
+          "fixed acidity": 6.9,
+          "volatile acidity": 0.33,
+          "citric acid": 0.28,
+          "residual sugar": 1.3,
+          "chlorides": 0.051,
+          "free sulfur dioxide": 37.0,
+          "total sulfur dioxide": 187.0,
+          "density": 0.9927,
+          "pH": 3.27,
+          "sulphates": 0.6,
+          "alcohol": 10.3
+        }
+      },
+      {
+        "id": 93,
+        "actual": 7.0,
+        "pred": 6.7185803957395365,
+        "res": 0.28141960426046353,
+        "features": {
+          "fixed acidity": 6.9,
+          "volatile acidity": 0.21,
+          "citric acid": 0.33,
+          "residual sugar": 1.8,
+          "chlorides": 0.034,
+          "free sulfur dioxide": 48.0,
+          "total sulfur dioxide": 136.0,
+          "density": 0.9899,
+          "pH": 3.25,
+          "sulphates": 0.41,
+          "alcohol": 12.6
+        }
+      },
+      {
+        "id": 4666,
+        "actual": 5.0,
+        "pred": 5.322211411915987,
+        "res": -0.3222114119159869,
+        "features": {
+          "fixed acidity": 6.4,
+          "volatile acidity": 0.31,
+          "citric acid": 0.53,
+          "residual sugar": 8.8,
+          "chlorides": 0.057,
+          "free sulfur dioxide": 36.0,
+          "total sulfur dioxide": 221.0,
+          "density": 0.99642,
+          "pH": 3.17,
+          "sulphates": 0.44,
+          "alcohol": 9.1
+        }
+      },
+      {
+        "id": 2107,
+        "actual": 6.0,
+        "pred": 5.845224912635146,
+        "res": 0.1547750873648539,
+        "features": {
+          "fixed acidity": 8.1,
+          "volatile acidity": 0.24,
+          "citric acid": 0.33,
+          "residual sugar": 10.2,
+          "chlorides": 0.048,
+          "free sulfur dioxide": 46.0,
+          "total sulfur dioxide": 141.0,
+          "density": 0.9972,
+          "pH": 3.16,
+          "sulphates": 0.48,
+          "alcohol": 10.3
+        }
+      },
+      {
+        "id": 677,
+        "actual": 7.0,
+        "pred": 6.333948128302197,
+        "res": 0.6660518716978032,
+        "features": {
+          "fixed acidity": 5.8,
+          "volatile acidity": 0.32,
+          "citric acid": 0.38,
+          "residual sugar": 4.75,
+          "chlorides": 0.033,
+          "free sulfur dioxide": 23.0,
+          "total sulfur dioxide": 94.0,
+          "density": 0.991,
+          "pH": 3.42,
+          "sulphates": 0.42,
+          "alcohol": 11.8
+        }
+      },
+      {
+        "id": 2222,
+        "actual": 7.0,
+        "pred": 5.7556490974235714,
+        "res": 1.2443509025764286,
+        "features": {
+          "fixed acidity": 8.0,
+          "volatile acidity": 0.45,
+          "citric acid": 0.28,
+          "residual sugar": 10.8,
+          "chlorides": 0.051,
+          "free sulfur dioxide": 25.0,
+          "total sulfur dioxide": 157.0,
+          "density": 0.9957,
+          "pH": 3.06,
+          "sulphates": 0.47,
+          "alcohol": 11.4
+        }
+      },
+      {
+        "id": 1436,
+        "actual": 5.0,
+        "pred": 5.155759990787686,
+        "res": -0.15575999078768632,
+        "features": {
+          "fixed acidity": 8.5,
+          "volatile acidity": 0.56,
+          "citric acid": 0.74,
+          "residual sugar": 17.85,
+          "chlorides": 0.051,
+          "free sulfur dioxide": 51.0,
+          "total sulfur dioxide": 243.0,
+          "density": 1.0005,
+          "pH": 2.99,
+          "sulphates": 0.7,
+          "alcohol": 9.2
+        }
+      },
+      {
+        "id": 1832,
+        "actual": 7.0,
+        "pred": 5.942364097656721,
+        "res": 1.0576359023432786,
+        "features": {
+          "fixed acidity": 7.7,
+          "volatile acidity": 0.44,
+          "citric acid": 0.24,
+          "residual sugar": 11.2,
+          "chlorides": 0.031,
+          "free sulfur dioxide": 41.0,
+          "total sulfur dioxide": 167.0,
+          "density": 0.9948,
+          "pH": 3.12,
+          "sulphates": 0.43,
+          "alcohol": 11.3
+        }
+      },
+      {
+        "id": 1557,
+        "actual": 6.0,
+        "pred": 5.883632344467813,
+        "res": 0.11636765553218709,
+        "features": {
+          "fixed acidity": 7.9,
+          "volatile acidity": 0.18,
+          "citric acid": 0.49,
+          "residual sugar": 5.2,
+          "chlorides": 0.051,
+          "free sulfur dioxide": 36.0,
+          "total sulfur dioxide": 157.0,
+          "density": 0.9953,
+          "pH": 3.18,
+          "sulphates": 0.48,
+          "alcohol": 10.6
+        }
+      },
+      {
+        "id": 1215,
+        "actual": 5.0,
+        "pred": 5.734221186154201,
+        "res": -0.7342211861542012,
+        "features": {
+          "fixed acidity": 8.0,
+          "volatile acidity": 0.28,
+          "citric acid": 0.42,
+          "residual sugar": 7.1,
+          "chlorides": 0.045,
+          "free sulfur dioxide": 41.0,
+          "total sulfur dioxide": 169.0,
+          "density": 0.9959,
+          "pH": 3.17,
+          "sulphates": 0.43,
+          "alcohol": 10.6
+        }
+      },
+      {
+        "id": 1231,
+        "actual": 7.0,
+        "pred": 6.236994659207511,
+        "res": 0.763005340792489,
+        "features": {
+          "fixed acidity": 7.9,
+          "volatile acidity": 0.41,
+          "citric acid": 0.37,
+          "residual sugar": 4.5,
+          "chlorides": 0.03,
+          "free sulfur dioxide": 40.0,
+          "total sulfur dioxide": 114.0,
+          "density": 0.992,
+          "pH": 3.17,
+          "sulphates": 0.54,
+          "alcohol": 12.4
+        }
+      },
+      {
+        "id": 2088,
+        "actual": 6.0,
+        "pred": 5.547722260498304,
+        "res": 0.4522777395016959,
+        "features": {
+          "fixed acidity": 8.7,
+          "volatile acidity": 0.15,
+          "citric acid": 0.3,
+          "residual sugar": 1.6,
+          "chlorides": 0.046,
+          "free sulfur dioxide": 29.0,
+          "total sulfur dioxide": 130.0,
+          "density": 0.9942,
+          "pH": 3.22,
+          "sulphates": 0.38,
+          "alcohol": 9.8
+        }
+      },
+      {
+        "id": 4327,
+        "actual": 5.0,
+        "pred": 5.694752267355341,
+        "res": -0.6947522673553408,
+        "features": {
+          "fixed acidity": 6.4,
+          "volatile acidity": 0.24,
+          "citric acid": 0.26,
+          "residual sugar": 8.2,
+          "chlorides": 0.054,
+          "free sulfur dioxide": 47.0,
+          "total sulfur dioxide": 182.0,
+          "density": 0.99538,
+          "pH": 3.12,
+          "sulphates": 0.5,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 1480,
+        "actual": 6.0,
+        "pred": 5.833590522372361,
+        "res": 0.16640947762763858,
+        "features": {
+          "fixed acidity": 7.2,
+          "volatile acidity": 0.08,
+          "citric acid": 0.49,
+          "residual sugar": 1.3,
+          "chlorides": 0.05,
+          "free sulfur dioxide": 18.0,
+          "total sulfur dioxide": 148.0,
+          "density": 0.9945,
+          "pH": 3.46,
+          "sulphates": 0.44,
+          "alcohol": 10.2
+        }
+      },
+      {
+        "id": 3505,
+        "actual": 7.0,
+        "pred": 6.4241820587734395,
+        "res": 0.5758179412265605,
+        "features": {
+          "fixed acidity": 6.0,
+          "volatile acidity": 0.2,
+          "citric acid": 0.32,
+          "residual sugar": 3.0,
+          "chlorides": 0.031,
+          "free sulfur dioxide": 26.0,
+          "total sulfur dioxide": 118.0,
+          "density": 0.99134,
+          "pH": 3.38,
+          "sulphates": 0.68,
+          "alcohol": 11.2
+        }
+      },
+      {
+        "id": 856,
+        "actual": 5.0,
+        "pred": 5.478648024155746,
+        "res": -0.4786480241557456,
+        "features": {
+          "fixed acidity": 8.2,
+          "volatile acidity": 0.38,
+          "citric acid": 0.49,
+          "residual sugar": 13.6,
+          "chlorides": 0.042,
+          "free sulfur dioxide": 58.0,
+          "total sulfur dioxide": 166.0,
+          "density": 0.99855,
+          "pH": 3.1,
+          "sulphates": 0.54,
+          "alcohol": 9.4
+        }
+      },
+      {
+        "id": 4233,
+        "actual": 6.0,
+        "pred": 5.937810778425472,
+        "res": 0.062189221574527664,
+        "features": {
+          "fixed acidity": 6.3,
+          "volatile acidity": 0.23,
+          "citric acid": 0.33,
+          "residual sugar": 6.9,
+          "chlorides": 0.052,
+          "free sulfur dioxide": 23.0,
+          "total sulfur dioxide": 118.0,
+          "density": 0.9938,
+          "pH": 3.23,
+          "sulphates": 0.46,
+          "alcohol": 10.4
+        }
+      },
+      {
+        "id": 2789,
+        "actual": 5.0,
+        "pred": 5.20886736374257,
+        "res": -0.20886736374256998,
+        "features": {
+          "fixed acidity": 6.9,
+          "volatile acidity": 0.4,
+          "citric acid": 0.43,
+          "residual sugar": 6.2,
+          "chlorides": 0.065,
+          "free sulfur dioxide": 42.0,
+          "total sulfur dioxide": 178.0,
+          "density": 0.99552,
+          "pH": 3.11,
+          "sulphates": 0.53,
+          "alcohol": 9.4
+        }
+      },
+      {
+        "id": 3312,
+        "actual": 7.0,
+        "pred": 6.81232785683649,
+        "res": 0.18767214316351044,
+        "features": {
+          "fixed acidity": 5.9,
+          "volatile acidity": 0.24,
+          "citric acid": 0.28,
+          "residual sugar": 1.3,
+          "chlorides": 0.032,
+          "free sulfur dioxide": 36.0,
+          "total sulfur dioxide": 95.0,
+          "density": 0.98889,
+          "pH": 3.08,
+          "sulphates": 0.64,
+          "alcohol": 12.9
+        }
+      },
+      {
+        "id": 668,
+        "actual": 6.0,
+        "pred": 5.91546685318643,
+        "res": 0.08453314681356972,
+        "features": {
+          "fixed acidity": 6.1,
+          "volatile acidity": 0.14,
+          "citric acid": 0.25,
+          "residual sugar": 1.3,
+          "chlorides": 0.047,
+          "free sulfur dioxide": 37.0,
+          "total sulfur dioxide": 173.0,
+          "density": 0.9925,
+          "pH": 3.35,
+          "sulphates": 0.46,
+          "alcohol": 10.0
+        }
+      },
+      {
+        "id": 1756,
+        "actual": 5.0,
+        "pred": 5.536517155738494,
+        "res": -0.536517155738494,
+        "features": {
+          "fixed acidity": 6.7,
+          "volatile acidity": 0.27,
+          "citric acid": 0.25,
+          "residual sugar": 8.0,
+          "chlorides": 0.053,
+          "free sulfur dioxide": 54.0,
+          "total sulfur dioxide": 202.0,
+          "density": 0.9961,
+          "pH": 3.22,
+          "sulphates": 0.43,
+          "alcohol": 9.3
+        }
+      },
+      {
+        "id": 3857,
+        "actual": 6.0,
+        "pred": 6.108797035939119,
+        "res": -0.10879703593911927,
+        "features": {
+          "fixed acidity": 5.4,
+          "volatile acidity": 0.17,
+          "citric acid": 0.27,
+          "residual sugar": 2.7,
+          "chlorides": 0.049,
+          "free sulfur dioxide": 28.0,
+          "total sulfur dioxide": 104.0,
+          "density": 0.99224,
+          "pH": 3.46,
+          "sulphates": 0.55,
+          "alcohol": 10.3
+        }
+      },
+      {
+        "id": 3590,
+        "actual": 7.0,
+        "pred": 6.64695108239728,
+        "res": 0.3530489176027203,
+        "features": {
+          "fixed acidity": 6.6,
+          "volatile acidity": 0.19,
+          "citric acid": 0.35,
+          "residual sugar": 1.5,
+          "chlorides": 0.037,
+          "free sulfur dioxide": 37.0,
+          "total sulfur dioxide": 107.0,
+          "density": 0.99006,
+          "pH": 3.18,
+          "sulphates": 0.68,
+          "alcohol": 12.0
+        }
+      },
+      {
+        "id": 3403,
+        "actual": 5.0,
+        "pred": 6.122068527464947,
+        "res": -1.122068527464947,
+        "features": {
+          "fixed acidity": 8.8,
+          "volatile acidity": 0.27,
+          "citric acid": 0.25,
+          "residual sugar": 5.0,
+          "chlorides": 0.024,
+          "free sulfur dioxide": 52.0,
+          "total sulfur dioxide": 99.0,
+          "density": 0.9925,
+          "pH": 2.87,
+          "sulphates": 0.49,
+          "alcohol": 11.4
+        }
+      },
+      {
+        "id": 2173,
+        "actual": 5.0,
+        "pred": 5.555595189232051,
+        "res": -0.5555951892320508,
+        "features": {
+          "fixed acidity": 7.6,
+          "volatile acidity": 0.32,
+          "citric acid": 0.58,
+          "residual sugar": 16.75,
+          "chlorides": 0.05,
+          "free sulfur dioxide": 43.0,
+          "total sulfur dioxide": 163.0,
+          "density": 0.9999,
+          "pH": 3.15,
+          "sulphates": 0.54,
+          "alcohol": 9.2
+        }
+      },
+      {
+        "id": 1988,
+        "actual": 6.0,
+        "pred": 5.7968486202178156,
+        "res": 0.20315137978218445,
+        "features": {
+          "fixed acidity": 8.0,
+          "volatile acidity": 0.22,
+          "citric acid": 0.32,
+          "residual sugar": 10.4,
+          "chlorides": 0.043,
+          "free sulfur dioxide": 63.0,
+          "total sulfur dioxide": 201.0,
+          "density": 0.997,
+          "pH": 3.11,
+          "sulphates": 0.53,
+          "alcohol": 9.5
+        }
+      },
+      {
+        "id": 2886,
+        "actual": 5.0,
+        "pred": 5.370463065657688,
+        "res": -0.37046306565768816,
+        "features": {
+          "fixed acidity": 6.6,
+          "volatile acidity": 0.41,
+          "citric acid": 0.31,
+          "residual sugar": 1.6,
+          "chlorides": 0.042,
+          "free sulfur dioxide": 18.0,
+          "total sulfur dioxide": 101.0,
+          "density": 0.99195,
+          "pH": 3.13,
+          "sulphates": 0.41,
+          "alcohol": 10.5
+        }
+      },
+      {
+        "id": 3598,
+        "actual": 7.0,
+        "pred": 6.908678636027716,
+        "res": 0.09132136397228408,
+        "features": {
+          "fixed acidity": 5.8,
+          "volatile acidity": 0.2,
+          "citric acid": 0.24,
+          "residual sugar": 1.4,
+          "chlorides": 0.033,
+          "free sulfur dioxide": 65.0,
+          "total sulfur dioxide": 169.0,
+          "density": 0.99043,
+          "pH": 3.59,
+          "sulphates": 0.56,
+          "alcohol": 12.3
+        }
+      }
+    ],
+    "feature_stats": {
+      "fixed acidity": {
+        "min": 3.8,
+        "max": 14.2,
+        "mean": 6.855,
+        "median": 6.8
+      },
+      "volatile acidity": {
+        "min": 0.08,
+        "max": 1.1,
+        "mean": 0.278,
+        "median": 0.26
+      },
+      "citric acid": {
+        "min": 0.0,
+        "max": 1.66,
+        "mean": 0.334,
+        "median": 0.32
+      },
+      "residual sugar": {
+        "min": 0.6,
+        "max": 65.8,
+        "mean": 6.391,
+        "median": 5.2
+      },
+      "chlorides": {
+        "min": 0.009,
+        "max": 0.346,
+        "mean": 0.046,
+        "median": 0.043
+      },
+      "free sulfur dioxide": {
+        "min": 2.0,
+        "max": 289.0,
+        "mean": 35.308,
+        "median": 34.0
+      },
+      "total sulfur dioxide": {
+        "min": 9.0,
+        "max": 440.0,
+        "mean": 138.361,
+        "median": 134.0
+      },
+      "density": {
+        "min": 0.987,
+        "max": 1.039,
+        "mean": 0.994,
+        "median": 0.994
+      },
+      "pH": {
+        "min": 2.72,
+        "max": 3.82,
+        "mean": 3.188,
+        "median": 3.18
+      },
+      "sulphates": {
+        "min": 0.22,
+        "max": 1.08,
+        "mean": 0.49,
+        "median": 0.47
+      },
+      "alcohol": {
+        "min": 8.0,
+        "max": 14.2,
+        "mean": 10.514,
+        "median": 10.4
+      }
+    }
+  }
+}
