@@ -2,7 +2,7 @@
 
 本專案以 **CRISP-DM（Cross-Industry Standard Process for Data Mining）** 資料探勘流程為核心框架，針對 UCI 經典 **葡萄酒品質資料集（Wine Quality Dataset）**，分別對 **紅葡萄酒（Red Wine，1,599 筆）** 與 **白葡萄酒（White Wine，4,898 筆）** 進行深度多元線性迴歸（Multiple Linear Regression, OLS）與 **5 種特徵選取（Feature Selection）演算法** 的完整比較研究。
 
-專案包含完整的 Python 數據管線、特徵遞進分析（$k = 1 \dots 11$）、高解析度圖表輸出，以及一套基於 **Y2K / 90 年代 Windows 95 Cyber-Studio** 風格打造的高互動式網頁儀表板（`index.html`）。
+專案包含完整的 Python 數據管線、特徵遞進分析（k = 1 ~ 11）、高解析度圖表輸出，以及一套基於 **Y2K / 90 年代 Windows 95 Cyber-Studio** 風格打造的高互動式網頁儀表板（`index.html`）。
 
 ---
 
@@ -43,7 +43,7 @@ graph TD
 
 ### 1. 商業與領域理解 (Business Understanding)
 - **預測標的**：葡萄酒品質評分（`quality`，整數 3 ~ 9 分）。
-- **目標評估指標**：5-Fold 交叉驗證均方根誤差（CV RMSE）、測試集 RMSE、判定係數（$R^2$）與調整後判定係數（Adjusted $R^2$）。
+- **目標評估指標**：5-Fold 交叉驗證均方根誤差（CV RMSE）、測試集 RMSE、判定係數 ($R^2$) 與調整後判定係數（Adjusted $R^2$）。
 - **業務約束**：模型需具備高度可解釋性（可作為酒莊釀造與調酒控制的化學指南）。
 
 ### 2. 資料理解 (Data Understanding)
@@ -101,7 +101,7 @@ graph TD
 
 ### 2. 白酒模型評估對照表 (White Wine, N = 4,898)
 
-| 演算法 (Method) | 特徵數 ($k$) | 最佳選取特徵子集 | 5-Fold CV RMSE | Test RMSE | Test $R^2$ | Adjusted $R^2$ |
+| 演算法 (Method) | 特徵數 $k$ | 最佳選取特徵子集 | 5-Fold CV RMSE | Test RMSE | Test $R^2$ | Adjusted $R^2$ |
 | :--- | :---: | :--- | :---: | :---: | :---: | :---: |
 | **★ RFECV** | **7** | `volatile acidity`, `residual sugar`, `free SO₂`, `density`, `pH`, `sulphates`, `alcohol` | **0.7542** | **0.7563** | **0.2615** | **0.2562** |
 | **★ Exhaustive** | **7** | `volatile acidity`, `residual sugar`, `free SO₂`, `density`, `pH`, `sulphates`, `alcohol` | **0.7542** | **0.7563** | **0.2615** | **0.2562** |
